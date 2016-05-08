@@ -34,5 +34,5 @@
 	require_once(LIB_PATH . DS . "phpqrcode/qrlib.php");
 
 	//load stripe
-	require_once(LIB_PATH . DS . "stripe/lib/Stripe.php");
+	require_once(LIB_PATH . DS . "vendor/autoload.php");
 ?>
