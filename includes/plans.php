@@ -5,11 +5,11 @@
 	class Plan extends DatabaseObject {
 
 		protected static $table_name = "PLAN_TB";
-		protected static $db_fields = array("id", "duration_id","estab_no", "branch_no", "cost", "visibility");
+		protected static $db_fields = array("id", "plan_interval","estab_no", "branch_no", "cost", "visibility");
 
 		public $id;
 		//public $name;
-		public $duration_id;
+		public $plan_interval;
 		public $estab_no;
 		public $branch_no;
 		public $cost;
@@ -25,27 +25,5 @@
 
 			return self::find_by_sql($sql); 
 		} 
-
-		public function toString() {
-			$durationObj = PlanDuration::find_by_id($this->duration_id);
-			return $durationObj->description . " with " . $this->estab_no . " Business and a total of " . $this->branch_no . " branches";			
-		}
-
-		//override
-		function toJSON() {
-			$fValueArr = array();
-			$fValue = "";
-			foreach ($this->getFields() as $key => $eachField) {
-				if ($eachField == "duration_id") {
-					$planDuration = PlanDuration::find_by_id($this->duration_id);
-					$fValue = $planDuration->description;
-				} else {
-					$fValue = $this->$eachField;						
-				}
-				$fValueArr[] = '"' . $eachField . '":"' . $fValue . '"';				
-			}
-
-			return join(",",$fValueArr);
-		}		
 	}
 ?>

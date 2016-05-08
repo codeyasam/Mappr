@@ -63,9 +63,7 @@ CREATE TABLE PLAN_DURATION_TB (
 CREATE TABLE PLAN_TB (
 	id INT(11) AUTO_INCREMENT,
 	CONSTRAINT PK_Plan PRIMARY KEY(id),
-	duration_id INT(11) NOT NULL,
-	CONSTRAINT plan_duration_FK FOREIGN KEY(duration_id)
-	REFERENCES PLAN_DURATION_TB(id),
+	plan_interval VARCHAR(255) NOT NULL,
 	-- name VARCHAR(255) NOT NULL,
 	estab_no INT(11) NOT NULL,  #no of establishment
 	branch_no INT(11) NOT NULL, #no of branches in all establishment
@@ -194,17 +192,17 @@ INSERT INTO PLAN_DURATION_TB (description, days_no) VALUES ('WEEKLY SUBSCRIPTION
 INSERT INTO PLAN_DURATION_TB (description, days_no) VALUES ('MONTHLY SUBSCRIPTION', 31);
 INSERT INTO PLAN_DURATION_TB (description, days_no) VALUES ('ANNUAL SUBSCRIPTION', 365);
 
-INSERT INTO PLAN_TB(duration_id, estab_no, branch_no, cost, visibility) VALUES (1, 3, 9, 2500, "VISIBLE");
-INSERT INTO PLAN_TB(duration_id, estab_no, branch_no, cost, visibility) VALUES (1, 2, 9, 2200, "VISIBLE");
-INSERT INTO PLAN_TB(duration_id, estab_no, branch_no, cost, visibility) VALUES (1, 1, 9, 2000, "VISIBLE");
+INSERT INTO PLAN_TB(plan_interval, estab_no, branch_no, cost, visibility) VALUES ('weekly', 3, 9, 2500, "VISIBLE");
+INSERT INTO PLAN_TB(plan_interval, estab_no, branch_no, cost, visibility) VALUES ('weekly', 2, 9, 2200, "VISIBLE");
+INSERT INTO PLAN_TB(plan_interval, estab_no, branch_no, cost, visibility) VALUES ('weekly', 1, 9, 2000, "VISIBLE");
 
-INSERT INTO PLAN_TB(duration_id, estab_no, branch_no, cost, visibility) VALUES (2, 3, 9, 5500, "VISIBLE");
-INSERT INTO PLAN_TB(duration_id, estab_no, branch_no, cost, visibility) VALUES (2, 2, 9, 5200, "VISIBLE");
-INSERT INTO PLAN_TB(duration_id, estab_no, branch_no, cost, visibility) VALUES (2, 1, 9, 5000, "VISIBLE");
+INSERT INTO PLAN_TB(plan_interval, estab_no, branch_no, cost, visibility) VALUES ('monthly', 3, 9, 5500, "VISIBLE");
+INSERT INTO PLAN_TB(plan_interval, estab_no, branch_no, cost, visibility) VALUES ('monthly', 2, 9, 5200, "VISIBLE");
+INSERT INTO PLAN_TB(plan_interval, estab_no, branch_no, cost, visibility) VALUES ('monthly', 1, 9, 5000, "VISIBLE");
 
-INSERT INTO PLAN_TB(duration_id, estab_no, branch_no, cost, visibility) VALUES (3, 3, 9, 55000, "VISIBLE");
-INSERT INTO PLAN_TB(duration_id, estab_no, branch_no, cost, visibility) VALUES (3, 2, 9, 52000, "VISIBLE");
-INSERT INTO PLAN_TB(duration_id, estab_no, branch_no, cost, visibility) VALUES (3, 1, 9, 50000, "VISIBLE");
+INSERT INTO PLAN_TB(plan_interval, estab_no, branch_no, cost, visibility) VALUES ('yearly', 3, 9, 55000, "VISIBLE");
+INSERT INTO PLAN_TB(plan_interval, estab_no, branch_no, cost, visibility) VALUES ('yearly', 2, 9, 52000, "VISIBLE");
+INSERT INTO PLAN_TB(plan_interval, estab_no, branch_no, cost, visibility) VALUES ('yearly', 1, 9, 50000, "VISIBLE");
 
 INSERT INTO CATEGORY_TB (name, description) VALUES ("FAST FOOD", "Naaaah");
 INSERT INTO CATEGORY_TB (name, description) VALUES ("HOSPITAL", "Naaaah");
