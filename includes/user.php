@@ -5,7 +5,8 @@
 
 		protected static $table_name = "END_USER_TB";
 		protected static $db_fields = array('id', 'email', 'username', 'password', 'first_name',
-											'last_name', 'contact', 'hometown', 'display_picture', 'user_type');
+											'last_name', 'contact', 'hometown', 'display_picture', 
+											'user_type', 'stripe_id');
 
 		public $id;
 		public $email;
@@ -17,6 +18,7 @@
 		public $hometown = "none";
 		public $display_picture = "DISPLAY_PICTURES/defaultavatar.png";	
 		public $user_type = "USER";
+		public $stripe_id;
 
 		public function full_name() {
 			if (isset($this->first_name) && isset($this->last_name)) {

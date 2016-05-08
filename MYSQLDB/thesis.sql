@@ -15,7 +15,8 @@ CREATE TABLE END_USER_TB (
 	contact VARCHAR(255),
 	hometown VARCHAR(255),
 	display_picture VARCHAR(255),
-	user_type VARCHAR(255) NOT NULL
+	user_type VARCHAR(255) NOT NULL,
+	stripe_id VARCHAR(255)
 );
 
 CREATE TABLE CATEGORY_TB (
