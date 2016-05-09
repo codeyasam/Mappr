@@ -16,7 +16,7 @@
 		public $visibility = "VISIBLE";
 		//public $days_no;
 
-		public static function find_by_duration($duration_id) {
+		public static function BACKUPfind_by_duration($duration_id) {
 			global $database;	
 			$duration_id = $database->escape_value($duration_id);
 
@@ -25,5 +25,15 @@
 
 			return self::find_by_sql($sql); 
 		} 
+
+		public static function find_by_duration($plan_interval) {
+			global $database;
+			$plan_interval = $database->escape_value($plan_interval);
+
+			$sql  = "SELECT * FROM " . self::$table_name . " ";
+			$sql .= "WHERE plan_interval = '" . $plan_interval . "'";
+
+			return self::find_by_sql($sql);
+		}
 	}
 ?>
