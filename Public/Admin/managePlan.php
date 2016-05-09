@@ -4,7 +4,8 @@
 	$user = User::find_by_id($session->user_id);
 	$user->user_type != "ADMIN" ? redirect_to("../index.php") : null; 
 	$plans = Plan::find_all();
-	$planDurations = PlanDuration::find_all();
+	//$planDurations = PlanDuration::find_all();
+	$planDurations = array("daily", "monthly", "yearly", "weekly");
 ?>
 
 <!DOCTYPE html>
@@ -18,16 +19,16 @@
 			
 		</table>
 		<div>
-			<p><select id="planDuration" name="planDuration">
+			<p>Interval: <select id="planDuration" name="planDuration">
 			<?php foreach($planDurations as $key => $eachDuration): ?>
-				<option value="<?php echo $eachDuration->id; ?>"><?php echo htmlentities($eachDuration->description); ?></option>
+				<option value="<?php echo $eachDuration; ?>"><?php echo $eachDuration; ?></option>
 			<?php endforeach; ?>	
 			</select></p>
 			<p><input id="estab_no" type="number" name="estab_no" placeholder="No of Establishment"/></p>
 			<p><input id="branch_no" type="number" name="branch_no" placeholder="No of Branches"/></p>
 			<p><input id="cost" type="number" name="cost" placeholder="cost"/></p>
 			<p><input id="visibility" type="checkbox" name="visibility" value="Visible"/>Visible</p>
-			<p><input id="optAdd" type="submit" value="+ADD CATEGORY"/><input id="optSave" type="submit" value="SAVE CHANGES"/><input id="optCancel" type="submit" value="CANCEL"/></p>			
+			<p><input id="optAdd" type="submit" value="+ADD PLAN"/><input id="optSave" type="submit" value="SAVE CHANGES"/><input id="optCancel" type="submit" value="CANCEL"/></p>			
 		</div>
 
 		<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
@@ -43,12 +44,12 @@
 					var jsonObj = JSON.parse(objReq.responseText);
 					if (jsonObj.Plans) {
 						var tblRows = "<tr>";
-						tblRows += "<th>ID</th><th>DURATION</th><th>NO OF ESTABLISHMENT</th><th>NO OF BRANCHES</th><th>COST</th><th>VISIBILITY</th>";
+						tblRows += "<th>ID</th><th>INTERVAL</th><th>NO OF ESTABLISHMENT</th><th>NO OF BRANCHES</th><th>COST</th><th>VISIBILITY</th>";
 						tblRows += '<th colspan="2">OPTION</th></tr>';
 						tblRows += tableJSON("#planContainer", jsonObj.Plans);
 						$("#planContainer").append("<tbody>" + tblRows + "<tbody>");
 					} else if (jsonObj.planSelected) {
-						$('#planDuration').val(jsonObj.duration_id);
+						$('#planDuration').val(jsonObj.plan_interval);
 						$('#estab_no').val(jsonObj.estab_no);
 						$('#branch_no').val(jsonObj.branch_no);
 						$('#cost').val(jsonObj.cost);

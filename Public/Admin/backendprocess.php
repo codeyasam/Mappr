@@ -63,7 +63,7 @@
 		$output .= createJSONEntity("Plans", $objArr);
 	} else if (isset($_GET['createPlan'])) {
 		$new_plan = new Plan();
-		$new_plan->duration_id = trim($_GET['durationID']);
+		$new_plan->plan_interval = trim($_GET['durationID']);
 		$new_plan->estab_no = trim($_GET['estab_no']);
 		$new_plan->branch_no = trim($_GET['branch_no']);
 		$new_plan->cost = trim($_GET['cost']);
@@ -79,14 +79,14 @@
 	} else if (isset($_GET['editPlan'])) {
 		$selected_plan = Plan::find_by_id($_GET['planID']);
 		$output .= '"planSelected":"true",';
-		$output .= '"duration_id":"' . $selected_plan->duration_id . '",';
+		$output .= '"plan_interval":"' . $selected_plan->plan_interval . '",';
 		$output .= '"estab_no":"' . $selected_plan->estab_no . '",';
 		$output .= '"branch_no":"' . $selected_plan->branch_no . '",';
 		$output .= '"cost":"' . $selected_plan->cost . '",';
 		$output .= '"visibility":"' . $selected_plan->visibility . '"';					
 	} else if (isset($_GET['saveChangesPL'])) {
 		$selected_plan = Plan::find_by_id($_GET['planID']);
-		$selected_plan->duration_id = trim($_GET['durationID']);
+		$selected_plan->plan_interval = trim($_GET['durationID']);
 		$selected_plan->estab_no = trim($_GET['estab_no']);
 		$selected_plan->branch_no = trim($_GET['branch_no']);
 		$selected_plan->cost = trim($_GET['cost']);
