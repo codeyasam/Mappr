@@ -21,12 +21,14 @@
 					<script
 					src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 					data-key="pk_test_YJhO1yO3EP02pBLccVMVNXm2"
-					data-amount="<?php echo $each_plan->cost; ?>"
+					data-amount="<?php echo (int)number_format($each_plan->cost, 2, '', '') ?>"
 					data-name="Demo Site"
 					data-description="Widget"
 					data-image="/img/documentation/checkout/marketplace.png"
+					data-email="<?php echo $user->email; ?>"
 					data-locale="auto">
 					</script>
+					<input type="hidden" name="plan_id" value="<?php echo $each_plan->id; ?>"/>
 				</form>
 			<?php } else { ?>
 				<a href="registeruser.php">REGISTER NOW</a>

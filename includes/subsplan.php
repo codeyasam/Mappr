@@ -4,16 +4,14 @@
 	class SubsPlan extends DatabaseObject {
 		
 		protected static $table_name = "SUBSCRIBED_PLAN";	
-		protected static $db_fields = array("id", "owner_id", "plan_id",
-											"date_start", "date_end", "status");
+		protected static $db_fields = array("id", "owner_id", "plan_id", "status", "stripe_id");
 
 		public $id;
 		public $owner_id;
 		public $plan_id;
-		public $date_start;
-		public $date_end;
 		public $status = "ACTIVE"; //TERMINATED
-		
+		public $stripe_id;
+
 		//for performance purposes
 		public static function get_owner_subscriptions($owner_id) {
 			global $database;
