@@ -74,7 +74,7 @@
 		$new_plan->visibility = trim($_GET['visibility']);
 		$new_plan->create();
 
-		\Stripe\Stripe::setApiKey("sk_test_5lqGe81cTwC39ryIuby7KNu2");
+		//\Stripe\Stripe::setApiKey("sk_test_5lqGe81cTwC39ryIuby7KNu2");
 
 		$duration = PlanDuration::find_by_id($new_plan->plan_interval);
 		\Stripe\Plan::create(array(
@@ -90,7 +90,10 @@
 	} else if (isset($_GET['deletePlan'])) {
 		Plan::delete_by_id($_GET['planID']);
 		$objArr = Plan::find_all();
-		$output .= createJSONEntity("Plans", $objArr);		
+		$output .= createJSONEntity("Plans", $objArr);	
+
+		$plan = \Stripe\Plan::retrieve($_GET['planID']);
+		$plan->delete();	
 	} else if (isset($_GET['editPlan'])) {
 		$selected_plan = Plan::find_by_id($_GET['planID']);
 		$output .= '"planSelected":"true",';
@@ -110,7 +113,7 @@
 		$selected_plan->visibility = trim($_GET['visibility']);
 		$selected_plan->update();
 
-		\Stripe\Stripe::setApiKey("sk_test_5lqGe81cTwC39ryIuby7KNu2");
+		//\Stripe\Stripe::setApiKey("sk_test_5lqGe81cTwC39ryIuby7KNu2");
 
 		$duration = PlanDuration::find_by_id($selected_plan->plan_interval);
 		$p = \Stripe\Plan::retrieve($selected_plan->id);
