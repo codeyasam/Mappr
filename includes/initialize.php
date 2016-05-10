@@ -35,5 +35,6 @@
 
 	//load stripe
 	require_once(LIB_PATH . DS . "vendor/autoload.php");
+	\Stripe\Stripe::setApiKey("sk_test_5lqGe81cTwC39ryIuby7KNu2");
 	
 ?>
