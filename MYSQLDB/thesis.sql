@@ -82,9 +82,10 @@ CREATE TABLE SUBSCRIBED_PLAN (
 	plan_id INT(11) NOT NULL,
 	CONSTRAINT subs_plan_id_FK FOREIGN KEY(plan_id)
 	REFERENCES PLAN_TB(id),
-	date_start DATETIME NOT NULL,
-	date_end DATETIME NOT NULL, 
+	-- date_start DATETIME NOT NULL,
+	-- date_end DATETIME NOT NULL, 
 	status VARCHAR(255) NOT NULL,
+	stripe_id VARCHAR(255),
 	CONSTRAINT CPK_subs_plan PRIMARY KEY(id, owner_id)
 );
 
