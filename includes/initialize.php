@@ -35,4 +35,5 @@
 
 	//load stripe
 	require_once(LIB_PATH . DS . "vendor/autoload.php");
+	
 ?>

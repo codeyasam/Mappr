@@ -5,10 +5,11 @@
 	class PlanDuration extends DatabaseObject {
 		protected static $table_name = "PLAN_DURATION_TB";
 
-		protected static $db_fields = array("id", "description", "days_no");
+		protected static $db_fields = array("id", "duration_name", "description", "duration_visibility");
 
 		public $id;
+		public $duration_name;
 		public $description;
-		public $days_no;
+		public $duration_visibility;
 	}
 ?>

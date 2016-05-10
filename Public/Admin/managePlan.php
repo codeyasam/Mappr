@@ -4,8 +4,8 @@
 	$user = User::find_by_id($session->user_id);
 	$user->user_type != "ADMIN" ? redirect_to("../index.php") : null; 
 	$plans = Plan::find_all();
-	//$planDurations = PlanDuration::find_all();
-	$planDurations = array("daily", "monthly", "yearly", "weekly");
+	$planDurations = PlanDuration::find_all();
+	//$planDurations = array("daily", "monthly", "yearly", "weekly");
 ?>
 
 <!DOCTYPE html>
@@ -21,9 +21,10 @@
 		<div>
 			<p>Interval: <select id="planDuration" name="planDuration">
 			<?php foreach($planDurations as $key => $eachDuration): ?>
-				<option value="<?php echo $eachDuration; ?>"><?php echo $eachDuration; ?></option>
+				<option value="<?php echo $eachDuration->id; ?>"><?php echo $eachDuration->description; ?></option>
 			<?php endforeach; ?>	
 			</select></p>
+			<p><input id="plan_name" type="text" name="plan_name" placeholder="Plan Name"/></p>
 			<p><input id="estab_no" type="number" name="estab_no" placeholder="No of Establishment"/></p>
 			<p><input id="branch_no" type="number" name="branch_no" placeholder="No of Branches"/></p>
 			<p><input id="cost" type="number" name="cost" placeholder="cost"/></p>
@@ -44,7 +45,7 @@
 					var jsonObj = JSON.parse(objReq.responseText);
 					if (jsonObj.Plans) {
 						var tblRows = "<tr>";
-						tblRows += "<th>ID</th><th>INTERVAL</th><th>NO OF ESTABLISHMENT</th><th>NO OF BRANCHES</th><th>COST</th><th>VISIBILITY</th>";
+						tblRows += "<th>ID</th><th>NAME</th><th>INTERVAL</th><th>NO OF ESTABLISHMENT</th><th>NO OF BRANCHES</th><th>COST</th><th>VISIBILITY</th>";
 						tblRows += '<th colspan="2">OPTION</th></tr>';
 						tblRows += tableJSON("#planContainer", jsonObj.Plans);
 						$("#planContainer").append("<tbody>" + tblRows + "<tbody>");
@@ -53,6 +54,7 @@
 						$('#estab_no').val(jsonObj.estab_no);
 						$('#branch_no').val(jsonObj.branch_no);
 						$('#cost').val(jsonObj.cost);
+						$('#plan_name').val(jsonObj.plan_name);
 						if (jsonObj.visibility == "VISIBLE") 
 							$('#visibility').prop('checked', true);
 						else 
@@ -67,15 +69,16 @@
 			$('#optAdd').on("click", function(e) {
 				e.preventDefault();
 				var durationID = $('#planDuration').val();
+				var plan_name = $('#plan_name').val();
 				var estab_no = $('#estab_no').val().trim();
 				var branch_no = $('#branch_no').val().trim();
 				var cost = $('#cost').val().trim();
 				var visibility = $('#visibility').is(":checked") ? "VISIBLE" : "HIDDEN";
 				// console.log(durationID);
 				// console.log(visibility);
-				if (durationID == "" || estab_no == "" || branch_no == "" || cost == "") return;
+				if (durationID == "" || estab_no == "" || branch_no == "" || cost == "" || plan_name == "") return;
 			    //console.log("poop");
-				processRequest("backendprocess.php?createPlan=true&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility);
+				processRequest("backendprocess.php?createPlan=true&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name);
 			});	
 
 			$(document).on('click', '.optDelete', function() {
@@ -115,11 +118,12 @@
 				var estab_no = $('#estab_no').val().trim();
 				var branch_no = $('#branch_no').val().trim();
 				var cost = $('#cost').val().trim();
+				var plan_name = $('#plan_name').val().trim();
 				var visibility = $('#visibility').is(":checked") ? "VISIBLE" : "HIDDEN";
 				// console.log(durationID);
 				// console.log(visibility);
-				if (durationID == "" || estab_no == "" || branch_no == "" || cost == "") return;				
-				processRequest("backendprocess.php?saveChangesPL=true"+"&planID="+planID+"&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility);
+				if (durationID == "" || estab_no == "" || branch_no == "" || cost == "" || plan_name == "") return;				
+				processRequest("backendprocess.php?saveChangesPL=true"+"&planID="+planID+"&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name);
 
 				$('#optSave').hide();
 				$('#optCancel').hide();	

@@ -18,8 +18,9 @@
 		</table>
 
 		<div>
-			<p><input id="description" type=descriptionme="description" placeholder="Description"/></p>
-			<p><input id="noOfDays" type="number" name="noOfDays" placeholder="no of days" min="1"/></p>
+			<p><input id="duration_name" type="text" name="duration_name" placeholder="Duration name"/></p>
+			<p><input id="description" type="text" name="description" placeholder="Description"/></p>
+			<p><input id="duration_visibility" type="checkbox" name="duration_visibility" value="Visible"/>Visible</p>
 			<p><input id="optAdd" type="submit" value="+ADD CATEGORY"/><input id="optSave" type="submit" value="SAVE CHANGES"/><input id="optCancel" type="submit" value="CANCEL"/></p>
 		</div>
 		<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
@@ -31,17 +32,22 @@
 
 			function handleServerResponse() {
 				if (objReq.readyState == 4 && objReq.status == 200) {
-					//console.log(objReq.responseText);
+					console.log(objReq.responseText);
 					var jsonObj = JSON.parse(objReq.responseText);
 					if (jsonObj.PlanDurations) {
 						var tblRows = "<tr>";
-						tblRows += "<th>ID</th><th>DESCRIPTION</th><th>NO OF DAYS</th>";
+						tblRows += "<th>ID</th><th>NAME</th><th>DESCRIPTION</th><th>VISIBILITY</th>";
 						tblRows += '<th colspan="2">OPTION</th></tr>';
 						tblRows += tableJSON("#planDurationContainer", jsonObj.PlanDurations);
 						$("#planDurationContainer").append("<tbody>" + tblRows + "<tbody>");						
 					} else if (jsonObj.planDurationSelected) {
+						$('optSave').attr('data-internalid', jsonObj.id);
 						$('#description').val(jsonObj.description);
-						$('#noOfDays').val(jsonObj.days_no);						
+						$('#duration_name').val(jsonObj.duration_name);	
+						if (jsonObj.duration_visibility == "VISIBLE") 
+							$('#duration_visibility').prop('checked', true);
+						else 
+							$('#duration_visibility').prop('checked', false);											
 					}
 				}
 			}
@@ -52,10 +58,11 @@
 			$('#optAdd').on("click", function(e) {
 				e.preventDefault();
 				var description = $('#description').val().trim();
-				var noOfDays = $('#noOfDays').val().trim();
-				if (description == "" || noOfDays == "") return;
+				var duration_name = $('#duration_name').val().trim();
+				var duration_visibility = $('#duration_visibility').is(":checked") ? "VISIBLE" : "HIDDEN";
+				if (description == "" || duration_name == "" || duration_visibility == "") return;
 				console.log("poop");
-				processRequest("backendprocess.php?createPlanDuration=true&description="+description+"&noOfDays="+noOfDays);
+				processRequest("backendprocess.php?createPlanDuration=true&description="+description+"&duration_name="+duration_name+"&duration_visibility="+duration_visibility);
 			});	
 
 			$(document).on('click', '.optDelete', function() {
@@ -83,23 +90,24 @@
 
 				$('#optSave').attr("data-internalid", "");
 				$('#description').val("");
-				$('#noOfDays').val("");		
+				$('#duration_name').val("");		
 			});
 
 			$('#optSave').on('click', function(e) {
 				e.preventDefault();
-				var planDurationID = $('#optSave').attr("data-internalid");
+				var planDurationID = $(this).attr('data-internalid');
 				var description = $('#description').val().trim();
-				var noOfDays = $('#noOfDays').val().trim();
-				if (description == "" || noOfDays == "") return;				
-				processRequest("backendprocess.php?saveChangesPD=true&planDurationID=" + planDurationID + "&description=" + description + "&noOfDays=" + noOfDays);
+				var duration_name = $('#duration_name').val().trim();
+				var duration_visibility = $('#duration_visibility').is(":checked") ? "VISIBLE" : "HIDDEN";
+				if (description == "" || duration_name == "" || duration_visibility == "") return;				
+				processRequest("backendprocess.php?saveChangesPD=true&planDurationID=" + planDurationID + "&description=" + description +"&duration_name="+duration_name+"&duration_visibility="+duration_visibility);
 				$('#optSave').hide();
 				$('#optCancel').hide();	
 				$('#optAdd').show();
 
 				$('#optSave').attr("data-internalid", "");
 				$('#description').val("");
-				$('#noOfDays').val("");
+				$('#duration_name').val("");
 			});										
 		</script>		
 	</body>
