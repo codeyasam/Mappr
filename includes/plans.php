@@ -38,7 +38,7 @@
 		}
 
 		//Override
-		function toJSON() {
+		public function toJSON() {
 			$fValueArr = array();
 			foreach ($this->getFields() as $key => $eachField) {
 				if ($eachField == "plan_interval") {
@@ -51,6 +51,10 @@
 			}
 
 			return join(",",$fValueArr);
+		}
+
+		public function toString() {
+			return $this->estab_no . " ESTABLISHMENTS, TOTAL OF " . $this->branch_no . " BRANCHES";
 		}
 
 	}
