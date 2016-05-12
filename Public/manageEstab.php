@@ -7,7 +7,10 @@
 	$subsPlan ? null : redirect_to("index.php");
 	$plan = Plan::find_by_id($subsPlan->plan_id);
 
-
+	//Restriction in URL redirect user if this isn't his subscription
+	$user_subscriptions = SubsPlan::get_owner_subscriptions($user->id);
+	$subscriptionIDs = array_map(function($obj) { return $obj->id;}, $user_subscriptions);
+	in_array($_GET['sbscrbdID'], $subscriptionIDs) ? null : redirect_to("index.php");
 
 	$condition['key'] = "subs_plan_id";
 	$condition['value'] = $subsPlan->id;
