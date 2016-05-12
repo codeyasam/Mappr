@@ -18,5 +18,6 @@
 			$owner_id = $database->escape_value($owner_id);
 			return SubsPlan::find_by_sql("SELECT * FROM " . self::$table_name . " WHERE owner_id=" . $owner_id);
 		}
+
 	}
 ?>

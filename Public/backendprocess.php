@@ -2,23 +2,33 @@
 <?php  
 	$output = "{";
 	if (isset($_GET['createBranch'])) {
-		$branch = new EstabBranch();
-		$branch->estab_id = $_GET['estabID'];
-		$branch->address = $_GET['addr'];
-		$branch->lat = $_GET['lat'];
-		$branch->lng = $_GET['lng'];
-		$branch->create();
-
 		//Restriction on number of Branches
+		$currentSub = SubsPlan::find_by_id($_GET['sbscrbdID']);
+		$currentPlan = Plan::find_by_id($currentSub->plan_id);
+		$noUsedBranch = SubsPlanEstab::get_total_branch_plotted($currentSub->id);
+		$notPlotableBranch = $currentPlan->estab_no - 1;
+		$plotableBranch = $currentPlan->branch_no - ($notPlotableBranch + $noUsedBranch);
+		//		
 
-		//
+		if ($plotableBranch > 0) {
+			$branch = new EstabBranch();
+			$branch->estab_id = $_GET['estabID'];
+			$branch->address = $_GET['addr'];
+			$branch->lat = $_GET['lat'];
+			$branch->lng = $_GET['lng'];
+			$branch->create();
 
-		$output .= '"newBranch":true,';
-		$output .= '"id":' .  $branch->id . ',';
-		$output .= '"address":' . '"' . $branch->address . '",';	
-		$output .= '"lat":' . $branch->lat . ',';
-		$output .= '"lng":' . $branch->lng . ',';	
-		branchSelected($branch->id);	
+			$output .= '"newBranch":true,';
+			$output .= '"id":' .  $branch->id . ',';
+			$output .= '"address":' . '"' . $branch->address . '",';	
+			$output .= '"lat":' . $branch->lat . ',';
+			$output .= '"lng":' . $branch->lng . ',';	
+			branchSelected($branch->id);
+		} else {
+			$output .= '"limitReached":true';
+		}
+
+	
 		
 	} else if (isset($_GET['updateBranch'])) {
 		$branch = EstabBranch::find_by_id($_GET['branchID']);

@@ -47,6 +47,7 @@
 		<form action="manageBranch.php?id=<?php echo urlencode($_GET['id']); ?>" method="POST" style="float:left; width: 19%;">
 			<p>Lorem Ipsum FORM for Gallery?</p>
 			<input id="estabID" type="hidden" name="estabID" value="<?php echo urlencode($_GET['id']); ?>"/>
+			<input id="sbscrbdID" type="hidden" value="<?php echo $_GET['sbscrbdID']; ?>"/>
 			<div id="infos">
 				<p><?php echo htmlentities($currentEstab->name); ?></p>
 				<p id="latPOS">lat: </p>
@@ -75,6 +76,7 @@
 		<script type="text/javascript">
 			$('#branchAddr').prop('disabled', true);
 			var estabID = document.getElementById('estabID').value;
+			var sbscrbdID = document.getElementById('sbscrbdID').value;
 			var selectedIndex = false;
 			processRequest("backendprocess.php?retrieveBranches=true&estabID="+estabID);	
 		
@@ -155,6 +157,8 @@
 					} else if (jsonObj.deleteBranch) {
 						selectedIndex = false;
 
+					} else if (jsonObj.limitReached) {
+						alert('Plotted maximum number of branches');
 					}
 
 					if (jsonObj.updateBranch) {
@@ -335,7 +339,7 @@
 			            if (operation == "update") {
 			            	processRequest("backendprocess.php?updateBranch=true&addr="+address+"&lat="+e.latLng.lat()+"&lng="+e.latLng.lng()+"&estabID="+estabID+"&branchID="+markers[selectedIndex].id);
 			            } else if (operation == "create") {
-			            	processRequest("backendprocess.php?createBranch=true&addr="+address+"&lat="+e.latLng.lat()+"&lng="+e.latLng.lng()+"&estabID="+estabID);			            				            			            
+			            	processRequest("backendprocess.php?createBranch=true&addr="+address+"&lat="+e.latLng.lat()+"&lng="+e.latLng.lng()+"&estabID="+estabID+"&sbscrbdID="+sbscrbdID);			            				            			            
 			            }
 
 			        }
