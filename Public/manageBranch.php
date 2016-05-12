@@ -4,7 +4,7 @@
 <?php  
 	$user_subscriptions = SubsPlan::get_owner_subscriptions($user->id);
 	$subscriptionIDs = array_map(function($obj) { return $obj->id;}, $user_subscriptions);
-	
+	in_array($_GET['sbscrbdID'], $subscriptionIDs) ? null : redirect_to("index.php");
 
 	$condition['key'] = "estab_id";
 	$condition['value'] = $database->escape_value($_GET['id']);

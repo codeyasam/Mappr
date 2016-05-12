@@ -9,6 +9,10 @@
 		$branch->lng = $_GET['lng'];
 		$branch->create();
 
+		//Restriction on number of Branches
+
+		//
+
 		$output .= '"newBranch":true,';
 		$output .= '"id":' .  $branch->id . ',';
 		$output .= '"address":' . '"' . $branch->address . '",';	
@@ -41,13 +45,7 @@
 	} else if (isset($_GET['retrieveBranches'])) {
 		$estabID = $database->escape_value($_GET['estabID']);
 		$branches = EstabBranch::find_all(array('key'=>'estab_id','value'=>$estabID,'isNumeric'=>true));
-		// $output .= '"Branches":[';
-		// $outputArray = array();
-		// foreach($branches as $key => $eachBranch) {
-		// 	$outputArray[] = '"lat":' . $eachBranch->lat . ',"lng":' . $eachBranch->lng . ',"branchID":' . $eachBranch->id;
-		// }
-		// $output .= "{" . join("},{", $outputArray) . "}";
-		// $output .= "]";
+
 		$output .= createJSONEntity("Branches", $branches);
 		$estabGal = EstabGallery::find_all(array("key" => "estab_id", "value" => $estabID, "isNumeric"=>true));
 		$output .= ",";
@@ -85,9 +83,7 @@
 		$estabID = $database->escape_value($_GET['estabID']);
 		$estabGal = EstabGallery::find_all(array("key" => "estab_id", "value" => $estabID, "isNumeric"=>true));
 		$branchGal = BranchGallery::find_all(array("key" => "branch_id", "value" => $branchID, "isNumeric"=>true));
-		//$branchGalIDs = array_map(function($obj) { return $obj->gallery_id; }, $branchGal);
 		$output .= createJSONEntity("Gallery", $estabGal) . ',';
-		//$output .= '"BranchGalleryIDs":"' . join(",",$branchGalIDs) . '",';
 		$output .= createJSONEntity("BranchGallery", $branchGal) . ',';
 		$output .= '"BranchID":'  . $branchID; //$_GET['branchID'];
 
