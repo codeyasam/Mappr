@@ -36,7 +36,7 @@
 		<?php foreach($all_user_establishment as $key => $eachEstab): ?>
 			<div>
 				<p><?php echo htmlentities($eachEstab->name); ?></p>
-				<p><a href="manageBranch.php?id=<?php echo urlencode($eachEstab->id); ?>">Manage Branches</a>
+				<p><a href="manageBranch.php?id=<?php echo urlencode($eachEstab->id); ?>&sbscrbdID=<?php echo urlencode($_GET['sbscrbdID']); ?>">Manage Branches</a>
 				<a href="editEstabDetails.php?id=<?php echo urlencode($eachEstab->id); ?>&sbscrbdID=<?php echo urlencode($_GET['sbscrbdID']); ?>">
 				Edit Establishment Details</a>
 				<a href="deleteEstablishment.php?id=<?php echo urlencode($eachEstab->id); ?>&sbscrbdID=<?php echo urlencode($_GET['sbscrbdID']); ?>">
