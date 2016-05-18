@@ -9,6 +9,17 @@ function processRequest(suppliedURL) {
 	}
 }
 
+function processPOSTRequest(suppliedURL, sendData) {
+	if (objReq) {
+		objReq.open("POST", suppliedURL, true);
+		objReq.onreadystatechange = handleServerResponse;
+		objReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		objReq.send(sendData);
+	} else {
+		setTimeout("processPOSTRequest()", 1000);	
+	}
+}
+
 function tableJSON(tableID, jsonObjRoot) {
 	$(tableID).html("");
 	$(tableID).attr("border", 1);

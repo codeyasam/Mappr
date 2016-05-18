@@ -20,11 +20,11 @@
 			#map {
 			  height: 500px;
 			  margin: 0;
-			  width: 80%;
+			  width: 75%;
 			}
 
 			#autocomplete {
-			  width: 80%;
+			  width: 75%;
 			  height: 25px;
 			}			
 			
@@ -193,11 +193,15 @@
 				var branchID = markers[selectedIndex].id;
 				if ($(this).is(":checked")) {
 					//console.log("addPHOTO");
-					processRequest("backendprocess.php?addPhoto=true&branchID="+branchID+"&galleryID="+galleryID+"&estabID="+estabID);
+					//processRequest("backendprocess.php?addPhoto=true&branchID="+branchID+"&galleryID="+galleryID+"&estabID="+estabID);
+					processPOSTRequest("backendprocess.php", 
+						"addPhoto=true&branchID="+branchID+"&galleryID="+galleryID+
+						"&estabID="+estabID);
 				} else {
 					//console.log("deletePHOTO");
 					var galleryID = $(this).attr('data-branchGalleryID');
-					processRequest("backendprocess.php?removePhoto=true&branchID="+branchID+"&galleryID="+galleryID);
+					//processRequest("backendprocess.php?removePhoto=true&branchID="+branchID+"&galleryID="+galleryID);
+					processPOSTRequest("backendprocess.php", "removePhoto=true&branchID="+branchID+"&galleryID="+galleryID);
 				}
 			});
 
@@ -259,7 +263,8 @@
 			function deleteMarker(marker, markers) {
 				if (toDelete == true) {
 					var branchID = marker.id;
-					processRequest("backendprocess.php?deleteBranch=true&branchID="+branchID);
+					//processRequest("backendprocess.php?deleteBranch=true&branchID="+branchID);
+					processPOSTRequest("backendprocess.php", "deleteBranch=true&branchID="+branchID);
 					var index = markers.indexOf(marker);	
 					marker.setMap(null);
 					marker = null;
@@ -337,9 +342,16 @@
 			            var estabID = document.getElementById('estabID').value;
 
 			            if (operation == "update") {
-			            	processRequest("backendprocess.php?updateBranch=true&addr="+address+"&lat="+e.latLng.lat()+"&lng="+e.latLng.lng()+"&estabID="+estabID+"&branchID="+markers[selectedIndex].id);
+			            	//processRequest("backendprocess.php?updateBranch=true&addr="+address+"&lat="+e.latLng.lat()+"&lng="+e.latLng.lng()+"&estabID="+estabID+"&branchID="+markers[selectedIndex].id);
+			            	processPOSTRequest("backendprocess.php", "updateBranch=true&addr="+address+
+			            		"&lat="+e.latLng.lat()+"&lng="+e.latLng.lng()+"&estabID="+estabID+
+			            		"&branchID="+markers[selectedIndex].id);
 			            } else if (operation == "create") {
-			            	processRequest("backendprocess.php?createBranch=true&addr="+address+"&lat="+e.latLng.lat()+"&lng="+e.latLng.lng()+"&estabID="+estabID+"&sbscrbdID="+sbscrbdID);			            				            			            
+			            	//processRequest("backendprocess.php?createBranch=true&addr="+address+"&lat="+e.latLng.lat()+"&lng="+e.latLng.lng()+"&estabID="+estabID+"&sbscrbdID="+sbscrbdID);
+			            	console.log("na click dito");			            				
+			            	processPOSTRequest("backendprocess.php", 
+			            		"createBranch=true&addr="+address+"&lat="+e.latLng.lat()+
+			            		"&lng="+e.latLng.lng()+"&estabID="+estabID+"&sbscrbdID="+sbscrbdID);           			            
 			            }
 
 			        }
@@ -362,8 +374,11 @@
 					$('#branchAddr').prop('disabled', false);
 				}  else {
 					$('#branchAddr').prop('disabled', true);
-					processRequest("backendprocess.php?saveBranchAddr=true&branchID=" 
-						+ $('#branchAddr').attr("data-internalid") + "&address=" 
+					//processRequest("backendprocess.php?saveBranchAddr=true&branchID=" 
+					//	+ $('#branchAddr').attr("data-internalid") + "&address=" 
+					//	+ $('#branchAddr').val());
+					processPOSTRequest("backendprocess.php", "saveBranchAddr=true&branchID="
+						+ $('#branchAddr').attr("data-internalid") + "&address="
 						+ $('#branchAddr').val());
 				}
 
