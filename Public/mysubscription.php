@@ -55,18 +55,25 @@
 				<?php 
 					if ($stripeSubs !== false) {
 						if ($stripeSubs->cancel_at_period_end === true) {
-						?><a href="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=REACT"><?php 
-							echo "REACTIVATE RECURRING";
+						?><form action="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=REACT" method="POST">
+							<input type="submit" name="submit" value="REACTIVATE RECURRING"/>
+						<?php 
+							//echo "REACTIVATE RECURRING";
 						} else {
-						?><a href="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=CANCEL"><?php
-							echo "CANCEL AT PERIOD END";
+						?><form action="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=CANCEL" method="POST">
+							<input type="submit" name="submit" value="CANCEL AT PERIOD END"/>
+						<?php
+							//echo "CANCEL AT PERIOD END";
 						}
 					} else {
-						?><a href="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=RENEW"><?php
-						echo "RENEW";
+						?><form action="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=RENEW" method="POST">
+							<input type="submit" name="submit" value="RENEW"/>
+						<?php
+							//echo "RENEW";
 					}
 				?>
-				</a></td>
+
+				</form></td>
 			</tr>
 			
 		<?php endforeach; ?>		
