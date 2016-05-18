@@ -2,15 +2,19 @@
 <?php $user = $session->is_logged_in() ? User::find_by_id($session->user_id) : redirect_to("login.php"); ?>
 <?php isset($_GET['id']) ? null : redirect_to("index.php"); ?>
 <?php  
+
+	$currentSubsPlanEstab = SubsPlanEstab::find_by_id($_GET['id']);
+	$sbscrbdID = $currentSubsPlanEstab->subs_plan_id;
+	$estabID = $currentSubsPlanEstab->estab_id;
 	$user_subscriptions = SubsPlan::get_owner_subscriptions($user->id);
 	$subscriptionIDs = array_map(function($obj) { return $obj->id;}, $user_subscriptions);
-	in_array($_GET['sbscrbdID'], $subscriptionIDs) ? null : redirect_to("index.php");
+	in_array($sbscrbdID, $subscriptionIDs) ? null : redirect_to("index.php");
 
-	$condition['key'] = "estab_id";
-	$condition['value'] = $database->escape_value($_GET['id']);
-	$condition['isNumeric'] = true;
-	$noOfBranches = count(EstabBranch::find_all($condition));
-	$currentEstab = Establishment::find_by_id($condition['value']);
+	// $condition['key'] = "estab_id";
+	// $condition['value'] = $database->escape_value($_GET['id']);
+	// $condition['isNumeric'] = true;
+	$noOfBranches = count(EstabBranch::find_all(array('key'=>'estab_id', 'value'=>$estabID, 'isNumeric'=>true)));
+	$currentEstab = Establishment::find_by_id($estabID);
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,10 +48,10 @@
 	</head>
 	<body>
 		<?php include("../includes/navigation.php"); ?>
-		<form action="manageBranch.php?id=<?php echo urlencode($_GET['id']); ?>" method="POST" style="float:left; width: 19%;">
+		<form action="manageBranch.php?id=<?php echo urlencode($estabID); ?>" method="POST" style="float:left; width: 19%;">
 			<p>Lorem Ipsum FORM for Gallery?</p>
-			<input id="estabID" type="hidden" name="estabID" value="<?php echo urlencode($_GET['id']); ?>"/>
-			<input id="sbscrbdID" type="hidden" value="<?php echo $_GET['sbscrbdID']; ?>"/>
+			<input id="estabID" type="hidden" name="estabID" value="<?php echo urlencode($estabID); ?>"/>
+			<input id="sbscrbdID" type="hidden" value="<?php echo htmlentities($sbscrbdID); ?>"/>
 			<div id="infos">
 				<p><?php echo htmlentities($currentEstab->name); ?></p>
 				<p id="latPOS">lat: </p>

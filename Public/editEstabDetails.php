@@ -2,11 +2,14 @@
 <?php $user = $session->is_logged_in() ? User::find_by_id($session->user_id) : redirect_to("login.php"); ?>
 <?php isset($_GET['id']) ? null : redirect_to("index.php"); ?>
 <?php  
+	$currentSubsPlanEstab = SubsPlanEstab::find_by_id($_GET['id']);
+	$sbscrbdID = $currentSubsPlanEstab->subs_plan_id;
+	$estabID = $currentSubsPlanEstab->estab_id;
 	$user_subscriptions = SubsPlan::get_owner_subscriptions($user->id);
 	$subscriptionIDs = array_map(function($obj) { return $obj->id;}, $user_subscriptions);
-	in_array($_GET['sbscrbdID'], $subscriptionIDs) ? null : redirect_to("index.php");
+	in_array($sbscrbdID, $subscriptionIDs) ? null : redirect_to("index.php");
 
-	$estab = Establishment::find_by_id($_GET['id']);
+	$estab = Establishment::find_by_id($estabID);
 	$estab->owner_id == $user->id ? null : redirect_to("index.php");
 	$all_category = EstabCategory::find_all();
 	$photos = EstabGallery::find_all(array("key" => "estab_id", "value" => $estab->id, "isNumeric" => true));
@@ -36,7 +39,7 @@
 
 			move_uploaded_file($gallery['tmp_name'], $unique_path);
 		}
-		redirect_to("manageEstab.php?sbscrbdID=".urlencode($_GET['sbscrbdID']));		
+		redirect_to("manageEstab.php?sbscrbdID=".urlencode($sbscrbdID));		
 	}
 
 	if (isset($_POST['deletePics'])) {
@@ -47,7 +50,7 @@
 				EstabGallery::delete_by_id($photo->id);
 			}
 		}
-		redirect_to("editEstabDetails.php?id=".urlencode($_GET['id'])."&sbscrbdID=".urlencode($_GET['sbscrbdID']));
+		redirect_to("editEstabDetails.php?id=".urlencode($estabID)."&sbscrbdID=".urlencode($sbscrbdID));
 	}
 ?>
 <!DOCTYPE html>
@@ -75,8 +78,8 @@
 	</head>
 	<body>
 		<?php include("../includes/navigation.php"); ?>
-		<a href="manageEstab.php?sbscrbdID=<?php echo urlencode($_GET['sbscrbdID']); ?>">Go back</a>
-		<form id="mainForm" action="editEstabDetails.php?id=<?php echo urlencode($_GET['id']); ?>&sbscrbdID=<?php echo urlencode($_GET['sbscrbdID']); ?>" enctype="multipart/form-data" method="post"  runat="server">
+		<a href="manageEstab.php?sbscrbdID=<?php echo urlencode($sbscrbdID); ?>">Go back</a>
+		<form id="mainForm" action="editEstabDetails.php?id=<?php echo urlencode($estabID); ?>&sbscrbdID=<?php echo urlencode($sbscrbdID); ?>" enctype="multipart/form-data" method="post"  runat="server">
 			<div style="width: 25%; float: left;">
 				<p><img id="output" height="100px" width="100px" src="<?php echo htmlentities($estab->display_picture); ?>"/></p>
 				<p><input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/></p>

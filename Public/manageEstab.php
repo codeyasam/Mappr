@@ -40,8 +40,8 @@
 			<?php $eachEstab = Establishment::find_by_id($eachSubsPlanEstab->estab_id); ?>
 			<div>
 				<p><?php echo htmlentities($eachEstab->name); ?></p>
-				<p><a href="manageBranch.php?id=<?php echo urlencode($eachEstab->id); ?>&sbscrbdID=<?php echo urlencode($_GET['sbscrbdID']); ?>">Manage Branches</a>
-				<a href="editEstabDetails.php?id=<?php echo urlencode($eachEstab->id); ?>&sbscrbdID=<?php echo urlencode($_GET['sbscrbdID']); ?>">
+				<p><a href="manageBranch.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>">Manage Branches</a>
+				<a href="editEstabDetails.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>">
 				Edit Establishment Details</a>
 				</p>
 				<form action="deleteEstablishment.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>" method="POST">
