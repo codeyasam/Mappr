@@ -22,7 +22,9 @@
 	// foreach ($subsPlanEstab as $key => $eachPlanEstab) {
 	// 	$all_user_establishment[] = Establishment::find_by_id($eachPlanEstab->estab_id);
 	// }
-	$all_user_establishment = array_map(function($obj) { return Establishment::find_by_id($obj->estab_id); }, $subsPlanEstab);
+	
+	//$all_user_establishment = array_map(function($obj) { return Establishment::find_by_id($obj->estab_id); }, $subsPlanEstab);
+	
 	//BECAREFUL USING FIND ALL WITH PARAMETERS - ARGUMENTS ARE NOT ESCAPED
 	//$all_user_establishment = Establishment::find_all($condition);
 ?>
@@ -33,16 +35,21 @@
 	</head>
 	<body>
 		<?php include("../includes/navigation.php"); ?>
-		<?php foreach($all_user_establishment as $key => $eachEstab): ?>
+		
+		<?php foreach($subsPlanEstab as $key => $eachSubsPlanEstab): ?>
+			<?php $eachEstab = Establishment::find_by_id($eachSubsPlanEstab->estab_id); ?>
 			<div>
 				<p><?php echo htmlentities($eachEstab->name); ?></p>
 				<p><a href="manageBranch.php?id=<?php echo urlencode($eachEstab->id); ?>&sbscrbdID=<?php echo urlencode($_GET['sbscrbdID']); ?>">Manage Branches</a>
 				<a href="editEstabDetails.php?id=<?php echo urlencode($eachEstab->id); ?>&sbscrbdID=<?php echo urlencode($_GET['sbscrbdID']); ?>">
 				Edit Establishment Details</a>
-				<a href="deleteEstablishment.php?id=<?php echo urlencode($eachEstab->id); ?>&sbscrbdID=<?php echo urlencode($_GET['sbscrbdID']); ?>">
-				Delete Establishment</a></p>
+				</p>
+				<form action="deleteEstablishment.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>" method="POST">
+					<p><input type="submit" name="submit" value="delete establishment"/></p>
+				</form>
 			</div>
 		<?php endforeach; ?>
+		
 		<?php if (count($all_user_establishment) < $plan->estab_no) {  ?>
 		<a href="addEstab.php?id=<?php echo urlencode($_GET['sbscrbdID']); ?>">+ ADD ESTABLISHMENT</a>
 		<?php } else { ?>
