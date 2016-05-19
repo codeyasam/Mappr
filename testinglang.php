@@ -19,5 +19,10 @@
 
 	// testlang();
 
-	echo SubsPlanEstab::get_total_branch_plotted(3);	
+	//echo SubsPlanEstab::get_total_branch_plotted(3);
+	$objArr = EstabBranch::find_all();
+	// echo "<pre>";
+	// 	print_r(createJSONEntity("Branches", $objArr));
+	// echo "</pre>";
+	echo "{" . createJSONEntity("Branches", $objArr) . "}";
 ?>
