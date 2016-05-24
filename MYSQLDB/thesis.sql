@@ -195,6 +195,7 @@ INSERT INTO PLAN_DURATION_TB (duration_name, description, duration_visibility) V
 INSERT INTO PLAN_DURATION_TB (duration_name, description, duration_visibility) VALUES ('week', 'weekly', "VISIBLE");
 INSERT INTO PLAN_DURATION_TB (duration_name, description, duration_visibility) VALUES ('month', 'monthly', "VISIBLE");
 INSERT INTO PLAN_DURATION_TB (duration_name, description, duration_visibility) VALUES ('year', 'yearly', "VISIBLE");
+INSERT INTO PLAN_DURATION_TB (duration_name, description, duration_visibility) VALUES ('other', 'custom', "HIDDEN");
 
 INSERT INTO PLAN_TB(plan_name, plan_interval, estab_no, branch_no, cost, visibility) VALUES ('not specified', 2, 3, 9, 2500, "VISIBLE");
 INSERT INTO PLAN_TB(plan_name, plan_interval, estab_no, branch_no, cost, visibility) VALUES ('not specified', 2, 2, 9, 2200, "VISIBLE");

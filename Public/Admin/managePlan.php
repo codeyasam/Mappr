@@ -24,6 +24,17 @@
 				<option value="<?php echo $eachDuration->id; ?>"><?php echo $eachDuration->description; ?></option>
 			<?php endforeach; ?>	
 			</select></p>
+			<p id="customPlan">
+				<input id="intervalCount" type="number" min="1"/>
+				<select id="customPlanDuration">
+					<?php $not_included = array('year', 'other'); ?>
+					<?php foreach($planDurations as $key => $eachDuration): ?>
+						<?php if (!in_array($eachDuration->duration_name, $not_included)) { ?>
+						<option value="<?php echo $eachDuration->id; ?>"><?php echo $eachDuration->duration_name; ?></option>
+						<?php } ?>
+					<?php endforeach; ?>			
+				</select>
+			</p>
 			<p><input id="plan_name" type="text" name="plan_name" placeholder="Plan Name"/></p>
 			<p><input id="estab_no" type="number" name="estab_no" placeholder="No of Establishment"/></p>
 			<p><input id="branch_no" type="number" name="branch_no" placeholder="No of Branches"/></p>
@@ -38,6 +49,16 @@
 		<script type="text/javascript">
 
 			processRequest("backendprocess.php?getPlans=true");
+
+			$('#customPlan').hide();
+			$('#planDuration').change(function() {
+				$('#customPlan').hide();
+				//console.log("plan duration changes" + $('#planDuration option:selected').text());
+				if ($('#planDuration option:selected').text() == "custom") {
+					$('#customPlan').show();
+					//console.log("custom plan");
+				}
+			});
 
 			function handleServerResponse() {
 				if (objReq.readyState == 4 && objReq.status == 200) {
@@ -74,17 +95,28 @@
 				var branch_no = $('#branch_no').val().trim();
 				var cost = $('#cost').val().trim();
 				var visibility = $('#visibility').is(":checked") ? "VISIBLE" : "HIDDEN";
+				var interval_count = $('#intervalCount').val();	
+				var customDuration = "";			
 				// console.log(durationID);
 				// console.log(visibility);
+				if ($('#planDuration option:selected').text() == "custom") {
+					//console.log("yeah yeah");
+					if ($('#intervalCount').val().trim() == "") return;
+					else customDuration = $('#customPlanDuration option:selected').text();
+				} 
+
 				if (durationID == "" || estab_no == "" || branch_no == "" || cost == "" || plan_name == "") return;
 			    //console.log("poop");
-				processRequest("backendprocess.php?createPlan=true&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name);
+				//processRequest("backendprocess.php?createPlan=true&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name);
+				processPOSTRequest("backendprocess.php", "createPlan=true&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name
+					+"&interval_count="+interval_count+"&interval="+customDuration);
 			});	
 
 			$(document).on('click', '.optDelete', function() {
 				console.log($(this).attr("data-internalid"));
 				var planID = $(this).attr("data-internalid");
-				processRequest("backendprocess.php?deletePlan=true&planID=" + planID);
+				//processRequest("backendprocess.php?deletePlan=true&planID=" + planID);
+				processPOSTRequest("backendprocess.php", "deletePlan=true&planID=" + planID);
 				return false;
 			});	
 
@@ -123,7 +155,8 @@
 				// console.log(durationID);
 				// console.log(visibility);
 				if (durationID == "" || estab_no == "" || branch_no == "" || cost == "" || plan_name == "") return;				
-				processRequest("backendprocess.php?saveChangesPL=true"+"&planID="+planID+"&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name);
+				//processRequest("backendprocess.php?saveChangesPL=true"+"&planID="+planID+"&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name);
+				processPOSTRequest("backendprocess.php", "saveChangesPL=true"+"&planID="+planID+"&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name);
 
 				$('#optSave').hide();
 				$('#optCancel').hide();	

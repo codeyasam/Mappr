@@ -105,13 +105,15 @@
 				var categDescription = $('#categDescription').val().trim();
 				if (categName == "" || categDescription == "") return;
 				console.log("poop");
-				processRequest("backendprocess.php?createCateg=true&categName="+categName+"&categDescription="+categDescription);
+				//processRequest("backendprocess.php?createCateg=true&categName="+categName+"&categDescription="+categDescription);
+				processPOSTRequest("backendprocess.php", "createCateg=true&categName="+categName+"&categDescription="+categDescription);
 			});
 
 			$(document).on('click', '.optDelete', function() {
 				console.log($(this).attr("data-internalid"));
 				var categoryID = $(this).attr("data-internalid");
-				processRequest("backendprocess.php?deleteCateg=true&categoryID=" + categoryID);
+				//processRequest("backendprocess.php?deleteCateg=true&categoryID=" + categoryID);
+				processPOSTRequest("backendprocess.php", "deleteCateg=true&categoryID=" + categoryID);
 				return false;
 			});
 
@@ -138,7 +140,8 @@
 				var categName = $('#categName').val().trim();
 				var categDescription = $('#categDescription').val().trim();
 				if (categName == "" || categDescription == "") return;				
-				processRequest("backendprocess.php?saveChanges=true&categoryID=" + categoryID + "&categName=" + categName + "&categDescription=" + categDescription);
+				//processRequest("backendprocess.php?saveChanges=true&categoryID=" + categoryID + "&categName=" + categName + "&categDescription=" + categDescription);
+				processPOSTRequest("backendprocess.php", "saveChanges=true&categoryID=" + categoryID + "&categName=" + categName + "&categDescription=" + categDescription);
 				$('#optSave').hide();
 				$('#optCancel').hide();	
 				$('#optAdd').show();

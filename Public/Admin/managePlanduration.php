@@ -62,13 +62,15 @@
 				var duration_visibility = $('#duration_visibility').is(":checked") ? "VISIBLE" : "HIDDEN";
 				if (description == "" || duration_name == "" || duration_visibility == "") return;
 				console.log("poop");
-				processRequest("backendprocess.php?createPlanDuration=true&description="+description+"&duration_name="+duration_name+"&duration_visibility="+duration_visibility);
+				//processRequest("backendprocess.php?createPlanDuration=true&description="+description+"&duration_name="+duration_name+"&duration_visibility="+duration_visibility);
+				processPOSTRequest("backendprocess.php", "createPlanDuration=true&description="+description+"&duration_name="+duration_name+"&duration_visibility="+duration_visibility);
 			});	
 
 			$(document).on('click', '.optDelete', function() {
 				console.log($(this).attr("data-internalid"));
 				var planDurationID = $(this).attr("data-internalid");
-				processRequest("backendprocess.php?deletePlanDuration=true&planDurationID=" + planDurationID);
+				//processRequest("backendprocess.php?deletePlanDuration=true&planDurationID=" + planDurationID);
+				processPOSTRequest("backendprocess.php", "deletePlanDuration=true&planDurationID=" + planDurationID);
 				return false;
 			});	
 
@@ -100,7 +102,9 @@
 				var duration_name = $('#duration_name').val().trim();
 				var duration_visibility = $('#duration_visibility').is(":checked") ? "VISIBLE" : "HIDDEN";
 				if (description == "" || duration_name == "" || duration_visibility == "") return;				
-				processRequest("backendprocess.php?saveChangesPD=true&planDurationID=" + planDurationID + "&description=" + description +"&duration_name="+duration_name+"&duration_visibility="+duration_visibility);
+				//processRequest("backendprocess.php?saveChangesPD=true&planDurationID=" + planDurationID + "&description=" + description +"&duration_name="+duration_name+"&duration_visibility="+duration_visibility);
+				processPOSTRequest("backendprocess.php", "saveChangesPD=true&planDurationID=" + planDurationID + "&description=" + description +"&duration_name="+duration_name+"&duration_visibility="+duration_visibility);	
+
 				$('#optSave').hide();
 				$('#optCancel').hide();	
 				$('#optAdd').show();
