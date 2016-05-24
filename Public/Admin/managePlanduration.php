@@ -17,7 +17,7 @@
 			
 		</table>
 
-		<div>
+		<div id="formContainer">
 			<p><input id="duration_name" type="text" name="duration_name" placeholder="Duration name"/></p>
 			<p><input id="description" type="text" name="description" placeholder="Description"/></p>
 			<p><input id="duration_visibility" type="checkbox" name="duration_visibility" value="Visible"/>Visible</p>
@@ -38,7 +38,7 @@
 						var tblRows = "<tr>";
 						tblRows += "<th>ID</th><th>NAME</th><th>DESCRIPTION</th><th>VISIBILITY</th>";
 						tblRows += '<th colspan="2">OPTION</th></tr>';
-						tblRows += tableJSON("#planDurationContainer", jsonObj.PlanDurations);
+						tblRows += tableJSON("#planDurationContainer", jsonObj.PlanDurations, false);
 						$("#planDurationContainer").append("<tbody>" + tblRows + "<tbody>");						
 					} else if (jsonObj.planDurationSelected) {
 						$('optSave').attr('data-internalid', jsonObj.id);
@@ -52,6 +52,7 @@
 				}
 			}
 
+			$('#formContainer').hide();
 			$('#optSave').hide();
 			$('#optCancel').hide();	
 
@@ -75,6 +76,9 @@
 			});	
 
 			$(document).on('click', '.optEdit', function() {
+				$('#formContainer').show();
+				$('#duration_name').hide();
+
 				$('#optAdd').hide();
 				$('#optSave').show();
 				$('#optCancel').show();
@@ -86,13 +90,17 @@
 
 			$('#optCancel').on('click', function(e) {
 				e.preventDefault();
+
 				$('#optSave').hide();
 				$('#optCancel').hide();	
 				$('#optAdd').show();	
 
 				$('#optSave').attr("data-internalid", "");
 				$('#description').val("");
-				$('#duration_name').val("");		
+				$('#duration_name').val("");
+
+				$('#duration_name').show();		
+				$('#formContainer').hide();
 			});
 
 			$('#optSave').on('click', function(e) {

@@ -52,11 +52,11 @@
 		$output .= '"description":"' . $selected_planDuration->description . '",';
 		$output .= '"duration_name":"' . $selected_planDuration->duration_name . '",';
 		$output .= '"duration_visibility":"' . $selected_planDuration->duration_visibility . '"';		
-	} else if (isset($_GET['saveChangesPD'])) {
-		$selected_planDuration = PlanDuration::find_by_id($_GET['planDurationID']);
-		$selected_planDuration->description = trim($_GET['description']);
-		$selected_planDuration->duration_name = trim($_GET['duration_name']);
-		$selected_planDuration->duration_visibility = trim($_GET['duration_visibility']);
+	} else if (isset($_POST['saveChangesPD'])) {
+		$selected_planDuration = PlanDuration::find_by_id($_POST['planDurationID']);
+		$selected_planDuration->description = trim($_POST['description']);
+		$selected_planDuration->duration_name = trim($_POST['duration_name']);
+		$selected_planDuration->duration_visibility = trim($_POST['duration_visibility']);
 		$selected_planDuration->update();
 
 		$objArr = PlanDuration::find_all();
@@ -73,7 +73,7 @@
 		$new_plan->cost = trim($_POST['cost']);
 		$new_plan->visibility = trim($_POST['visibility']);
 		$new_plan->create();
-		
+
 		//\Stripe\Stripe::setApiKey("sk_test_5lqGe81cTwC39ryIuby7KNu2");
 		$duration = PlanDuration::find_by_id($new_plan->plan_interval);
 		$interval = !empty($_POST['interval']) ? $_POST['interval'] : $duration->duration_name; 
@@ -92,12 +92,17 @@
 		$objArr = Plan::find_all();
 		$output .= createJSONEntity("Plans", $objArr);		
 	} else if (isset($_POST['deletePlan'])) {
-		Plan::delete_by_id($_POST['planID']);
-		$objArr = Plan::find_all();
-		$output .= createJSONEntity("Plans", $objArr);	
+		try {
+			Plan::delete_by_id($_POST['planID']);
+			$objArr = Plan::find_all();
+			$output .= createJSONEntity("Plans", $objArr);	
 
-		$plan = \Stripe\Plan::retrieve($_POST['planID']);
-		$plan->delete();	
+			$plan = \Stripe\Plan::retrieve($_POST['planID']);
+			$plan->delete();			
+		} catch (Exception $e) {
+			
+		}
+	
 	} else if (isset($_GET['editPlan'])) {
 		$selected_plan = Plan::find_by_id($_GET['planID']);
 		$output .= '"planSelected":"true",';
