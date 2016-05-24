@@ -19,7 +19,7 @@
 			
 		</table>
 		<div>
-			<p>Interval: <select id="planDuration" name="planDuration">
+			<p id="interval">Interval: <select id="planDuration" name="planDuration">
 			<?php foreach($planDurations as $key => $eachDuration): ?>
 				<option value="<?php echo $eachDuration->id; ?>"><?php echo $eachDuration->description; ?></option>
 			<?php endforeach; ?>	
@@ -121,6 +121,13 @@
 			});	
 
 			$(document).on('click', '.optEdit', function() {
+				//Hides uneditable fields
+				$('#interval').hide();
+				$('#estab_no').hide();
+				$('#branch_no').hide();
+				$('#cost').hide();
+				//end of hiding fields
+
 				$('#optAdd').hide();
 				$('#optSave').show();
 				$('#optCancel').show();
@@ -140,7 +147,13 @@
 				$('#estab_no').val("");
 				$('#branch_no').val("");
 				$('#cost').val("");
-				$('#visibility').prop('checked', false);		
+				$('#visibility').prop('checked', false);	
+
+				//show the fields
+				$('#interval').show();
+				$('#estab_no').show();
+				$('#branch_no').show();
+				$('#cost').show();					
 			});
 
 			$('#optSave').on('click', function(e) {
