@@ -10,6 +10,19 @@
 	// echo "</pre>";
 	// echo "poop";  
 	//var_dump($_POST['plan_id']);
+
+	$answer = true;
+	$coupon_id = trim($_POST['coupon_id']);
+	try {
+		$coupon = \Stripe\Coupon::retrieve( $coupon_id );  
+	} catch (\Stripe\Error\InvalidRequest $e) {
+		$answer = false;
+	} 
+
+	if ($answer === true) {
+		$coupon_id = $coupon->valid === false ? null : $coupon->id;
+	} else $coupon_id = null;
+	//$coupon_id = $answer === false ? null : $coupon->id;
 	
 	$customer = "";
 	if (empty($user->stripe_id)) {
@@ -26,7 +39,8 @@
 
 	$subscription = \Stripe\Subscription::create(array(
 	  "customer" => $customer['id'],
-	  "plan" => $_POST['plan_id']
+	  "plan" => $_POST['plan_id'],
+	  "coupon" => $coupon_id
 	));	
 
 	$subs_plan = new SubsPlan();
@@ -36,6 +50,8 @@
 	$subs_plan->create();
 
 	redirect_to("mysubscription.php");
+	
+
 	// echo "<pre>";
 	// 	print_r($subscription);
 	// echo "</pre>";
