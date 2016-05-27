@@ -17,7 +17,9 @@
 		$coupon = \Stripe\Coupon::retrieve( $coupon_id );  
 	} catch (\Stripe\Error\InvalidRequest $e) {
 		$answer = false;
-	} 
+	} catch (InvalidArgumentException $e) {
+		$answer = false;
+	}
 
 	if ($answer === true) {
 		$coupon_id = $coupon->valid === false ? null : $coupon->id;
