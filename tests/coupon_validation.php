@@ -6,6 +6,8 @@
 		$coupon = \Stripe\Coupon::retrieve("asdf");
 	} catch (\Stripe\Error\InvalidRequest $e) {
 		$answer = false;
+	} catch (InvalidArgumentException $e) {
+		$answer = false;
 	}
 
 	if ($answer === true) {
@@ -17,7 +19,7 @@
 		if ($coupon->valid && !empty($coupon->percent_off)) {
 			echo $coupon->percent_off . " %";
 		} else {
-			echo $coupon->amount_off / 100;
+			echo $coupon->amount_off / 100 . " " . $coupon->currency;
 		}
 	}
 ?>
