@@ -1,5 +1,5 @@
 <?php require_once("../includes/initialize.php"); ?>
-<?php $user = $session->is_logged_in() ? User::find_by_id($session->user_id) : redirect("index.php"); ?>
+<?php $user = $session->is_logged_in() ? User::find_by_id($session->user_id) : redirect_to("index.php"); ?>
 <?php
 	// print_r($_POST['stripeToken']);
 	// var_dump($_POST['stripeToken']);
@@ -14,7 +14,7 @@
 	$answer = true;
 	$coupon_id = trim($_POST['coupon_id']);
 	try {
-		$coupon = \Stripe\Coupon::retrieve( $coupon_id );  
+		$coupon = \Stripe\Coupon::retrieve($coupon_id);  
 	} catch (\Stripe\Error\InvalidRequest $e) {
 		$answer = false;
 	} catch (InvalidArgumentException $e) {

@@ -4,14 +4,25 @@
   $coupon_id  = trim($_GET['coupon_id']);
   // needs if coupon_id is not blank  
   try {
-    $coupon = \Stripe\Coupon::retrieve( $coupon_id );  
+    $coupon = \Stripe\Coupon::retrieve($coupon_id);  
   } catch (\Stripe\Error\InvalidRequest $e) {
 	  // $answer is already set to false
+    $answer = false;
+  } catch (InvalidArgumentException $e) {
     $answer = false;
   } 
 
   if ($answer === true) {
-    echo $coupon->valid === true ? $coupon : false;
+    if ($coupon->valid) {
+      if (!empty($coupon->percent_off)) {
+        echo $coupon->percent_off . " %";
+      } else {
+        echo $coupon->amount_off / 100 . " " . $coupon->currency;        
+      }
+    } else {
+      echo false;      
+    }    
+    //echo $coupon->valid === true ? $coupon : false;
   } else echo false;
 
   //echo $answer === false ? $answer : $coupon;  // this sends false or coupon object

@@ -50,13 +50,13 @@
 			  data: requestData,
 			  success: function(response){
 			    if (response != false) {
-			      $('#msg').html("Valid Code!");
-			      console.log("valid Code");
-			    } else {
-			      $(this).siblings('.msg').html("Invalid Code!");
-			      coupon_id_input.siblings('.msg').html('invalid code')
+			      //$('#msg').html(response + " Discount!");
+			      coupon_id_input.siblings('.msg').html(response + " Discount!");
 			      console.log(response);
-			      console.log();	
+			    } else {
+			      //$(this).siblings('.msg').html("Invalid Code!");
+			      coupon_id_input.siblings('.msg').html('invalid code');
+			      console.log(response);
 			    }
 			  }
 			});			
