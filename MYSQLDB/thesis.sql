@@ -23,6 +23,7 @@ CREATE TABLE CATEGORY_TB (
 	id INT(11) AUTO_INCREMENT,
 	CONSTRAINT PK_Category PRIMARY KEY(id),
 	name VARCHAR(255) NOT NULL,
+	featured_category VARCHAR(255) NOT NULL,
 	description VARCHAR(255) 
 );
 
@@ -209,11 +210,11 @@ INSERT INTO PLAN_TB(plan_name, plan_interval, estab_no, branch_no, cost, visibil
 INSERT INTO PLAN_TB(plan_name, plan_interval, estab_no, branch_no, cost, visibility) VALUES ('not specified', 4, 2, 9, 52000, "VISIBLE");
 INSERT INTO PLAN_TB(plan_name, plan_interval, estab_no, branch_no, cost, visibility) VALUES ('not specified', 4, 1, 9, 50000, "VISIBLE");
 
-INSERT INTO CATEGORY_TB (name, description) VALUES ("FAST FOOD", "Naaaah");
-INSERT INTO CATEGORY_TB (name, description) VALUES ("HOSPITAL", "Naaaah");
-INSERT INTO CATEGORY_TB (name, description) VALUES ("PARK", "Naaaah");
-INSERT INTO CATEGORY_TB (name, description) VALUES ("MALL", "Naaaah");
-INSERT INTO CATEGORY_TB (name, description) VALUES ("SALON", "Naaaah");
+INSERT INTO CATEGORY_TB (name, featured_category, description) VALUES ("FAST FOOD", "FEATURED", "Naaaah");
+INSERT INTO CATEGORY_TB (name, featured_category, description) VALUES ("HOSPITAL", "FEATURED", "Naaaah");
+INSERT INTO CATEGORY_TB (name, featured_category, description) VALUES ("PARK", "FEATURED", "Naaaah");
+INSERT INTO CATEGORY_TB (name, featured_category, description) VALUES ("MALL", "FEATURED", "Naaaah");
+INSERT INTO CATEGORY_TB (name, featured_category, description) VALUES ("SALON", "FEATURED", "Naaaah");
 
 INSERT INTO END_USER_TB (email, username, password, first_name, last_name, contact, hometown, display_picture , user_type)
 VALUES ("bautistamaryjo143@gmail.com", "jojo", "7510d498f23f5815d3376ea7bad64e29", "Maryjo", "Yasa", "09069081822", "Malolos, Bulacan", "DISPLAY_PICTURES/defaultavatar.png", "ADMIN");
