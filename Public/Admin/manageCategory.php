@@ -18,6 +18,7 @@
 				<tr>
 					<th>ID</th>
 					<th>NAME</th>
+					<th>FEATURED</th>
 					<th>DESCRIPTION</th>
 					<th colspan="2">OPTIONS</th>
 				</tr>
@@ -36,6 +37,7 @@
 			<form>
 				<p><input id="categName" type="text" name="categName" placeholder="Name"/></p>
 				<p><textarea id="categDescription" placeholder="Description"></textarea></p>
+				<p><input id="featured_category" type="checkbox" value="FEATURED"/>Featured</p>
 				<p><input id="optAdd" type="submit" value="+ADD CATEGORY"/><input id="optSave" type="submit" value="SAVE CHANGES"/><input id="optCancel" type="submit" value="CANCEL"/></p>
 			</form>
 		</div>
@@ -63,13 +65,17 @@
 					var jsonObj = JSON.parse(objReq.responseText);
 					if (jsonObj.Categories) {
 						var tblRows = "<tr>";
-						tblRows += "<th>ID</th><th>NAME</th><th>DESCRIPTION</th>";
+						tblRows += "<th>ID</th><th>NAME</th><th>FEATURED</th><th>DESCRIPTION</th>";
 						tblRows += '<th colspan="2">OPTION</th></tr>';
 						tblRows += tableJSON("#categoryContainer", jsonObj.Categories);
 						$("#categoryContainer").append("<tbody>" + tblRows + "<tbody>");
 					} else if (jsonObj.categorySelected) {
 						$('#categName').val(jsonObj.name);
 						$('#categDescription').val(jsonObj.description);
+						if (jsonObj.featured_category == "FEATURED") 
+							$('#featured_category').prop('checked', true);
+						else 
+							$('#featured_category').prop('checked', false);						
 					}
 				}
 			}			
@@ -103,10 +109,12 @@
 				e.preventDefault();
 				var categName = $('#categName').val().trim();
 				var categDescription = $('#categDescription').val().trim();
+				var featured_category = $('#featured_category').is(":checked") ? "FEATURED" : "NOT FEATURED";
+
 				if (categName == "" || categDescription == "") return;
 				console.log("poop");
 				//processRequest("backendprocess.php?createCateg=true&categName="+categName+"&categDescription="+categDescription);
-				processPOSTRequest("backendprocess.php", "createCateg=true&categName="+categName+"&categDescription="+categDescription);
+				processPOSTRequest("backendprocess.php", "createCateg=true&categName="+categName+"&categDescription="+categDescription+"&featured_category="+featured_category);
 			});
 
 			$(document).on('click', '.optDelete', function() {
@@ -139,9 +147,11 @@
 				var categoryID = $('#optSave').attr("data-internalid");
 				var categName = $('#categName').val().trim();
 				var categDescription = $('#categDescription').val().trim();
+				var featured_category = $('#featured_category').is(":checked") ? "FEATURED" : "NOT FEATURED";
+				
 				if (categName == "" || categDescription == "") return;				
 				//processRequest("backendprocess.php?saveChanges=true&categoryID=" + categoryID + "&categName=" + categName + "&categDescription=" + categDescription);
-				processPOSTRequest("backendprocess.php", "saveChanges=true&categoryID=" + categoryID + "&categName=" + categName + "&categDescription=" + categDescription);
+				processPOSTRequest("backendprocess.php", "saveChanges=true&categoryID=" + categoryID + "&categName=" + categName + "&categDescription=" + categDescription+"&featured_category="+featured_category);
 				$('#optSave').hide();
 				$('#optCancel').hide();	
 				$('#optAdd').show();

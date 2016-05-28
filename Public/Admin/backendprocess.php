@@ -6,6 +6,7 @@
 		$new_category = new EstabCategory();
 		$new_category->name = trim($_POST['categName']);
 		$new_category->description = trim($_POST['categDescription']);
+		$new_category->featured_category = trim($_POST['featured_category']);
 		$new_category->create();
 		$objArr = EstabCategory::find_all();
 		$output .= createJSONEntity("Categories", $objArr);
@@ -21,11 +22,13 @@
 		$selected_category = EstabCategory::find_by_id($_GET['categoryID']);
 		$output .= '"categorySelected":"true",';
 		$output .= '"name":"' . $selected_category->name . '",';
-		$output .= '"description":"' . $selected_category->description . '"';
+		$output .= '"description":"' . $selected_category->description . '",';
+		$output .= '"featured_category":"' . $selected_category->featured_category . '"';
 	} else if (isset($_POST['saveChanges'])) {
 		$selected_category = EstabCategory::find_by_id($_POST['categoryID']);
 		$selected_category->name = trim($_POST['categName']);
 		$selected_category->description = trim($_POST['categDescription']);
+		$selected_category->featured_category = trim($_POST['featured_category']);
 		$selected_category->update();
 
 		$objArr = EstabCategory::find_all();
