@@ -10,7 +10,7 @@
 		public $id;
 		public $name;
 		public $featured_category = "FEATURED";
-		public $display_picture;
+		public $display_picture = "None";
 		public $description;
 
 		// already generalized by the database object using late static binding
