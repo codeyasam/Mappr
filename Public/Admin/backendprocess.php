@@ -8,6 +8,13 @@
 		$new_category->description = trim($_POST['categDescription']);
 		$new_category->featured_category = trim($_POST['featured_category']);
 		$new_category->create();
+
+		if (isset($_FILES['categIcon'])) {
+			move_uploaded_file($_FILES['categIcon']['tmp_name'], "DISPLAY_PICTURES/categ_display_pic".$new_category->id);
+			$new_category->display_picture = "DISPLAY_PICTURES/categ_display_pic".$new_category->id;
+			$new_category->update();
+		}
+
 		$objArr = EstabCategory::find_all();
 		$output .= createJSONEntity("Categories", $objArr);
 
@@ -29,6 +36,10 @@
 		$selected_category->name = trim($_POST['categName']);
 		$selected_category->description = trim($_POST['categDescription']);
 		$selected_category->featured_category = trim($_POST['featured_category']);
+		if (isset($_FILES['categIcon'])) {
+			move_uploaded_file($_FILES['categIcon']['tmp_name'], "DISPLAY_PICTURES/categ_display_pic".$selected_category->id);
+			$selected_category->display_picture = "DISPLAY_PICTURES/categ_display_pic".$selected_category->id;
+		}		
 		$selected_category->update();
 
 		$objArr = EstabCategory::find_all();

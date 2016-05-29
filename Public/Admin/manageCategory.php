@@ -10,6 +10,24 @@
 <html>
 	<head>
 		<title></title>
+		<style type="text/css">
+			#output {
+				border: none;
+			}
+
+			.thumbnail {
+				width: 200px;
+				height: 200px;
+				overflow: hidden;
+			    display: inline-block;
+				margin: 10px;
+			}
+
+
+			.thumbnail>img {
+				height: 200px;
+			}
+		</style>		
 	</head>
 	<body>
 		<?php include("../../includes/admin_nav.php");  ?>
@@ -19,6 +37,7 @@
 					<th>ID</th>
 					<th>NAME</th>
 					<th>FEATURED</th>
+					<th>ICON PATH</th>
 					<th>DESCRIPTION</th>
 					<th colspan="2">OPTIONS</th>
 				</tr>
@@ -26,6 +45,7 @@
 				<tr>
 					<td><?php echo htmlentities($eachCategory->id); ?></td>
 					<td><?php echo htmlentities($eachCategory->name); ?></td>
+					<td><?php echo htmlentities($eachCategory->display_picture); ?></td>
 					<td><?php echo htmlentities($eachCategory->description); ?></td>
 					<td><a class="optEdit" href="">EDIT</a></td>
 					<td><a class="optDelete" href="">DELETE</a></td>
@@ -35,6 +55,8 @@
 		</table>
 		<div>
 			<form>
+				<p><img id="output" height="100px" width="100px" src=""/></p>
+				<p><input id="pic" type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/></p>
 				<p><input id="categName" type="text" name="categName" placeholder="Name"/></p>
 				<p><textarea id="categDescription" placeholder="Description"></textarea></p>
 				<p><input id="featured_category" type="checkbox" value="FEATURED"/>Featured</p>
@@ -56,8 +78,33 @@
 			// 		setTimeout("processRequest()", 1000);
 			// 	}
 			// }
+			var loadFile = function(event) {
+			   	var output = document.getElementById('output');
+			   	output.src = URL.createObjectURL(event.target.files[0]);
+			   	$('#urlContent').attr('value', "");
+			};				
 
 			processRequest("backendprocess.php?getCategories=true");
+
+			function handleSuccessResponse(response) {
+				console.log(response);
+				var jsonObj = JSON.parse(response);
+				if (jsonObj.Categories) {
+					var tblRows = "<tr>";
+					tblRows += "<th>ID</th><th>NAME</th><th>FEATURED</th>";
+					tblRows += '<th>ICON</th><th>DESCRIPTION</th>';
+					tblRows += '<th colspan="2">OPTION</th></tr>';
+					tblRows += tableJSON("#categoryContainer", jsonObj.Categories);
+					$("#categoryContainer").append("<tbody>" + tblRows + "<tbody>");
+				} else if (jsonObj.categorySelected) {
+					$('#categName').val(jsonObj.name);
+					$('#categDescription').val(jsonObj.description);
+					if (jsonObj.featured_category == "FEATURED") 
+						$('#featured_category').prop('checked', true);
+					else 
+						$('#featured_category').prop('checked', false);						
+				}
+			}
 
 			function handleServerResponse() {
 				if (objReq.readyState == 4 && objReq.status == 200) {
@@ -65,7 +112,8 @@
 					var jsonObj = JSON.parse(objReq.responseText);
 					if (jsonObj.Categories) {
 						var tblRows = "<tr>";
-						tblRows += "<th>ID</th><th>NAME</th><th>FEATURED</th><th>DESCRIPTION</th>";
+						tblRows += "<th>ID</th><th>NAME</th><th>FEATURED</th>";
+						tblRows += '<th>ICON</th><th>DESCRIPTION</th>';
 						tblRows += '<th colspan="2">OPTION</th></tr>';
 						tblRows += tableJSON("#categoryContainer", jsonObj.Categories);
 						$("#categoryContainer").append("<tbody>" + tblRows + "<tbody>");
@@ -106,7 +154,7 @@
 			$('#optCancel').hide();
 
 			$('#optAdd').on("click", function(e) {
-				e.preventDefault();
+				e.preventDefault(); 
 				var categName = $('#categName').val().trim();
 				var categDescription = $('#categDescription').val().trim();
 				var featured_category = $('#featured_category').is(":checked") ? "FEATURED" : "NOT FEATURED";
@@ -114,7 +162,28 @@
 				if (categName == "" || categDescription == "") return;
 				console.log("poop");
 				//processRequest("backendprocess.php?createCateg=true&categName="+categName+"&categDescription="+categDescription);
-				processPOSTRequest("backendprocess.php", "createCateg=true&categName="+categName+"&categDescription="+categDescription+"&featured_category="+featured_category);
+				// processPOSTRequest("backendprocess.php", "createCateg=true&categName="+categName+"&categDescription="+categDescription+"&featured_category="+featured_category);
+
+				//Restructure processing of request
+				var categIcon = document.getElementById('pic').files[0];
+				var formData = new FormData();
+				formData.append('createCateg', 'true');
+				formData.append('categIcon', categIcon);
+				formData.append('categName', categName);
+				formData.append('categDescription', categDescription);
+				formData.append('featured_category', featured_category);
+
+				$.ajax({
+					url: 'backendprocess.php',
+					type: 'POST',
+					data: formData,
+					success: function(response) {
+						handleSuccessResponse(response);
+					},
+					cache: false,
+					contentType: false,
+					processData: false					
+				});
 			});
 
 			$(document).on('click', '.optDelete', function() {
@@ -151,7 +220,30 @@
 				
 				if (categName == "" || categDescription == "") return;				
 				//processRequest("backendprocess.php?saveChanges=true&categoryID=" + categoryID + "&categName=" + categName + "&categDescription=" + categDescription);
-				processPOSTRequest("backendprocess.php", "saveChanges=true&categoryID=" + categoryID + "&categName=" + categName + "&categDescription=" + categDescription+"&featured_category="+featured_category);
+				// processPOSTRequest("backendprocess.php", "saveChanges=true&categoryID=" + categoryID + "&categName=" + categName + "&categDescription=" + categDescription+"&featured_category="+featured_category);
+				
+				//Restructured
+				var categIcon = document.getElementById('pic').files[0];
+				var formData = new FormData();
+				formData.append('saveChanges', 'true');
+				formData.append('categoryID', categoryID);
+				formData.append('categIcon', categIcon);
+				formData.append('categName', categName);
+				formData.append('categDescription', categDescription);
+				formData.append('featured_category', featured_category);
+
+				$.ajax({
+					url: 'backendprocess.php',
+					type: 'POST',
+					data: formData,
+					success: function(response) {
+						handleSuccessResponse(response);
+					},
+					cache: false,
+					contentType: false,
+					processData: false					
+				});				
+
 				$('#optSave').hide();
 				$('#optCancel').hide();	
 				$('#optAdd').show();
