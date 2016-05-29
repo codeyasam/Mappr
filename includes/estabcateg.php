@@ -4,12 +4,13 @@
 	class EstabCategory extends DatabaseObject {
 
 		protected static $table_name = "CATEGORY_TB";
-		protected static $db_fields = array("id", "name", "featured_category", "description");
+		protected static $db_fields = array("id", "name", "featured_category", "display_picture", "description");
 
 
 		public $id;
 		public $name;
 		public $featured_category = "FEATURED";
+		public $display_picture;
 		public $description;
 
 		// already generalized by the database object using late static binding

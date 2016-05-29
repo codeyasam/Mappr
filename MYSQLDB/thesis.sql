@@ -24,6 +24,7 @@ CREATE TABLE CATEGORY_TB (
 	CONSTRAINT PK_Category PRIMARY KEY(id),
 	name VARCHAR(255) NOT NULL,
 	featured_category VARCHAR(255) NOT NULL,
+	display_picture VARCHAR(255),
 	description VARCHAR(255) 
 );
 
