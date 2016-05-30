@@ -45,7 +45,7 @@
 				<tr>
 					<td><?php echo htmlentities($eachCategory->id); ?></td>
 					<td><?php echo htmlentities($eachCategory->name); ?></td>
-					<td><?php echo htmlentities($eachCategory->display_picture); ?></td>
+					<td><img height="100px" width="100px" src="<?php echo htmlentities($eachCategory->display_picture); ?>"></td>
 					<td><?php echo htmlentities($eachCategory->description); ?></td>
 					<td><a class="optEdit" href="">EDIT</a></td>
 					<td><a class="optDelete" href="">DELETE</a></td>
@@ -55,7 +55,7 @@
 		</table>
 		<div>
 			<form>
-				<p><img id="output" height="100px" width="100px" src=""/></p>
+				<p><img id="output" height="100px" width="100px" src="../DISPLAY_PICTURES/defaultCategIcon.png"/></p>
 				<p><input id="pic" type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/></p>
 				<p><input id="categName" type="text" name="categName" placeholder="Name"/></p>
 				<p><textarea id="categDescription" placeholder="Description"></textarea></p>
@@ -78,6 +78,35 @@
 			// 		setTimeout("processRequest()", 1000);
 			// 	}
 			// }
+
+			function tableJSON(tableID, jsonObjRoot, hasOptDelete=true) {
+				$(tableID).html("");
+				$(tableID).attr("border", 1);
+				var newTr = "";
+				for (var key in jsonObjRoot) {
+					if (jsonObjRoot.hasOwnProperty(key)) {
+						newTr += "<tr>";
+						//console.log(jsonObjRoot[key].id);
+						for (var eachField in jsonObjRoot[key]) {
+							if (jsonObjRoot[key].hasOwnProperty(eachField)) {
+								if (eachField == "display_picture") {
+									newTr += '<td><img height="100px" width="100px" src="../' + jsonObjRoot[key][eachField] + '"/></td>';
+								} else 
+									newTr += "<td>" + jsonObjRoot[key][eachField] + "</td>";
+								//console.log(jsonObjRoot[key][eachField]);
+							}
+						}
+						newTr += '<td><a class="optEdit" data-internalid="' + jsonObjRoot[key].id + '" href="">EDIT</a></td>';
+						if (hasOptDelete)
+							newTr += '<td><a class="optDelete" data-internalid="' + jsonObjRoot[key].id + '" href="">DELETE</a></td>';
+						newTr += "</tr>";
+					}
+				}
+				return newTr;
+			}
+
+
+
 			var loadFile = function(event) {
 			   	var output = document.getElementById('output');
 			   	output.src = URL.createObjectURL(event.target.files[0]);
@@ -120,6 +149,7 @@
 					} else if (jsonObj.categorySelected) {
 						$('#categName').val(jsonObj.name);
 						$('#categDescription').val(jsonObj.description);
+						$('#output').attr('src', '../' + jsonObj.display_picture);
 						if (jsonObj.featured_category == "FEATURED") 
 							$('#featured_category').prop('checked', true);
 						else 

@@ -211,11 +211,11 @@ INSERT INTO PLAN_TB(plan_name, plan_interval, estab_no, branch_no, cost, visibil
 INSERT INTO PLAN_TB(plan_name, plan_interval, estab_no, branch_no, cost, visibility) VALUES ('not specified', 4, 2, 9, 52000, "VISIBLE");
 INSERT INTO PLAN_TB(plan_name, plan_interval, estab_no, branch_no, cost, visibility) VALUES ('not specified', 4, 1, 9, 50000, "VISIBLE");
 
-INSERT INTO CATEGORY_TB (name, featured_category, display_picture, description) VALUES ("FAST FOOD", "FEATURED", "None", "Naaaah");
-INSERT INTO CATEGORY_TB (name, featured_category, display_picture, description) VALUES ("HOSPITAL", "FEATURED", "None", "Naaaah");
-INSERT INTO CATEGORY_TB (name, featured_category, display_picture, description) VALUES ("PARK", "FEATURED", "None", "Naaaah");
-INSERT INTO CATEGORY_TB (name, featured_category, display_picture, description) VALUES ("MALL", "FEATURED", "None", "Naaaah");
-INSERT INTO CATEGORY_TB (name, featured_category, display_picture, description) VALUES ("SALON", "FEATURED", "None", "Naaaah");
+INSERT INTO CATEGORY_TB (name, featured_category, display_picture, description) VALUES ("FAST FOOD", "FEATURED", "DISPLAY_PICTURES/defaultCategIcon.png", "Naaaah");
+INSERT INTO CATEGORY_TB (name, featured_category, display_picture, description) VALUES ("HOSPITAL", "FEATURED", "DISPLAY_PICTURES/defaultCategIcon.png", "Naaaah");
+INSERT INTO CATEGORY_TB (name, featured_category, display_picture, description) VALUES ("PARK", "FEATURED", "DISPLAY_PICTURES/defaultCategIcon.png", "Naaaah");
+INSERT INTO CATEGORY_TB (name, featured_category, display_picture, description) VALUES ("MALL", "FEATURED", "DISPLAY_PICTURES/defaultCategIcon.png", "Naaaah");
+INSERT INTO CATEGORY_TB (name, featured_category, display_picture, description) VALUES ("SALON", "FEATURED", "DISPLAY_PICTURES/defaultCategIcon.png", "Naaaah");
 
 INSERT INTO END_USER_TB (email, username, password, first_name, last_name, contact, hometown, display_picture , user_type)
 VALUES ("bautistamaryjo143@gmail.com", "jojo", "7510d498f23f5815d3376ea7bad64e29", "Maryjo", "Yasa", "09069081822", "Malolos, Bulacan", "DISPLAY_PICTURES/defaultavatar.png", "ADMIN");

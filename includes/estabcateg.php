@@ -10,7 +10,7 @@
 		public $id;
 		public $name;
 		public $featured_category = "FEATURED";
-		public $display_picture = "None";
+		public $display_picture = "DISPLAY_PICTURES/defaultCategIcon.png";
 		public $description;
 
 		// already generalized by the database object using late static binding

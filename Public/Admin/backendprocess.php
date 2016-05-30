@@ -10,7 +10,7 @@
 		$new_category->create();
 
 		if (isset($_FILES['categIcon'])) {
-			move_uploaded_file($_FILES['categIcon']['tmp_name'], "DISPLAY_PICTURES/categ_display_pic".$new_category->id);
+			move_uploaded_file($_FILES['categIcon']['tmp_name'], "../DISPLAY_PICTURES/categ_display_pic".$new_category->id);
 			$new_category->display_picture = "DISPLAY_PICTURES/categ_display_pic".$new_category->id;
 			$new_category->update();
 		}
@@ -30,14 +30,15 @@
 		$output .= '"categorySelected":"true",';
 		$output .= '"name":"' . $selected_category->name . '",';
 		$output .= '"description":"' . $selected_category->description . '",';
-		$output .= '"featured_category":"' . $selected_category->featured_category . '"';
+		$output .= '"featured_category":"' . $selected_category->featured_category . '",';
+		$output .= '"display_picture":"' . $selected_category->display_picture . '"';
 	} else if (isset($_POST['saveChanges'])) {
 		$selected_category = EstabCategory::find_by_id($_POST['categoryID']);
 		$selected_category->name = trim($_POST['categName']);
 		$selected_category->description = trim($_POST['categDescription']);
 		$selected_category->featured_category = trim($_POST['featured_category']);
 		if (isset($_FILES['categIcon'])) {
-			move_uploaded_file($_FILES['categIcon']['tmp_name'], "DISPLAY_PICTURES/categ_display_pic".$selected_category->id);
+			move_uploaded_file($_FILES['categIcon']['tmp_name'], "../DISPLAY_PICTURES/categ_display_pic".$selected_category->id);
 			$selected_category->display_picture = "DISPLAY_PICTURES/categ_display_pic".$selected_category->id;
 		}		
 		$selected_category->update();
