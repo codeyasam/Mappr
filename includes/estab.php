@@ -12,7 +12,7 @@
 		public $owner_id;
 		public $category_id;
 		public $name;
-		public $display_picture = "DISPLAY_PICTURES/defaultestab.png";
+		public $display_picture = "DISPLAY_PICTURES/defaultEstabIcon.png";
 		public $tags;
 		public $description;
 	}
