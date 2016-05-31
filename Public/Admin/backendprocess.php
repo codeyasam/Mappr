@@ -10,9 +10,12 @@
 		$new_category->create();
 
 		if (isset($_FILES['categIcon'])) {
-			move_uploaded_file($_FILES['categIcon']['tmp_name'], "../DISPLAY_PICTURES/categ_display_pic".$new_category->id);
-			$new_category->display_picture = "DISPLAY_PICTURES/categ_display_pic".$new_category->id;
+			$path = $_FILES['categIcon']['name'];
+			$ext = "." . pathinfo($path, PATHINFO_EXTENSION);
+			move_uploaded_file($_FILES['categIcon']['tmp_name'], "../DISPLAY_PICTURES/categ_display_pic".$new_category->id.$ext);
+			$new_category->display_picture = "DISPLAY_PICTURES/categ_display_pic".$new_category->id.$ext;
 			$new_category->update();
+			chmod("../DISPLAY_PICTURES/categ_display_pic".$new_category->id.$ext, 0777);
 		}
 
 		$objArr = EstabCategory::find_all();
@@ -38,8 +41,11 @@
 		$selected_category->description = trim($_POST['categDescription']);
 		$selected_category->featured_category = trim($_POST['featured_category']);
 		if (isset($_FILES['categIcon'])) {
-			move_uploaded_file($_FILES['categIcon']['tmp_name'], "../DISPLAY_PICTURES/categ_display_pic".$selected_category->id);
-			$selected_category->display_picture = "DISPLAY_PICTURES/categ_display_pic".$selected_category->id;
+			$path = $_FILES['categIcon']['name'];
+			$ext = "." . pathinfo($path, PATHINFO_EXTENSION);
+			move_uploaded_file($_FILES['categIcon']['tmp_name'], "../DISPLAY_PICTURES/categ_display_pic".$selected_category->id.$ext);
+			$selected_category->display_picture = "DISPLAY_PICTURES/categ_display_pic".$selected_category->id.$ext;
+			chmod("../DISPLAY_PICTURES/categ_display_pic".$selected_category->id.$ext, 0777);
 		}		
 		$selected_category->update();
 

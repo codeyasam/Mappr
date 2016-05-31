@@ -45,7 +45,7 @@
 				<tr>
 					<td><?php echo htmlentities($eachCategory->id); ?></td>
 					<td><?php echo htmlentities($eachCategory->name); ?></td>
-					<td><img height="100px" width="100px" src="<?php echo htmlentities($eachCategory->display_picture); ?>"></td>
+					<td><img height="100px" width="100px" src="<?php echo "../" . htmlentities($eachCategory->display_picture); ?>"></td>
 					<td><?php echo htmlentities($eachCategory->description); ?></td>
 					<td><a class="optEdit" href="">EDIT</a></td>
 					<td><a class="optDelete" href="">DELETE</a></td>
@@ -80,6 +80,9 @@
 			// }
 
 			function tableJSON(tableID, jsonObjRoot, hasOptDelete=true) {
+				var d = new Date();
+				var n = d.getTime();
+
 				$(tableID).html("");
 				$(tableID).attr("border", 1);
 				var newTr = "";
@@ -90,7 +93,7 @@
 						for (var eachField in jsonObjRoot[key]) {
 							if (jsonObjRoot[key].hasOwnProperty(eachField)) {
 								if (eachField == "display_picture") {
-									newTr += '<td><img height="100px" width="100px" src="../' + jsonObjRoot[key][eachField] + '"/></td>';
+									newTr += '<td><img height="100px" width="100px" src="../' + jsonObjRoot[key][eachField] + "?dummy=" + n + '"/></td>';
 								} else 
 									newTr += "<td>" + jsonObjRoot[key][eachField] + "</td>";
 								//console.log(jsonObjRoot[key][eachField]);
@@ -116,6 +119,9 @@
 			processRequest("backendprocess.php?getCategories=true");
 
 			function handleSuccessResponse(response) {
+				var d = new Date();
+				var n = d.getTime();
+
 				console.log(response);
 				var jsonObj = JSON.parse(response);
 				if (jsonObj.Categories) {
@@ -128,6 +134,7 @@
 				} else if (jsonObj.categorySelected) {
 					$('#categName').val(jsonObj.name);
 					$('#categDescription').val(jsonObj.description);
+					$('#output').attr('src', '../' + jsonObj.display_picture + "?dummy=" + n);
 					if (jsonObj.featured_category == "FEATURED") 
 						$('#featured_category').prop('checked', true);
 					else 
@@ -136,6 +143,9 @@
 			}
 
 			function handleServerResponse() {
+				var d = new Date();
+				var n = d.getTime();
+						
 				if (objReq.readyState == 4 && objReq.status == 200) {
 					console.log(objReq.responseText);
 					var jsonObj = JSON.parse(objReq.responseText);
@@ -149,7 +159,7 @@
 					} else if (jsonObj.categorySelected) {
 						$('#categName').val(jsonObj.name);
 						$('#categDescription').val(jsonObj.description);
-						$('#output').attr('src', '../' + jsonObj.display_picture);
+						$('#output').attr('src', '../' + jsonObj.display_picture + "?dummy=" + n);
 						if (jsonObj.featured_category == "FEATURED") 
 							$('#featured_category').prop('checked', true);
 						else 
