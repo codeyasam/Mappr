@@ -13,7 +13,8 @@
 		$currentPlan = Plan::find_by_id($currentSub->plan_id);
 		$noUsedBranch = SubsPlanEstab::get_total_branch_plotted($currentSub->id);
 		$notPlotableBranch = $currentPlan->estab_no - 1;
-		$plotableBranch = $currentPlan->branch_no - ($notPlotableBranch + $noUsedBranch);
+		//$plotableBranch = $currentPlan->branch_no - ($notPlotableBranch + $noUsedBranch);
+		$plotableBranch = $currentPlan->branch_no - $noUsedBranch;
 		//		
 
 		if ($plotableBranch > 0 && in_array($_POST['sbscrbdID'], $userPlanIDs)) {
