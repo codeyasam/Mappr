@@ -23,7 +23,7 @@
 	// 	$all_user_establishment[] = Establishment::find_by_id($eachPlanEstab->estab_id);
 	// }
 	
-	//$all_user_establishment = array_map(function($obj) { return Establishment::find_by_id($obj->estab_id); }, $subsPlanEstab);
+	$all_user_establishment = array_map(function($obj) { return Establishment::find_by_id($obj->estab_id); }, $subsPlanEstab);
 	
 	//BECAREFUL USING FIND ALL WITH PARAMETERS - ARGUMENTS ARE NOT ESCAPED
 	//$all_user_establishment = Establishment::find_all($condition);
