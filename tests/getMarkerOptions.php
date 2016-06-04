@@ -11,6 +11,7 @@
 			$branch_id = $database->escape_value($_GET[BRANCH_ID]);
 			$branch = EstabBranch::find_by_id($branch_id);
 			$objArr = EstabBranch::find_all(array('key' => 'estab_id', 'value' => $branch->estab_id, 'isNumeric' => true));
+			$estabObjArr = Establishment::find_all(array('key' => 'id', 'value' => $branch->estab_id, 'isNumeric' => true));
 		} else if ($_GET[MAPPR_OPT] == OPT_BY_CATEGORY) {
 			$category_id = $database->escape_value($_GET[CATEGORY_ID]);
 			// $estabs = Establishment::find_all(array('key' => 'category_id', 'value' => $category_id, 'isNumeric' => true));
@@ -21,13 +22,11 @@
 			$sql .= "AND e.id = b.estab_id ";
 			$sql .= "AND c.id = " . $category_id;
 			$objArr = EstabBranch::find_by_sql($sql);
-			//$objArr = EstabBranch::find_all();
+			$estabObjArr = Establishment::find_all(array('key' => 'category_id', 'value' => $category_id, 'isNumeric' => true));
 		}
 
-		echo "{" . createJSONEntity("Branches", $objArr) . "}";
-		
-		// echo "<pre>";
-		// 	print_r($objArr);
-		// echo "</pre>";
+		echo "{" . createJSONEntity("Branches", $objArr) . ","
+		. createJSONEntity("Establishments", $estabObjArr) . "}";
+
 	}
 ?>
