@@ -20,7 +20,7 @@
 			
 		// NECESSARY PART 
 		if ($new_estab->create()) {
-			if ($_FILES['img_upload']) {
+			if (file_exists($_FILES['img_upload']['tmp_name'])) {
 				move_uploaded_file($_FILES['img_upload']['tmp_name'], "DISPLAY_PICTURES/estab_display_pic".$new_estab->id);
 				$new_estab->display_picture = "DISPLAY_PICTURES/estab_display_pic".$new_estab->id;			
 				$new_estab->update();				
