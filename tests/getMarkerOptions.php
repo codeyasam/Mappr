@@ -16,7 +16,7 @@
 			$category_id = $database->escape_value($_GET[CATEGORY_ID]);
 			// $estabs = Establishment::find_all(array('key' => 'category_id', 'value' => $category_id, 'isNumeric' => true));
 			// $objArr = array_map(function($obj) { return EstabBranch::find_all(array('key' => 'estab_id', 'value' => $obj->id, 'isNumeric' => true)); }, $estabs);
-			$sql  = "SELECT b.id, b.estab_id, b.address, b.lat, b.lng, e.id, e.category_id, c.id ";
+			$sql  = "SELECT b.id, b.estab_id, b.address, b.lat, b.lng ";
 			$sql .= "FROM BRANCHES_TB b, ESTABLISHMENT_TB e, CATEGORY_TB c ";
 			$sql .= "WHERE c.id = e.category_id ";
 			$sql .= "AND e.id = b.estab_id ";
