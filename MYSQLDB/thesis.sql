@@ -124,13 +124,13 @@ CREATE TABLE REVIEW_TB (
 	user_id INT(11) NOT NULL,
 	CONSTRAINT review_user_id_FK FOREIGN KEY(user_id)
 	REFERENCES END_USER_TB(id),
-	estab_id INT(11) NOT NULL,
-	CONSTRAINT review_estab_id_FK FOREIGN KEY(estab_id)
-	REFERENCES ESTABLISHMENT_TB(id),
+	branch_id INT(11) NOT NULL,
+	CONSTRAINT review_branch_id_FK FOREIGN KEY(branch_id)
+	REFERENCES BRANCHES_TB(id),
 	rating INT(11) NOT NULL,
 	comment VARCHAR(255),
 	submit_date DATETIME NOT NULL,
-	CONSTRAINT CPK_Review PRIMARY KEY(user_id, estab_id)
+	CONSTRAINT CPK_Review PRIMARY KEY(user_id, branch_id)
 );
 
 CREATE TABLE GALLERY_TB (
