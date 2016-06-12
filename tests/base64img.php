@@ -20,7 +20,7 @@
 			if (isset($_POST['image'])) {
 				$decodedImage = base64_decode($_POST['image']);
 				file_put_contents("../Public/DISPLAY_PICTURES/profile_pic".$user->id, $decodedImage);
-				$user->display_picture = "DISPLAY_PICTURES/profile_pic".$user->id;
+				$user->display_picture = MAPPR_PUBLIC_URL . "DISPLAY_PICTURES/profile_pic".$user->id;
 			} else {
 				$user->display_picture = $_POST['display_picture'];
 			}	
