@@ -25,7 +25,7 @@
 				$user->display_picture = $_POST['display_picture'];
 			}	
 			$user->update();
-			echo '{"success":"true"}';		
+			echo '{"success":"true",' . $user->toJSON() . '}';		
 		}
 	} else {
 		echo '{"success":"false"}';
