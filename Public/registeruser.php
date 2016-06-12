@@ -24,14 +24,14 @@
 					//$content = file_get_contents($content);
 					//file_put_contents("DISPLAY_PICTURES/profile_pic".$user->id, $content);
 					//$user->display_picture = "DISPLAY_PICTURES/profile_pic".$user->id;
-					$user->display_picture = $content; 	
+					$user->display_picture = "https:" . $content; 	
 					//echo "here";
 				} else if ($_FILES['img_upload']) {
 					echo "<pre>";
 						print_r($_FILES['img_upload']);
 					echo "</pre>";
 					move_uploaded_file($_FILES['img_upload']['tmp_name'], "DISPLAY_PICTURES/profile_pic".$user->id);
-					$user->display_picture = "DISPLAY_PICTURES/profile_pic".$user->id;
+					$user->display_picture = MAPPR_PUBLIC_URL . "DISPLAY_PICTURES/profile_pic".$user->id;
 					//echo "poop";
 				}
 				$user->update();		
