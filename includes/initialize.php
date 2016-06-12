@@ -7,6 +7,10 @@
 
 	defined("LIB_PATH") ? null : define("LIB_PATH", SITE_ROOT . DS . "includes");
 
+	defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://192.168.42.174/thesis/");
+
+	defined("MAPPR_PUBLIC_URL") ? null : define("MAPPR_PUBLIC_URL", TEMPORARY_ROOT_HOSTNAME . "Public/");
+
 	require_once(LIB_PATH . DS . "db_config.php");
 	require_once(LIB_PATH . DS . "functions.php");
 
