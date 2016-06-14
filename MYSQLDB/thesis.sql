@@ -160,10 +160,10 @@ CREATE TABLE BOOKMARK_TB (
 	user_id INT(11) NOT NULL,
 	CONSTRAINT bookmark_user_id FOREIGN KEY(user_id)
 	REFERENCES END_USER_TB(id),
-	estab_id INT(11) NOT NULL,
-	CONSTRAINT bookmark_estab_id FOREIGN KEY(estab_id)
-	REFERENCES ESTABLISHMENT_TB(id),
-	CONSTRAINT CPK_Bookmark PRIMARY KEY(user_id, estab_id)
+	branch_id INT(11) NOT NULL,
+	CONSTRAINT bookmark_branch_id FOREIGN KEY(branch_id)
+	REFERENCES BRANCHES_TB(id),
+	CONSTRAINT CPK_Bookmark PRIMARY KEY(user_id, branch_id)
 );
 
 #version 3.0
