@@ -7,7 +7,7 @@
 
 	defined("LIB_PATH") ? null : define("LIB_PATH", SITE_ROOT . DS . "includes");
 
-	defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://192.168.42.174/thesis/");
+	defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://192.168.42.233/thesis/");
 
 	defined("MAPPR_PUBLIC_URL") ? null : define("MAPPR_PUBLIC_URL", TEMPORARY_ROOT_HOSTNAME . "Public/");
 
@@ -33,6 +33,7 @@
 	require_once(LIB_PATH . DS . "paypalmappr.php");
 	require_once(LIB_PATH . DS . "subsplanestab.php");
 	require_once(LIB_PATH . DS . "branchGallery.php");
+	require_once(LIB_PATH . DS . "bookmark.php");
 
 	//load minor dependencies
 	require_once(LIB_PATH . DS . "phpqrcode/qrlib.php");
