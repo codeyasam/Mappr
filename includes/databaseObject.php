@@ -47,7 +47,7 @@
 			$database->query($sql);
 		}
 
-		public static function instantiate($record) {
+		public static function instantiate($record, $modifiedId = null) {
 			// get the class name php 5
 			$class_name = get_called_class();
 			$object = new $class_name;
@@ -58,6 +58,9 @@
 				}
 			}
 
+			if (!empty($modifiedId)) {
+				$object->id = $modifiedId;
+			}
 			return $object;
 		}
 
@@ -137,5 +140,6 @@
 
 			return join(",",$fValueArr);
 		}
+
 	}
 ?>
