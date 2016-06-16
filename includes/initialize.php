@@ -7,7 +7,7 @@
 
 	defined("LIB_PATH") ? null : define("LIB_PATH", SITE_ROOT . DS . "includes");
 
-	defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://192.168.42.233/thesis/");
+	defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://192.168.42.214/thesis/");
 
 	defined("MAPPR_PUBLIC_URL") ? null : define("MAPPR_PUBLIC_URL", TEMPORARY_ROOT_HOSTNAME . "Public/");
 
@@ -37,6 +37,9 @@
 
 	//load minor dependencies
 	require_once(LIB_PATH . DS . "phpqrcode/qrlib.php");
+
+	//joinedModule
+	require_once(LIB_PATH . DS . "mapprplotretriever.php");
 
 	//load stripe
 	require_once(LIB_PATH . DS . "vendor/autoload.php");
