@@ -5,7 +5,8 @@
 	$sql .= "e.category_id, e.name, e.display_picture ";
 	$sql .= "FROM BRANCHES_TB b, ESTABLISHMENT_TB e, BOOKMARK_TB f ";
 	$sql .= "WHERE f.user_id = " . $user_id . " ";
-	$sql .= "AND f.branch_id = b.id";
+	$sql .= "AND f.branch_id = b.id ";
+	$sql .= "AND b.estab_id = e.id";
 
 	$mapprPlotter = new MapprPlotRetriever();
 	$mapprPlotter->setMarkerOptions($sql);
