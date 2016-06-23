@@ -13,6 +13,7 @@
 	<?php include("../includes/navigation.php"); ?>
 	<?php foreach($filtered_plans as $key => $each_plan): ?>
 		<div>
+			<?php if ($each_plan->plan_interval == 5) echo "PLAN NAME: " . htmlentities($each_plan->plan_name); ?>
 			<p>PRICE: <?php echo $each_plan->cost; ?></p>
 			<p>No of Business: <?php echo $each_plan->estab_no; ?></p>
 			<p>Total Branches of all Business: <?php echo $each_plan->branch_no; ?></p>
