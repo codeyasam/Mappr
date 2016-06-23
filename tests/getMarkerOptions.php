@@ -17,7 +17,8 @@
 			$sql  = "SELECT b.id as 'branch_id', b.estab_id as 'estab_id', b.address, b.lat, b.lng, ";
 			$sql .= "e.category_id, e.name, e.display_picture ";
 			$sql .= "FROM BRANCHES_TB b, ESTABLISHMENT_TB e ";
-			$sql .= "WHERE b.estab_id = " . $branch->estab_id;
+			$sql .= "WHERE b.estab_id = " . $branch->estab_id . " ";
+			$sql .= "AND b.estab_id = e.id ";
 
 		} else if ($_GET[MAPPR_OPT] == OPT_BY_CATEGORY) {
 			$category_id = $database->escape_value($_GET[CATEGORY_ID]);
