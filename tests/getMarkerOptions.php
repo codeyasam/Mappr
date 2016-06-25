@@ -38,7 +38,8 @@
 			$sql  = "SELECT b.id as 'branch_id', b.estab_id as 'estab_id', b.address, b.lat, b.lng, ";
 			$sql .= "e.category_id, e.name, e.display_picture ";
 			$sql .= "FROM BRANCHES_TB b, ESTABLISHMENT_TB e ";
-			$sql .= "WHERE e.name LIKE " . "'%{$search_string}%'";
+			$sql .= "WHERE e.name LIKE " . "'%{$search_string}%' ";
+			$sql .= "AND b.estab_id = e.id";
 		}
 
 		$mapprPlotter = new MapprPlotRetriever();
