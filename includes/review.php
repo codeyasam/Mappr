@@ -23,9 +23,9 @@
 			$branch_id = $database->escape_value($branch_id);
 			$sql = "SELECT e.id as 'user_id', e.first_name, e.last_name, e.display_picture, r.id as 'review_id', r.branch_id, r.rating, r.comment, r.submit_date FROM REVIEW_TB r, END_USER_TB e, BRANCHES_TB b WHERE b.id = " . $branch_id . " AND r.user_id = e.id AND r.branch_id = b.id";
 			$result_set = $database->query($sql);
-			if (empty($result_set)) return false;
-			
 			$reviews_count = $database->num_rows($result_set);
+			if ($reviews_count == 0) return false;
+			
 			$average_rating = 0;
 
 			while($row = $database->fetch_array($result_set)) {
