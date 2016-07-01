@@ -62,15 +62,16 @@ function fb_login() {
                 $('#hometown').val(response.hometown.name);
                 $('#output').attr('src', "//graph.facebook.com/" + response.id + "/picture?type=large");
                 $('#urlContent').attr('value', "//graph.facebook.com/" + response.id + "/picture?type=large");
+                //checks if email already exists
+                processRequest("register_ajax_call.php?hasExisting=true&hasEmail=" + $('#userEmail').val());
             });
 
-            
         } else {
             //user hits cancel button
             console.log('User cancelled login or did not fully authorize');
-
         }
     }, {scope: 'public_profile, email, user_hometown'});
+
 }
 
 $(function() {
