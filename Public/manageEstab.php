@@ -32,6 +32,7 @@
 <html>
 	<head>
 		<title></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	</head>
 	<body>
 		<?php include("../includes/navigation.php"); ?>
@@ -39,7 +40,7 @@
 		<?php foreach($subsPlanEstab as $key => $eachSubsPlanEstab): ?>
 			<?php $eachEstab = Establishment::find_by_id($eachSubsPlanEstab->estab_id); ?>
 			<div>
-				<p><?php echo htmlentities($eachEstab->name); ?></p>
+				<p><?php echo cym_decode_unicode($eachEstab->name); ?></p>
 				<p><a href="manageBranch.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>">Manage Branches</a>
 				<a href="editEstabDetails.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>">
 				Edit Establishment Details</a>
