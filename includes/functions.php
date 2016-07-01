@@ -239,4 +239,11 @@
 
 		return $otString;
 	}	
+
+	function cym_decode_unicode($str) {
+		   $pattern = "/[\"'<>]/";
+   		   return preg_replace($pattern, "", $str);		
+	}	
+
+
 ?>
