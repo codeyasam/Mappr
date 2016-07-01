@@ -72,7 +72,25 @@
 			} else if ($access_level == "OWNER") {
 				redirect_to("index.php");
 			}
-		}						
+		}	
 
+		public static function check_username_format($str) {
+			global $errors;
+			$pattern = '/[\p{L}]+/u';
+
+			$str = preg_replace($pattern, "", $str);
+			echo $str;
+			$result = !empty($str) ? false : true; 
+			if (!$result) $errors[] = "invalid username format";
+			return $result;
+		}					
+
+		public static function check_existing($str, $columnName, $msg) {
+			global $errors;
+			$result = static::hasExisting($str, $columnName);
+			if ($result) $errors[] = $msg; 
+			return $result;
+		}
+		
 	}
 ?>
