@@ -61,7 +61,7 @@
 		<?php include("../includes/navigation.php"); ?>
 		<div class="regForm">
 			<form action="registeruser.php" method="POST" enctype="multipart/form-data">
-				<p><img id="output" class="circle" height="100px" width="100px" src=""/></p>
+				<p><img id="output" class="circle" height="100px" width="100px" src="DISPLAY_PICTURES/defaultavatar.png"/></p>
 				<p><input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/></p>
 				<p><input id="fName" type="text" name="first_name" value="" required="required" placeholder="First name"/></p>
 				<p><input id="lName" type="text" name="last_name" value="" required="required" placeholder="Last name"></p>
