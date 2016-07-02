@@ -83,11 +83,22 @@
 			var sbscrbdID = document.getElementById('sbscrbdID').value;
 			var selectedIndex = false;
 			processRequest("backendprocess.php?retrieveBranches=true&estabID="+estabID);	
-		
+			
+			/*IMPORTANT INFO ABOUT JAPAN
+				lat = 35.782171; 
+				lng = 138.014649;
+			*/
+
+			/*OUR TESTING LOCATION
+				lat = 14.857403;
+				lng = 120.827130;
+			*/
+
 			//MAP CONFIGURATION
 			var mapOptions = {
-			    center: new google.maps.LatLng(37.7831,-122.4039),
-			    zoom: 12,
+			    //center: new google.maps.LatLng(37.7831,-122.4039),
+			    center: new google.maps.LatLng(14.857403, 120.827130),
+			    zoom: 7,
 			    mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
 			var map = new google.maps.Map(document.getElementById('map'), mapOptions);
