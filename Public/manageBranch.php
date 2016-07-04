@@ -65,8 +65,12 @@
 			<p style="clear: both;"></p>
 			<input id="estabID" type="hidden" name="estabID" value="<?php echo urlencode($estabID); ?>"/>
 			<input id="sbscrbdID" type="hidden" value="<?php echo htmlentities($sbscrbdID); ?>"/>
+			<p><?php echo htmlentities($currentEstab->name); ?></p>
+			<p id="branchesDropdown"><select>
+				<option value="-1">select a branch</option>
+			</select></p>
 			<div id="infos">
-				<p><?php echo htmlentities($currentEstab->name); ?></p>
+
 				<p id="latPOS">lat: </p>
 				<p id="lngPOS">lng: </p>
 				<p><input id="branchAddr" type="text"/>
@@ -80,6 +84,7 @@
 				</div>
 				<a id="downloadQrCode" href="" download>DOWNLOAD</a>
 			</div>
+			<p id="emptyBranchesPrompt" style="display: none;">You do not have branches yet. Select the +, then find your location then click the map.</p>
 		</form>
 
 	
@@ -194,9 +199,11 @@
 						selectedIndex = markers.indexOf(marker);
 						setUIInfos(marker);
 						console.log(marker.id);
-						setDownloadableQR(marker.id, "QRCodeBranchID" + marker.id);						
+						setDownloadableQR(marker.id, "QRCodeBranchID" + marker.id);	
+						manageDivInfos(jsonObj.hasBranches);					
 					} else if (jsonObj.deleteBranch) {
 						selectedIndex = false;
+						manageDivInfos(jsonObj.hasBranches);
 
 					} else if (jsonObj.limitReached) {
 						alert('Plotted maximum number of branches');
@@ -215,6 +222,7 @@
 								eventCallBack(marker);
 							}
 						}
+						manageDivInfos(jsonObj.hasBranches);
 					} else if (jsonObj.updatedAddr) {
 						markers[selectedIndex].address = jsonObj.updatedAddr;
 					} 
@@ -227,6 +235,19 @@
 
 					//retrieving branches
 				}							
+			}
+
+			function manageDivInfos(hasBranches) {
+				if (hasBranches > 0) {
+					$('#branchesDropdown').show();
+					if (selectedIndex != false) $('#infos').show();
+					else $('#infos').hide();	
+					$('#emptyBranchesPrompt').hide();
+				} else {
+					$('#infos').hide();
+					$('#emptyBranchesPrompt').show();
+					$('#branchesDropdown').hide();
+				}
 			}
 
 			$(document).on('click', '.optPhoto', function() {
