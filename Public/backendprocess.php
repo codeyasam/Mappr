@@ -57,7 +57,8 @@
 
 		$output .= '"setBranchID":false,';
 		$output .= '"deleteBranch":true';
-		EstabBranch::delete_by_id($branchID);
+		MapprBookmark::delete_by_branch_id($branchID);
+		EstabBranch::delete_by_id($branchID);		
 
 	} else if (isset($_GET['retrieveBranches'])) {
 		$estabID = $database->escape_value($_GET['estabID']);
