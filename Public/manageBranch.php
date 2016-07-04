@@ -286,11 +286,16 @@
 			function eventCallBack(marker) {
 	            (function (marker) {
 	                google.maps.event.addListener(marker, "click", function () {
-	                    var action_performed = function() {
-	                    	deleteMarker(marker, markers);
-	                    	$('#dialog').dialog('close');	
-	                    };
-	                    confirm_action("Are you sure you want to delete this?", action_performed);                    		    
+	                    if (toDelete == true) {
+		                    var action_performed = function() {
+		                    	deleteMarker(marker, markers);
+		                    	$('#dialog').dialog('close');	
+		                    };
+		                    confirm_action("Are you sure you want to delete this?", action_performed);	                    	
+	                    } else {
+	                    	selectMarker(marker, markers);
+	                    }
+                    		    
 	                });		
 
 	                google.maps.event.addListener(marker, "drag", function(e) {
@@ -306,23 +311,24 @@
 	            })(marker);					
 			}
 
-			function deleteMarker(marker, markers) {
-				if (toDelete == true) {
-					var branchID = marker.id;
-					//processRequest("backendprocess.php?deleteBranch=true&branchID="+branchID);
-					processPOSTRequest("backendprocess.php", "deleteBranch=true&branchID="+branchID);
-					var index = markers.indexOf(marker);	
-					marker.setMap(null);
-					marker = null;
-					markers.splice(index, 1);
-				} else {
-					setUIInfos(marker);
-				    $('#branchAddr').attr("data-internalid", marker.id);
-					selectedIndex = markers.indexOf(marker);
-					processRequest("backendprocess.php?branchSelected=true&estabID="+estabID
-						+"&branchID="+marker.id);
-					setDownloadableQR(marker.id, "QRCodeBranchID" + marker.id);								
-				} 				
+			function deleteMarker(marker, markers) {				
+				var branchID = marker.id;
+				//processRequest("backendprocess.php?deleteBranch=true&branchID="+branchID);
+				processPOSTRequest("backendprocess.php", "deleteBranch=true&branchID="+branchID);
+				var index = markers.indexOf(marker);	
+				marker.setMap(null);
+				marker = null;
+				markers.splice(index, 1);
+				 				
+			}
+
+			function selectMarker(marker, markers) {
+				setUIInfos(marker);
+			    $('#branchAddr').attr("data-internalid", marker.id);
+				selectedIndex = markers.indexOf(marker);
+				processRequest("backendprocess.php?branchSelected=true&estabID="+estabID
+					+"&branchID="+marker.id);
+				setDownloadableQR(marker.id, "QRCodeBranchID" + marker.id);				
 			}
 
 			function setDownloadableQR(contents, filename) {
