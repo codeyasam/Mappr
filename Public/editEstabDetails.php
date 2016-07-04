@@ -23,9 +23,9 @@
 		$estab->tags = isset($_POST['tags']) ? trim($_POST['tags']) : "";
 		if ($_FILES['img_upload']) {
 			move_uploaded_file($_FILES['img_upload']['tmp_name'], "DISPLAY_PICTURES/estab_display_pic".$estab->id);
-			$estab->display_picture = "DISPLAY_PICTURES/estab_display_pic".$estab->id;							
+			$estab->display_picture = "DISPLAY_PICTURES/estab_display_pic".$estab->id;						
 		}				
-		$estab->update();
+		$estab->update();	
 
 		$gallery_array = reArrayFiles($_FILES['gallery']);		
 		$fixedName = "GALLERY/estabGallery";
@@ -46,8 +46,11 @@
 		foreach ($photos as $key => $photo) {
 			if (isset($_POST['selected'][$key])) {
 				//delete first assigned gallery from branches_gallery_tb
-				BranchGallery::delete_all(array("key" => "gallery_id", "value" => $photo->id, "isNumeric" => true));
-				EstabGallery::delete_by_id($photo->id);
+				//print_r($_POST['selected'][$key]);
+				//die();
+				BranchGallery::delete_all(array("key" => "gallery_id", "value" => $_POST['selected'][$key], "isNumeric" => true));
+				EstabGallery::delete_by_id($_POST['selected'][$key]);
+				
 			}
 		}
 		redirect_to("editEstabDetails.php?id=".urlencode($estabID)."&sbscrbdID=".urlencode($sbscrbdID));
@@ -100,8 +103,10 @@
 				<h3>PHOTO GALLERY</h3>
 				
 				<?php foreach ($photos as $key => $photo): ?>
+					<?php echo $photo->id; ?>
+					<?php echo $key; ?>
 					<div class="thumbnail" style="text-align:left;">
-						<input type="checkbox" name="selected[]" style="position: absolute;"/>
+						<input type="checkbox" name="selected[<?php echo $key; ?>]" value="<?php echo $photo->id; ?>" style="position: absolute;"/>
 						<img src="<?php echo $photo->gallery_pic; ?>" class=""/>
 					</div>
 				<?php endforeach; ?>
