@@ -44,12 +44,25 @@
 			.thumbnail>img {
 				height: 100px;
 			}
-		</style>			
+
+			.actionBtnContainer img {
+				height: 30px;
+				width: 30px;
+			}
+
+		</style>	
+				<link rel="stylesheet" type="text/css" href="js/jquery-ui.css"/>		
 	</head>
 	<body>
 		<?php include("../includes/navigation.php"); ?>
 		<form action="manageBranch.php?id=<?php echo urlencode($estabID); ?>" method="POST" style="float:left; width: 19%;">
-			<p>Lorem Ipsum FORM for Gallery?</p>
+			<div class="actionBtnContainer">
+				<button id="addBranchBtn" type="button"><img src="images/plus.jpg"/></button>
+				<button id="delBranchBtn" type="button"><img src="images/minus.jpg"/></button>
+				<button id="dragBranchBtn" type="button"><img src="images/drag.jpg"/></button>
+				<button id="selectBranchBtn" type="button"><img src="images/select.jpg"/></button>
+			</div>
+			<p style="clear: both;"></p>
 			<input id="estabID" type="hidden" name="estabID" value="<?php echo urlencode($estabID); ?>"/>
 			<input id="sbscrbdID" type="hidden" value="<?php echo htmlentities($sbscrbdID); ?>"/>
 			<div id="infos">
@@ -68,6 +81,8 @@
 				<a id="downloadQrCode" href="" download>DOWNLOAD</a>
 			</div>
 		</form>
+
+	
 		<script src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDDpPDWu9z820FMYyOVsAphuy0ryz4kt2o&libraries=places&sensor=false"></script>
 
 		<input type="text" id="autocomplete">
@@ -83,7 +98,16 @@
 			var sbscrbdID = document.getElementById('sbscrbdID').value;
 			var selectedIndex = false;
 			processRequest("backendprocess.php?retrieveBranches=true&estabID="+estabID);	
+		
+			var action_performed = function() {
+				console.log("here here here poop");
+				$('#dialog').dialog('close');
+			}
+
+
+			// confirm_action("poooop", action_performed);
 			
+
 			/*IMPORTANT INFO ABOUT JAPAN
 				lat = 35.782171; 
 				lng = 138.014649;
@@ -134,6 +158,8 @@
 			var actionObj = [];
 			var markers = [];
 			var toDelete = false;
+			var onlyDrag = false;
+			var onlySelect = false;
 			for (var i = 0; i < actionSignifier.length; i++) {
 				var centerControlDiv = document.createElement('div');
 				var centerControl = CenterControl(centerControlDiv, map, actionSignifier[i]);				
@@ -199,6 +225,7 @@
 						setupGallery(jsonObj);
 					}
 
+					//retrieving branches
 				}							
 			}
 
@@ -259,7 +286,11 @@
 			function eventCallBack(marker) {
 	            (function (marker) {
 	                google.maps.event.addListener(marker, "click", function () {
-	                    deleteMarker(marker, markers);		                    
+	                    var action_performed = function() {
+	                    	deleteMarker(marker, markers);
+	                    	$('#dialog').dialog('close');	
+	                    };
+	                    confirm_action("Are you sure you want to delete this?", action_performed);                    		    
 	                });		
 
 	                google.maps.event.addListener(marker, "drag", function(e) {
@@ -311,6 +342,40 @@
 				$('#latPOS').text("LAT: " + Number(latlngPOS[0]).toFixed(6));
 				$('#lngPOS').text("LNG: " + Number(latlngPOS[1]).toFixed(6));
 				$('#branchAddr').val(marker.address);
+			}
+
+			$('#addBranchBtn').on('click', function() {
+				unSelectAllActionBtn();
+				$(this).css("filter", "invert(100%)");
+				toDelete = false;
+				onlyDrag = false;
+				onlySelect = false;
+			});
+
+			$('#delBranchBtn').on('click', function() {
+				unSelectAllActionBtn();
+				$(this).css("filter", "invert(100%)");
+				toDelete = true;
+			});
+
+			$('#dragBranchBtn').on('click', function() {
+				unSelectAllActionBtn();
+				$(this).css("filter", "invert(100%)");
+				toDelete = false;
+				onlyDrag = true;
+			});
+
+			$('#selectBranchBtn').on('click', function() {
+				unSelectAllActionBtn();
+				$(this).css("filter", "invert(100%)");
+				onlySelect = true;
+			});
+
+			function unSelectAllActionBtn() {
+				$('#addBranchBtn').css("filter", "invert(0%)");
+				$('#delBranchBtn').css("filter", "invert(0%)");
+				$('#dragBranchBtn').css("filter", "invert(0%)");
+				$('#selectBranchBtn').css("filter", "invert(0%)");
 			}
 
 			function CenterControl(controlDiv, map, actionPerform) {
@@ -374,10 +439,11 @@
 
 			}	
 			
+			//add marker / create branch 
 			google.maps.event.addListener(map,'click',function(e){
 				console.log("map na click hindi marker");			
 
-				if (toDelete == false) {
+				if (toDelete == false && onlyDrag == false && onlySelect == false) {
 					getReverseGeocodingData(e, "create");
 				} 
 			});
