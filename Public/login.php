@@ -18,14 +18,43 @@
 <html>
 	<head>
 		<title></title>
+		<?php include '../includes/styles.php'; ?>
 	</head>
 	<body>
-		<?php include("../includes/navigation.php"); ?>
-		<form action="login.php" method="POST">
-			<p><input type="text" name="emUsername" value="" placeholder="Email/Username"/></p>
-			<p><input type="password" name="password" value="" placeholder="Password"/></p>
-			<p><?php echo $prompt_to_user; ?></p>
-			<p><input type="submit" name="submit" value="LOGIN"/></p>
-		</form>
+		<header>
+			<div class="center">			
+				<?php include("../includes/navigation.php"); ?>
+			</div>
+		</header>
+		<div class="container center" style="background:url('images/map.jpg'); height: 400px;">
+			<div class="login">
+				<h1>Login</h1>
+				<br>
+				<form action="login.php" method="POST">
+					<table>
+						<tr>
+							<td>ID:</td>
+							<td><input type="text" name="emUsername" value="" placeholder="Email/Username"/></td>
+						</tr>
+						<tr>
+							<td>Password:</td>
+							<td><input type="password" name="password" value="" placeholder="Password"/></td>
+						</tr>
+						<tr>
+							<td colspan="100%"><?php echo $prompt_to_user; ?></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="submit" name="submit" value="LOGIN"/></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<section class="cyan featured" style="margin-top: 50px;">
+				<h1>Mappr</h1>
+				<p>The leading establishment navigator for all. Available in Android and iOS.</p>
+			</section>
+			<footer></footer>
+		</div>
 	</body>
 </html>

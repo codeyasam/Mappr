@@ -3,10 +3,20 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>asdfs</title>
+		<title></title>
+		<?php include '../includes/styles.php'; ?>
 	</head>
 	<body>
-		<?php include("../includes/navigation.php") ?>
-		<?php include("subscriptiondurations.php"); ?>
+		<header>
+			<div class="center">		
+				<?php include("../includes/navigation.php"); ?>
+			</div>
+		</header>
+		<div class="container center">
+			<h1>Choose a Subscription</h1>
+			<br>
+			<?php include("subscriptiondurations.php"); ?>
+		</div>
+		
 	</body>
 </html>

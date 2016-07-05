@@ -9,8 +9,13 @@
 <html>
 	<head>
 		<title></title>
+		<?php include '../../includes/styles_admin.php'; ?>
 	</head>
 	<body>
-		<?php include("../../includes/admin_nav.php"); ?>
+		<header>
+			<div class="center">		
+				<?php include("../../includes/admin_nav.php"); ?>
+			</div>
+		</header>
 	</body>
 </html>

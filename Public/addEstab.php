@@ -70,7 +70,7 @@
 	<head>
 		<title></title>
 		<style type="text/css">
-			#output {
+			#output { 
 				border: none;
 			}
 
@@ -87,66 +87,73 @@
 				height: 200px;
 			}
 		</style>
+		<?php include '../includes/styles.php'; ?>
 	</head>
 	<body>
-		<?php include("../includes/navigation.php"); ?>
-		<form id="mainForm" action="addEstab.php?id=<?php echo urlencode($_GET['id']); ?>" enctype="multipart/form-data" method="post"  runat="server">
-			<div style="width: 20%; float: left;">
-				<p><img id="output" height="100px" width="100px" src=""/></p>
-				<p><input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/></p>
-				<p><input type="text" name="estabName" value="" placeholder="Name" required="required"/></p>
-				<p><select name="estabCategory" >
-				<?php foreach($all_category as $key => $eachCateg): ?>
-					<option value="<?php echo $eachCateg->id; ?>"><?php echo htmlentities($eachCateg->name); ?></option>
-				<?php endforeach; ?>
-				</select></p>
-				<p><textarea name="description" placeholder="description"></textarea></p>
-				<p><input type="text" name="tags" value="" placeholder="tags"/></p>
-				<p>Add photos to gallery: </p>
-				<p><input id="files" name="gallery[]" type="file" multiple="multiple"/></p>
-				<p><input type="submit" name="submit" value="SAVE"/></p>
+		<header>
+			<div class="center">			
+				<?php include("../includes/navigation.php"); ?>
 			</div>
-			<div style="width: 80%; float: left;">
-				<h3>PHOTO GALLERY</h3>
-				<output class="li-align" id="result" />
-			</div>
-		</form>
-		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
-		<script type="text/javascript" src="js/jquery-ui.min.js"></script>	
-		<script type="text/javascript" src="js/myScript.js"></script>
-		<script type="text/javascript">
-			var loadFile = function(event) {
-			   	var output = document.getElementById('output');
-			   	output.src = URL.createObjectURL(event.target.files[0]);
-			   	$('#urlContent').attr('value', "");
-			};		
-			
-		    if(window.File && window.FileList && window.FileReader)
-		    {
-		        var filesInput = document.getElementById("files");
-		        filesInput.addEventListener("change", function(event){
-		            var files = event.target.files; //FileList object
-		            var output = document.getElementById("result");
-		            for(var i = 0; i< files.length; i++)
-		            {
-		                var file = files[i];
-		                //Only pics
-		                if(!file.type.match('image'))
-		                    continue;
-		                var picReader = new FileReader();
-		                picReader.addEventListener("load",function(event){
-		                    var picFile = event.target;
-		                    var div = document.createElement("div");
-		                    div.className += div.className + 'thumbnail';
-		                    div.innerHTML = "<img src='" + picFile.result + "'" +
-		                    "title='" + picFile.name + "'/>";
-		                    output.insertBefore(div,null);
-		                });
-		                //Read the image
-		                picReader.readAsDataURL(file);
-		            }
-		        });
-		    }					
-		</script>		
+		</header>
+		<div class="container center">	
+			<form id="mainForm" action="addEstab.php?id=<?php echo urlencode($_GET['id']); ?>" enctype="multipart/form-data" method="post"  runat="server">
+				<div style="width: 20%; float: left;">
+					<p><img id="output" height="100px" width="100px" src=""/></p>
+					<p><input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/></p>
+					<p><input type="text" name="estabName" value="" placeholder="Name" required="required"/></p>
+					<p><select name="estabCategory" >
+					<?php foreach($all_category as $key => $eachCateg): ?>
+						<option value="<?php echo $eachCateg->id; ?>"><?php echo htmlentities($eachCateg->name); ?></option>
+					<?php endforeach; ?>
+					</select></p>
+					<p><textarea name="description" placeholder="description"></textarea></p>
+					<p><input type="text" name="tags" value="" placeholder="tags"/></p>
+					<p>Add photos to gallery: </p>
+					<p><input id="files" name="gallery[]" type="file" multiple="multiple"/></p>
+					<p><input type="submit" name="submit" value="SAVE"/></p>
+				</div>
+				<div style="width: 80%; float: left;">
+					<h3>PHOTO GALLERY</h3>
+					<output class="li-align" id="result" />
+				</div>
+			</form>
+			<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+			<script type="text/javascript" src="js/jquery-ui.min.js"></script>	
+			<script type="text/javascript" src="js/myScript.js"></script>
+			<script type="text/javascript">
+				var loadFile = function(event) {
+				   	var output = document.getElementById('output');
+				   	output.src = URL.createObjectURL(event.target.files[0]);
+				   	$('#urlContent').attr('value', "");
+				};		
+				
+			    if(window.File && window.FileList && window.FileReader)
+			    {
+			        var filesInput = document.getElementById("files");
+			        filesInput.addEventListener("change", function(event){
+			            var files = event.target.files; //FileList object
+			            var output = document.getElementById("result");
+			            for(var i = 0; i< files.length; i++)
+			            {
+			                var file = files[i];
+			                //Only pics
+			                if(!file.type.match('image'))
+			                    continue;
+			                var picReader = new FileReader();
+			                picReader.addEventListener("load",function(event){
+			                    var picFile = event.target;
+			                    var div = document.createElement("div");
+			                    div.className += div.className + 'thumbnail';
+			                    div.innerHTML = "<img src='" + picFile.result + "'" +
+			                    "title='" + picFile.name + "'/>";
+			                    output.insertBefore(div,null);
+			                });
+			                //Read the image
+			                picReader.readAsDataURL(file);
+			            }
+			        });
+			    }					
+			</script>	
+		</div>	
 	</body>
 </html>

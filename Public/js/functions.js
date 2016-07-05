@@ -42,3 +42,50 @@ function tableJSON(tableID, jsonObjRoot, hasOptDelete=true) {
 	}
 	return newTr;
 }
+
+function confirm_action(msg, action_performed, cancel_action) {
+	if ($('#dialog').length != 1) {
+		$('body').append(create_confirm_dialog());
+	}
+
+	$('#dialog > p').text(msg);
+
+	$("#dialog").dialog({
+		autoOpen: false,
+		modal: true,
+		buttons : {
+		    "Confirm" : action_performed,
+		    "Cancel" : function() {
+		      $(this).dialog("close");
+		    }
+		  }
+	});	
+
+	$("#dialog").dialog("open"); 
+}
+
+// function setupConfirmDialog(action_performed, cancel_action) {
+// 	cancel_action = cancel_action ? cancel_action : function()
+
+// 	$("#dialog").dialog({
+// 		autoOpen: false,
+// 		modal: true,
+// 		buttons : {
+// 		    "Confirm" : action_performed,
+// 		    "Cancel" : function() {
+// 		      $(this).dialog("close");
+// 		    }
+// 		  }
+// 	});	
+// }
+
+
+function create_confirm_dialog() {
+	var confirm_div = document.createElement("div");
+	confirm_div.setAttribute("id", "dialog");
+	confirm_div.setAttribute("title", "Confirmation Required");
+	confirm_div.style.display = 'none';
+	var confirm_p = document.createElement("p");
+	confirm_div.appendChild(confirm_p);
+	return confirm_div;
+}

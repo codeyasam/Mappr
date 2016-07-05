@@ -18,12 +18,17 @@
 		//		
 
 		if ($plotableBranch > 0 && in_array($_POST['sbscrbdID'], $userPlanIDs)) {
+
+
 			$branch = new EstabBranch();
 			$branch->estab_id = $_POST['estabID'];
 			$branch->address = $_POST['addr'];
 			$branch->lat = $_POST['lat'];
 			$branch->lng = $_POST['lng'];
 			$branch->create();
+
+			$branches = EstabBranch::find_all(array('key'=>'estab_id','value'=>$database->escape_value($_POST['estabID']),'isNumeric'=>true));
+			$output .= '"hasBranches":' . count($branches) . ",";
 
 			$output .= '"newBranch":true,';
 			$output .= '"id":' .  $branch->id . ',';
@@ -52,12 +57,17 @@
 
 	} else if (isset($_POST['deleteBranch'])) {
 		$branchID = $database->escape_value($_POST['branchID']);
+		$branch = EstabBranch::find_by_id($branchID);
 		$branchGallleries = BranchGallery::find_all(array("key" => "branch_id", "value" => $branchID, "isNumeric"=>true));
 		array_map(function($obj) { BranchGallery::delete_by_id($obj->id); }, $branchGallleries);
 
 		$output .= '"setBranchID":false,';
-		$output .= '"deleteBranch":true';
+		$output .= '"deleteBranch":true,';
+		BranchReview::delete_by_branch_id($branchID);
+		MapprBookmark::delete_by_branch_id($branchID);
 		EstabBranch::delete_by_id($branchID);
+		$branches = EstabBranch::find_all(array('key'=>'estab_id','value'=>$branch->estab_id,'isNumeric'=>true));
+		$output .= '"hasBranches":' . count($branches) . "";				
 
 	} else if (isset($_GET['retrieveBranches'])) {
 		$estabID = $database->escape_value($_GET['estabID']);
@@ -66,7 +76,8 @@
 		$output .= createJSONEntity("Branches", $branches);
 		$estabGal = EstabGallery::find_all(array("key" => "estab_id", "value" => $estabID, "isNumeric"=>true));
 		$output .= ",";
-		$output .= createJSONEntity("Gallery", $estabGal);		
+		$output .= createJSONEntity("Gallery", $estabGal) . ",";
+		$output .= '"hasBranches":' . count($branches);		
 	} else if (isset($_POST['saveBranchAddr'])) {
 		$branch = EstabBranch::find_by_id($_POST['branchID']);
 		$branch->address = trim($_POST['address']);
@@ -99,11 +110,14 @@
 		
 		$estabID = $isPOST === true ? $_POST['estabID'] : $_GET['estabID'];
 		$estabID = $database->escape_value($estabID);
+		$branches = EstabBranch::find_all(array('key'=>'estab_id','value'=> $estabID,'isNumeric'=>true));
+		$output .= '"hasBranches":' . count($branches) . ",";		
 		//$estabID = $database->escape_value($_GET['estabID']);
 		$estabGal = EstabGallery::find_all(array("key" => "estab_id", "value" => $estabID, "isNumeric"=>true));
 		$branchGal = BranchGallery::find_all(array("key" => "branch_id", "value" => $branchID, "isNumeric"=>true));
 		$output .= createJSONEntity("Gallery", $estabGal) . ',';
 		$output .= createJSONEntity("BranchGallery", $branchGal) . ',';
+		$output .= '"branchSelected":"true",'; 
 		$output .= '"BranchID":'  . $branchID; //$_GET['branchID'];
 
 	}

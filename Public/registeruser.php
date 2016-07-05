@@ -49,16 +49,15 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title></title>
-		<style type="text/css">
-			.regForm {
-				width: 15%;
-				margin: 0 auto;
-			}
-		</style>
+		<title></title>		
+		<?php include '../includes/styles.php'; ?>
 	</head>
 	<body>
-		<?php include("../includes/navigation.php"); ?>
+		<header>
+			<div class="center">			
+				<?php include("../includes/navigation.php"); ?>
+			</div>
+		</header>
 		<div class="regForm">
 			<form action="registeruser.php" method="POST" enctype="multipart/form-data">
 				<p><img id="output" class="circle" height="100px" width="100px" src="DISPLAY_PICTURES/defaultavatar.png"/></p>
