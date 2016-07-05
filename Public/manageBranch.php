@@ -66,7 +66,7 @@
 			<input id="estabID" type="hidden" name="estabID" value="<?php echo urlencode($estabID); ?>"/>
 			<input id="sbscrbdID" type="hidden" value="<?php echo htmlentities($sbscrbdID); ?>"/>
 			<p><?php echo htmlentities($currentEstab->name); ?></p>
-			<p id="branchesDropdown"><select>
+			<p><select id="branchesDropdown">
 				<option value="-1">select a branch</option>
 			</select></p>
 			<div id="infos">
@@ -162,6 +162,7 @@
 			var actionSignifier = ["add", "del"];
 			var actionObj = [];
 			var markers = [];
+			var toAdd = false;
 			var toDelete = false;
 			var onlyDrag = false;
 			var onlySelect = false;
@@ -200,11 +201,15 @@
 						setUIInfos(marker);
 						console.log(marker.id);
 						setDownloadableQR(marker.id, "QRCodeBranchID" + marker.id);	
-						manageDivInfos(jsonObj.hasBranches);					
+						manageDivInfos(jsonObj.hasBranches);
+						$('#branchesDropdown').show();
+						var option = '<option selected value="' + marker.id + '">' + marker.address + '</option>';
+						$('#branchesDropdown').append(option);											
 					} else if (jsonObj.deleteBranch) {
 						selectedIndex = false;
+						populateBranchesDropdown();
 						manageDivInfos(jsonObj.hasBranches);
-
+						
 					} else if (jsonObj.limitReached) {
 						alert('Plotted maximum number of branches');
 					}
@@ -214,6 +219,8 @@
 						//console.log("dito naaaaa:" + jsonObj.address);
 						setUIInfos(markers[selectedIndex]);
 						setDownloadableQR(markers[selectedIndex].id, "QRCodeBranchID" + markers[selectedIndex].id);
+						populateBranchesDropdown();
+						$('#branchesDropdown').val(markers[selectedIndex].id);
 					} else if (jsonObj.Branches) {
 						for (var key in jsonObj.Branches) {
 							if (jsonObj.Branches.hasOwnProperty(key)) {
@@ -222,9 +229,12 @@
 								eventCallBack(marker);
 							}
 						}
+						populateBranchesDropdown();
 						manageDivInfos(jsonObj.hasBranches);
 					} else if (jsonObj.updatedAddr) {
 						markers[selectedIndex].address = jsonObj.updatedAddr;
+						populateBranchesDropdown();
+						$('#branchesDropdown').val(markers[selectedIndex].id);						
 					} 
 
 					if (jsonObj.Gallery) {
@@ -233,14 +243,17 @@
 						setupGallery(jsonObj);
 					}
 
-					//retrieving branches
+					if (jsonObj.branchSelected) {
+						//console.log("branch is now selected: " + selectedIndex);
+						manageDivInfos(jsonObj.hasBranches);
+					}
 				}							
 			}
 
 			function manageDivInfos(hasBranches) {
 				if (hasBranches > 0) {
-					$('#branchesDropdown').show();
-					if (selectedIndex != false) $('#infos').show();
+					//populateBranchesDropdown();
+					if (selectedIndex !== false) $('#infos').show();
 					else $('#infos').hide();	
 					$('#emptyBranchesPrompt').hide();
 				} else {
@@ -248,6 +261,37 @@
 					$('#emptyBranchesPrompt').show();
 					$('#branchesDropdown').hide();
 				}
+			}
+
+			$('#branchesDropdown').on('change', function() {
+				var currentMarker = getMarkerById(this.value);
+				selectMarker(currentMarker, markers);	
+				var latlngPOS = currentMarker.getPosition();
+
+				map.setCenter(latlngPOS);
+				map.setZoom(15);
+			});
+
+			function getMarkerById(branchId) {
+				for (var i = 0; i < markers.length; i++) {
+					if (markers[i].id == branchId) return markers[i];
+				}
+				return false;
+			}
+
+			function populateBranchesDropdown() {
+				$('#branchesDropdown')
+				    .find('option')
+				    .remove()
+				    .end()
+				    .append('<option selected hidden>Select a branch</option>')
+				    .val('whatever');				
+				for (var i = 0; i < markers.length; i++) {
+					console.log(markers[i].address);
+					var option = '<option value="' + markers[i].id + '">' + markers[i].address + '</option>';
+					$('#branchesDropdown').append(option);	
+				}
+				$('#branchesDropdown').show();
 			}
 
 			$(document).on('click', '.optPhoto', function() {
@@ -314,6 +358,13 @@
 		                    };
 		                    confirm_action("Are you sure you want to delete this?", action_performed);	                    	
 	                    } else {
+	       //              	if (toAdd == true) {
+								// var option = '<option value="' + marker.id + '">' + marker.address + '</option>';
+								// $('#branchesDropdown').append(option);	
+	       //              		console.log("to add is true");
+	       //              	}
+	       //              	console.log("toAdd: " + toAdd);
+	                    	$('#branchesDropdown').val(marker.id);
 	                    	selectMarker(marker, markers);
 	                    }
                     		    
@@ -344,6 +395,7 @@
 			}
 
 			function selectMarker(marker, markers) {
+				console.log("a marker is selected");
 				setUIInfos(marker);
 			    $('#branchAddr').attr("data-internalid", marker.id);
 				selectedIndex = markers.indexOf(marker);
@@ -374,6 +426,7 @@
 			$('#addBranchBtn').on('click', function() {
 				unSelectAllActionBtn();
 				$(this).css("filter", "invert(100%)");
+				toAdd = true;
 				toDelete = false;
 				onlyDrag = false;
 				onlySelect = false;
@@ -383,6 +436,7 @@
 				unSelectAllActionBtn();
 				$(this).css("filter", "invert(100%)");
 				toDelete = true;
+				toAdd = false;
 			});
 
 			$('#dragBranchBtn').on('click', function() {
@@ -390,12 +444,15 @@
 				$(this).css("filter", "invert(100%)");
 				toDelete = false;
 				onlyDrag = true;
+				toAdd = false;
 			});
 
 			$('#selectBranchBtn').on('click', function() {
 				unSelectAllActionBtn();
 				$(this).css("filter", "invert(100%)");
 				onlySelect = true;
+				toDelete = false;
+				toAdd = false;
 			});
 
 			function unSelectAllActionBtn() {
