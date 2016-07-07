@@ -22,7 +22,7 @@
 		<?php foreach($filtered_plans as $key => $each_plan): ?>
 			<div class="subscription-plans">
 				<?php if ($each_plan->plan_interval == 5) echo "PLAN NAME: " . htmlentities($each_plan->plan_name); ?>
-				<h3>Php <?php echo $each_plan->cost; ?></h3>
+				<h3>Php <?php echo number_format($each_plan->cost, 2, ".", ","); ?></h3>
 				<p>No of Business: <?php echo $each_plan->estab_no; ?></p>
 				<p>Total Branches of all Business: <?php echo $each_plan->branch_no; ?></p>
 				<?php if ($user) { ?>
