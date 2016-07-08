@@ -130,7 +130,7 @@ CREATE TABLE REVIEW_TB (
 	REFERENCES BRANCHES_TB(id),
 	rating INT(11) NOT NULL,
 	comment VARCHAR(255),
-	submit_date DATETIME NOT NULL,
+	submit_date INT(11) NOT NULL,
 	CONSTRAINT CPK_Review PRIMARY KEY(id, user_id, branch_id)
 );
 
