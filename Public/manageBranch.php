@@ -49,6 +49,7 @@
 			<div class="center">			
 				<?php include("../includes/navigation.php"); ?>
 			</div>
+
 		</header>
 		<div class="container center clearfix">			
 			<div class="manage" style="margin-top: 0;">
@@ -76,7 +77,6 @@
 							<p id="lngPOS">lng: </p>
 							<a id="downloadQrCode" href="" download>Download QR Code</a>
 						</div>
-						
 
 						<p style="text-align:right;">
 							<input id="branchAddr" type="text"/>
@@ -288,6 +288,7 @@
 				});
 
 
+
 				function getMarkerById(branchId) {
 					for (var i = 0; i < markers.length; i++) {
 						if (markers[i].id == branchId) return markers[i];
@@ -301,7 +302,8 @@
 					    .remove()
 					    .end()
 					    .append('<option selected hidden>Select a branch</option>')
-					    .val('whatever');			
+					    .val('whatever');	
+					    		
 					for (var i = 0; i < markers.length; i++) {
 						console.log(markers[i].address);
 						var option = '<option value="' + markers[i].id + '">' + markers[i].address + '</option>';

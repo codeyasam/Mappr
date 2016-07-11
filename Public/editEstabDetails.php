@@ -23,7 +23,7 @@
 		$estab->tags = isset($_POST['tags']) ? trim($_POST['tags']) : "";
 		if ($_FILES['img_upload']) {
 			move_uploaded_file($_FILES['img_upload']['tmp_name'], "DISPLAY_PICTURES/estab_display_pic".$estab->id);
-			$estab->display_picture = "DISPLAY_PICTURES/estab_display_pic".$estab->id;							
+			$estab->display_picture = "DISPLAY_PICTURES/estab_display_pic".$estab->id;						
 		}				
 		$estab->update();	
 
@@ -45,11 +45,10 @@
 	if (isset($_POST['deletePics'])) {
 		foreach ($photos as $key => $photo) {
 			if (isset($_POST['selected'][$key])) {
-				//delete first assigned gallery from branches_gallery_tb
-				//print_r($_POST['selected'][$key]);
-				//die();
 				BranchGallery::delete_all(array("key" => "gallery_id", "value" => $_POST['selected'][$key], "isNumeric" => true));
-				EstabGallery::delete_by_id($_POST['selected'][$key]);				
+
+				EstabGallery::delete_by_id($_POST['selected'][$key]);
+
 			}
 		}
 		redirect_to("editEstabDetails.php?id=".urlencode($estabID)."&sbscrbdID=".urlencode($sbscrbdID));
@@ -114,6 +113,7 @@
 					</div>									
 				</div>	
 			</form>	
+
 			<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 			<script type="text/javascript" src="js/jquery-ui.min.js"></script>	
 			<script type="text/javascript" src="js/myScript.js"></script>
@@ -155,6 +155,6 @@
 		<footer class="container center">
 			<?php include '../includes/footer.php'; ?>
 		</footer>
-					
+				
 	</body>
 </html>
