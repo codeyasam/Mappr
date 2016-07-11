@@ -50,5 +50,5 @@
 			$sql .= "WHERE branch_id = " . $branch_id;
 			$database->query($sql);			
 		}
-
+	}
 ?>
