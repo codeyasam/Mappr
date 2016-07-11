@@ -9,7 +9,7 @@
 			$branch_review->rating = isset($_POST['rating']) ? trim($_POST['rating']) : "";
 			$branch_review->user_id = isset($_POST['user_id']) ? trim($_POST['user_id']) : "";
 			$branch_review->comment = isset($_POST['comment']) ? trim($_POST['comment']) : "";
-			$branch_review->submit_date = get_mysql_datetime(time());
+			$branch_review->submit_date = strftime("%Y-%m-%d %H:%M:%S", time());//get_mysql_datetime(time());
 			
 			if ($branch_review->create()) {
 				echo '{"success":"true"}';
@@ -26,7 +26,7 @@
 			if ($branch_review) {
 				$branch_review->rating = isset($_POST['rating']) ? trim($_POST['rating']) : "";
 				$branch_review->comment = isset($_POST['comment']) ? trim($_POST['comment']) : "";
-				$branch_review->submit_date = get_mysql_datetime(time());
+				$branch_review->submit_date = strftime("%Y-%m-%d %H:%M:%S", time()); //get_mysql_datetime(time());
 				
 				if ($branch_review->update()) {
 					echo '{"success":"true"}';

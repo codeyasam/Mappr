@@ -54,7 +54,9 @@
 				<h1>Mappr</h1>
 				<p>The leading establishment navigator for all. Available in Android and iOS.</p>
 			</section>
-			<footer></footer>
+			<footer>
+				<?php include '../includes/footer.php'; ?>
+			</footer>
 		</div>
 	</body>
 </html>

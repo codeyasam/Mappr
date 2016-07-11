@@ -1,0 +1,1 @@
+<p>&copy; Mappr <?php echo date("Y"); ?></p>

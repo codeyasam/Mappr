@@ -95,24 +95,29 @@
 				<?php include("../includes/navigation.php"); ?>
 			</div>
 		</header>
-		<div class="container center">	
+		<div class="container edit-establishment center clearfix">	
 			<form id="mainForm" action="addEstab.php?id=<?php echo urlencode($_GET['id']); ?>" enctype="multipart/form-data" method="post"  runat="server">
-				<div style="width: 20%; float: left;">
-					<p><img id="output" height="100px" width="100px" src=""/></p>
-					<p><input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/></p>
-					<p><input type="text" name="estabName" value="" placeholder="Name" required="required"/></p>
-					<p><select name="estabCategory" >
+				<div class="manage" style="margin-top: 0;">
+					<div class="branch-dp"><img id="output" height="100px" width="100px" src=""/></div>
+					<h5><i>Upload Display Photo</i></h5>					
+					<input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
+					<h5><i>Name:</i></h5>
+					<input type="text" name="estabName" value="" placeholder="Name" required="required"/>
+					<h5><i>Category:</i></h5>
+					<select name="estabCategory" >
 					<?php foreach($all_category as $key => $eachCateg): ?>
 						<option value="<?php echo $eachCateg->id; ?>"><?php echo htmlentities($eachCateg->name); ?></option>
 					<?php endforeach; ?>
-					</select></p>
-					<p><textarea name="description" placeholder="description"></textarea></p>
-					<p><input type="text" name="tags" value="" placeholder="tags"/></p>
-					<p>Add photos to gallery: </p>
-					<p><input id="files" name="gallery[]" type="file" multiple="multiple"/></p>
-					<p><input type="submit" name="submit" value="SAVE"/></p>
+					</select>
+					<h5><i>Description:</i></h5>
+					<textarea name="description" placeholder="description"></textarea>
+					<h5><i>Tags:</i></h5>
+					<input type="text" name="tags" value="" placeholder="tags"/>
+					<h5><i>Add photos to gallery:</i></h5>
+					<input id="files" name="gallery[]" type="file" multiple="multiple"/>
+					<input type="submit" name="submit" value="SAVE"/>
 				</div>
-				<div style="width: 80%; float: left;">
+				<div class="main-window">
 					<h3>PHOTO GALLERY</h3>
 					<output class="li-align" id="result" />
 				</div>
@@ -155,5 +160,8 @@
 			    }					
 			</script>	
 		</div>	
+		<footer class="container center">
+			<?php include '../includes/footer.php'; ?>
+		</footer>
 	</body>
 </html>

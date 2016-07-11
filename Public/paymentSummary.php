@@ -58,6 +58,9 @@
 			</tr>
 		<?php } ?>		
 		</table>
+		<footer>
+			<?php include '../includes/footer.php'; ?>
+		</footer>
 	</div>
 
 	</body>

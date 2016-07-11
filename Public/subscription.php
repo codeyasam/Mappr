@@ -12,11 +12,13 @@
 				<?php include("../includes/navigation.php"); ?>
 			</div>
 		</header>
-		<div class="container center">
+		<div class="container center clearfix">
 			<h1>Choose a Subscription</h1>
 			<br>
 			<?php include("subscriptiondurations.php"); ?>
+			<footer>
+				<?php include '../includes/footer.php'; ?>
+			</footer>
 		</div>
-		
 	</body>
 </html>

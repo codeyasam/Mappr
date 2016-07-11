@@ -20,16 +20,22 @@
 				<?php include("../../includes/admin_nav.php"); ?>
 			</div>
 		</header>
-		<div class="container center">
-			<table id="planContainer" class="data">
-				
-			</table>
-			<div>
-				<p id="interval">Interval: <select id="planDuration" name="planDuration">
-				<?php foreach($planDurations as $key => $eachDuration): ?>
-					<option value="<?php echo $eachDuration->id; ?>"><?php echo $eachDuration->description; ?></option>
-				<?php endforeach; ?>	
-				</select></p>
+		<div class="container center clearfix">
+			<h1>Plans</h1>
+			<div style="padding: 10px">
+				<table id="planContainer" class="data">
+				</table>
+			</div>
+			<div class="manage" style="max-height:550px;margin: 0 0 0 15px;">
+				<h2>Manage Plan</h2>
+				<p>
+				<h5 id="interval"><i>Interval:</i></h5>
+					<select id="planDuration" name="planDuration">
+					<?php foreach($planDurations as $key => $eachDuration): ?>
+						<option value="<?php echo $eachDuration->id; ?>"><?php echo $eachDuration->description; ?></option>
+					<?php endforeach; ?>	
+					</select>
+				</p>
 				<p id="customPlan">
 					<input id="intervalCount" type="number" min="1"/>
 					<select id="customPlanDuration">
@@ -41,13 +47,14 @@
 						<?php endforeach; ?>			
 					</select>
 				</p>
-				<p><input id="plan_name" type="text" name="plan_name" placeholder="Plan Name"/></p>
-				<p><input id="estab_no" type="number" name="estab_no" placeholder="No of Establishment"/></p>
-				<p><input id="branch_no" type="number" name="branch_no" placeholder="No of Branches"/></p>
-				<p><input id="cost" type="number" name="cost" placeholder="cost"/></p>
+				<p><h5 id="interval"><i>Plan Name:</i></h5><input id="plan_name" type="text" name="plan_name" placeholder="Plan Name"/></p>
+				<p><h5 id="interval"><i>No. of Establishment:</i></h5><input id="estab_no" type="number" name="estab_no" placeholder="No of Establishment"/></p>
+				<p><h5 id="interval"><i>No. of Branches:</i></h5><input id="branch_no" type="number" name="branch_no" placeholder="No of Branches"/></p>
+				<p><h5 id="interval"><i>Cost:</i></h5><input id="cost" type="number" name="cost" placeholder="cost"/></p>
 				<p><input id="visibility" type="checkbox" name="visibility" value="Visible"/>Visible</p>
 				<p><input id="optAdd" type="submit" value="+ADD PLAN"/><input id="optSave" type="submit" value="SAVE CHANGES"/><input id="optCancel" type="submit" value="CANCEL"/></p>			
 			</div>
+				
 
 			<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
 			<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
@@ -189,5 +196,8 @@
 				});									
 			</script>
 		</div>
+		<footer class="container center">
+			<?php include '../includes/footer.php'; ?>
+		</footer>
 	</body>
 </html>

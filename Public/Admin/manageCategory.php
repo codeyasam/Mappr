@@ -12,22 +12,6 @@
 		<title></title>
 		<?php include '../../includes/styles_admin.php'; ?>
 		<style type="text/css">
-			#output {
-				border: none;
-			}
-
-			.thumbnail {
-				width: 200px;
-				height: 200px;
-				overflow: hidden;
-			    display: inline-block;
-				margin: 10px;
-			}
-
-
-			.thumbnail>img {
-				height: 200px;
-			}
 		</style>		
 	</head>
 	<body>
@@ -36,7 +20,8 @@
 				<?php include("../../includes/admin_nav.php"); ?>
 			</div>
 		</header>
-		<div class="container center">
+		<div class="container center clearfix">
+			<h1>Categories</h1>
 			<table id="categoryContainer" class="data">
 				<tbody>
 					<tr>
@@ -51,7 +36,7 @@
 					<tr>
 						<td><?php echo htmlentities($eachCategory->id); ?></td>
 						<td><?php echo htmlentities($eachCategory->name); ?></td>
-						<td><img height="100px" width="100px" src="<?php echo "../" . htmlentities($eachCategory->display_picture); ?>"></td>
+						<td><img class="category-icon" src="<?php echo "../" . htmlentities($eachCategory->display_picture); ?>"></td>
 						<td><?php echo htmlentities($eachCategory->description); ?></td>
 						<td><a class="optEdit" href="">EDIT</a></td>
 						<td><a class="optDelete" href="">DELETE</a></td>
@@ -59,13 +44,14 @@
 				<?php endforeach; ?>
 				</tbody>
 			</table>
-			<div>
+			
+			<div class="manage" style="max-height:550px;margin: 0 0 0 15px;">
+				<h2>Manage Category</h2>
 				<form>
-					<p><img id="output" height="100px" width="100px" src="../DISPLAY_PICTURES/defaultCategIcon.png"/></p>
-					<p><input id="pic" type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/></p>
-					<p><input id="categName" type="text" name="categName" placeholder="Name"/></p>
-					<p><textarea id="categDescription" placeholder="Description"></textarea></p>
-					<p><input id="featured_category" type="checkbox" value="FEATURED"/>Featured</p>
+					<p><img id="output" class="category-icon" src="../DISPLAY_PICTURES/defaultCategIcon.png"/><h5><i>Icon:</i></h5><input id="pic" style="max-width: 200px;" type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/></p>
+					<p><h5><i>Category Name:</i></h5><input id="categName" type="text" name="categName" placeholder="Name"/></p>
+					<p><h5><i>Description:</i></h5><textarea id="categDescription" placeholder="Description"></textarea></p>
+					<p><h5><i>Icon:</i></h5><input id="featured_category" type="checkbox" value="FEATURED"/>Featured</p>
 					<p><input id="optAdd" type="submit" value="+ADD CATEGORY"/><input id="optSave" type="submit" value="SAVE CHANGES"/><input id="optCancel" type="submit" value="CANCEL"/></p>
 				</form>
 			</div>
@@ -99,7 +85,7 @@
 							for (var eachField in jsonObjRoot[key]) {
 								if (jsonObjRoot[key].hasOwnProperty(eachField)) {
 									if (eachField == "display_picture") {
-										newTr += '<td><img height="100px" width="100px" src="../' + jsonObjRoot[key][eachField] + "?dummy=" + n + '"/></td>';
+										newTr += '<td><img class="category-icon" src="../' + jsonObjRoot[key][eachField] + "?dummy=" + n + '"/></td>';
 									} else 
 										newTr += "<td>" + jsonObjRoot[key][eachField] + "</td>";
 									//console.log(jsonObjRoot[key][eachField]);
@@ -300,5 +286,8 @@
 				});
 			</script>
 		</div>	
+		<footer class="container center">
+			<?php include '../includes/footer.php'; ?>
+		</footer>
 	</body>
 </html>

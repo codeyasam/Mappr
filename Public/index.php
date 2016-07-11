@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title></title>
+		<title></title> 
 		<?php include '../includes/styles.php'; ?>
 	</head>
 	<body>
@@ -15,7 +15,7 @@
 			</div>
 		</header>
 		<div class="container center">
-			<div class="featured" style="margin-top:0;background: url('images/map.jpg') top left; width: 1000px; height: 410px;">
+			<div class="featured" style="padding-top:0;background: url('images/map.jpg') top left; width: 1000px; height: 410px;">
 				<div class="featured-message">
 					<img src="images/pin.png" style="width:100px;float:left; margin-top: 20px; margin-left: 40px; padding: 10px;">
 					<h1>Promote your business</h1>
@@ -36,7 +36,7 @@
 				</div>
 			</section>
 			<footer>
-
+				<?php include '../includes/footer.php'; ?>
 			</footer>
 		</div>
 	</body>

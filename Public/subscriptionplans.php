@@ -16,7 +16,7 @@
 			<?php include("../includes/navigation.php"); ?>
 		</div>
 	</header>
-	<div class="container center">
+	<div class="container center clearfix">
 		<h1>Choose a plan</h1>
 		<br>
 		<?php foreach($filtered_plans as $key => $each_plan): ?>
@@ -74,6 +74,9 @@
 			});
 
 		</script>
+		<footer>
+			<?php include '../includes/footer.php'; ?>
+		</footer>
 	</div>
 		
 	</body>

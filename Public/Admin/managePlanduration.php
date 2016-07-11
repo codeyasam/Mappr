@@ -18,12 +18,14 @@
 				<?php include("../../includes/admin_nav.php"); ?>
 			</div>
 		</header>
-		<div class="container center">
+		<div class="container center clearfix">
+			<h1>Plan Duration</h1>
 			<table id="planDurationContainer" class="data">
 				
 			</table>
 
-			<div id="formContainer">
+			<div class="manage" id="formContainer">
+				<h2>Manage Plan Duration</h2>
 				<p><input id="duration_name" type="text" name="duration_name" placeholder="Duration name"/></p>
 				<p><input id="description" type="text" name="description" placeholder="Description"/></p>
 				<p><input id="duration_visibility" type="checkbox" name="duration_visibility" value="Visible"/>Visible</p>
@@ -128,7 +130,9 @@
 					$('#duration_name').val("");
 				});										
 			</script>	
-		</div>
-			
+		</div>			
+		<footer class="container center">
+			<?php include '../includes/footer.php'; ?>
+		</footer>	
 	</body>
 </html>

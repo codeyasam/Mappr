@@ -3,7 +3,7 @@
 	//absolute path definition
 	defined("DS") ? null : define("DS", DIRECTORY_SEPARATOR);
 
-	defined("SITE_ROOT") ? null : define("SITE_ROOT", DS . "var" . DS . "www" . DS . "html" . DS . "thesis_with_gui");
+	defined("SITE_ROOT") ? null : define("SITE_ROOT", "D:" . DS . "SITE" . DS . "thesis_with_gui");
 
 	defined("LIB_PATH") ? null : define("LIB_PATH", SITE_ROOT . DS . "includes");
 

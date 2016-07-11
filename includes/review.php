@@ -50,5 +50,18 @@
 			$sql .= "WHERE branch_id = " . $branch_id;
 			$database->query($sql);			
 		}
+
+		public function create() {
+			global $database;
+
+			$currentTime = strftime("%Y-%m-%d %H:%M:%S", time());
+			$sql = "INSERT INTO REVIEW_TB (user_id, branch_id, rating, comment, submit_date) VALUES (2, 11, 3, 'ewan ko ba', '" . $currentTime . "')";
+			if ($database->query($sql)) {
+				$this->id = $database->insert_id();
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 ?>

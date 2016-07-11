@@ -60,22 +60,6 @@
 	<head>
 		<title></title>
 		<style type="text/css">
-			#output {
-				border: none;
-			}
-
-			.thumbnail {
-				width: 200px;
-				height: 200px;
-				overflow: hidden;
-			    display: inline-block;
-				margin: 10px;
-			}
-
-
-			.thumbnail>img {
-				height: 200px;
-			}
 		</style>	
 		<?php include '../includes/styles.php'; ?>
 	</head>
@@ -85,27 +69,38 @@
 				<?php include("../includes/navigation.php"); ?>
 			</div>
 		</header>
-		<div class="container center">
-			<h2><a style="background:#323232; padding: 5px 15px; border-radius: 0 20px 20px 0;" href="manageEstab.php?sbscrbdID=<?php echo urlencode($sbscrbdID); ?>">Go back</a></h2>
+		<div class="container edit-establishment center clearfix">
+			<span style="margin-top:0;" />
 			<form id="mainForm" action="editEstabDetails.php?id=<?php echo urlencode($estabID); ?>&sbscrbdID=<?php echo urlencode($sbscrbdID); ?>" enctype="multipart/form-data" method="post"  runat="server">
-				<div style="width: 25%; float: left;">
-					<p><img id="output" height="100px" width="100px" src="<?php echo htmlentities($estab->display_picture); ?>"/></p>
-					<p><input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/></p>
-					<p><input type="text" name="estabName" value="<?php echo htmlentities($estab->name); ?>" placeholder="Name" required="required"/></p>
-					<p><select name="estabCategory" >
+				<div class="manage" style="margin-top: 0;">
+					<a style="background:#323232; padding: 10px 15px; border-radius: 0 20px 20px 0;" href="manageEstab.php?sbscrbdID=<?php echo urlencode($sbscrbdID); ?>">Go back</a>
+					<div class="branch-dp"><img id="output" height="100px" width="100px" src="<?php echo htmlentities($estab->display_picture); ?>"/></div>
+					
+					<h5><i>Upload Display Photo</i></h5>
+					<input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
+					<h5><i>Name:</i></h5>
+					<input type="text" name="estabName" value="<?php echo htmlentities($estab->name); ?>" placeholder="Name" required="required"/>
+					<h5><i>Category:</i></h5>
+					<select name="estabCategory" >
 					<?php foreach($all_category as $key => $eachCateg): ?>
 						<?php $isSelected = ($eachCateg->id === $estab->category_id) ? "selected" : ""; ?>
 						<option value="<?php echo $eachCateg->id; ?>"<?php echo $isSelected; ?>><?php echo htmlentities($eachCateg->name); ?></option>
 					<?php endforeach; ?>
-					</select></p>
-					<p><textarea name="description" placeholder="description"><?php echo htmlentities($estab->description); ?></textarea></p>
-					<p><input type="text" name="tags" value="<?php echo htmlentities($estab->tags); ?>" placeholder="tags"/></p>
-					<p>Add photos to gallery: </p>
-					<p><input id="files" name="gallery[]" type="file" multiple="multiple"/></p>
-					<p><input type="submit" name="submit" value="SAVE"/></p>
+					</select>
+					<h5><i>Description:</i></h5>
+					<textarea name="description" placeholder="description"><?php echo htmlentities($estab->description); ?></textarea>
+					<h5><i>Tags:</i></h5>
+					<input type="text" name="tags" value="<?php echo htmlentities($estab->tags); ?>" placeholder="tags"/>
+					<h5><i>Add photos to gallery:</i></h5>
+					<input id="files" name="gallery[]" type="file" multiple="multiple"/>
+					<input type="submit" name="submit" value="SAVE"/>
 				</div>
-				<div style="width: 75%; float: left;">
+				<div class="main-window">
 					<h3>PHOTO GALLERY</h3>
+					<div>
+						<output class="li-align" id="result"></output>
+					</div>
+					
 					
 					<?php foreach ($photos as $key => $photo): ?>
 						<div class="thumbnail" style="text-align:left;">
@@ -113,10 +108,8 @@
 							<img src="<?php echo $photo->gallery_pic; ?>" class=""/>
 						</div>
 					<?php endforeach; ?>
-					<output class="li-align" id="result" />
 					<div>
-						<p style="float: left">Added Photos: Click save</p>
-						<input type="submit" name="deletePics" value="DELETE PHOTOS" style="float:right;"/>
+						<input type="submit" name="deletePics" value="DELETE SELECTED PHOTOS" style="float:right;"/>
 						<p style="clear:both;"></p>
 					</div>									
 				</div>	
@@ -157,8 +150,11 @@
 			            }
 			        });
 			    }					
-			</script>		
+			</script>	
 		</div>
+		<footer class="container center">
+			<?php include '../includes/footer.php'; ?>
+		</footer>
 					
 	</body>
 </html>

@@ -17,5 +17,8 @@
 				<?php include("../../includes/admin_nav.php"); ?>
 			</div>
 		</header>
+		<footer class="container center">
+			<?php include '../includes/footer.php'; ?>
+		</footer>
 	</body>
 </html>
