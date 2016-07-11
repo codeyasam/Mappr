@@ -66,10 +66,12 @@
 			<input id="estabID" type="hidden" name="estabID" value="<?php echo urlencode($estabID); ?>"/>
 			<input id="sbscrbdID" type="hidden" value="<?php echo htmlentities($sbscrbdID); ?>"/>
 			<p><?php echo htmlentities($currentEstab->name); ?></p>
+
 			<p><select id="branchesDropdown" style="display: none;">
 				<option value="-1" hidden>select a branch</option>
 			</select></p>
 			<div id="infos" style="display:none;">
+
 
 				<p id="latPOS">lat: </p>
 				<p id="lngPOS">lng: </p>
@@ -297,8 +299,12 @@
 				    .remove()
 				    .end()
 				    .append('<option selected hidden>Select a branch</option>')
+<<<<<<< HEAD
 				    .val('whatever');	
 				console.log(markers.length);    			
+=======
+				    .val('whatever');				
+>>>>>>> 4092926f986ea8ac66d93c9f0cd67694d4f0bc1e
 				for (var i = 0; i < markers.length; i++) {
 					console.log(markers[i].address);
 					var option = '<option value="' + markers[i].id + '">' + markers[i].address + '</option>';

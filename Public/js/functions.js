@@ -43,7 +43,7 @@ function tableJSON(tableID, jsonObjRoot, hasOptDelete=true) {
 	return newTr;
 }
 
-function confirm_action(msg, action_performed, cancel_action) {
+function confirm_action(msg, action_performed) {
 	if ($('#dialog').length != 1) {
 		$('body').append(create_confirm_dialog());
 	}
@@ -63,22 +63,6 @@ function confirm_action(msg, action_performed, cancel_action) {
 
 	$("#dialog").dialog("open"); 
 }
-
-// function setupConfirmDialog(action_performed, cancel_action) {
-// 	cancel_action = cancel_action ? cancel_action : function()
-
-// 	$("#dialog").dialog({
-// 		autoOpen: false,
-// 		modal: true,
-// 		buttons : {
-// 		    "Confirm" : action_performed,
-// 		    "Cancel" : function() {
-// 		      $(this).dialog("close");
-// 		    }
-// 		  }
-// 	});	
-// }
-
 
 function create_confirm_dialog() {
 	var confirm_div = document.createElement("div");
