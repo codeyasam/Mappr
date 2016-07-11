@@ -67,7 +67,7 @@
 			<input id="sbscrbdID" type="hidden" value="<?php echo htmlentities($sbscrbdID); ?>"/>
 			<p><?php echo htmlentities($currentEstab->name); ?></p>
 			<p><select id="branchesDropdown" style="display: none;">
-				<option value="-1">select a branch</option>
+				<option value="-1" hidden>select a branch</option>
 			</select></p>
 			<div id="infos" style="display:none;">
 
@@ -233,6 +233,7 @@
 						populateBranchesDropdown();
 						$('#branchesDropdown').val(markers[selectedIndex].id);
 					} else if (jsonObj.Branches) {
+						if (jsonObj.hasBranches <= 0) return;
 						for (var key in jsonObj.Branches) {
 							if (jsonObj.Branches.hasOwnProperty(key)) {
 								markerOptions.position = new google.maps.LatLng(jsonObj.Branches[key].lat, jsonObj.Branches[key].lng);
@@ -296,7 +297,8 @@
 				    .remove()
 				    .end()
 				    .append('<option selected hidden>Select a branch</option>')
-				    .val('whatever');				
+				    .val('whatever');	
+				console.log(markers.length);    			
 				for (var i = 0; i < markers.length; i++) {
 					console.log(markers[i].address);
 					var option = '<option value="' + markers[i].id + '">' + markers[i].address + '</option>';
