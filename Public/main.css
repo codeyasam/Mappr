@@ -254,20 +254,20 @@ footer>* {
 }
 
 .actionBtnContainer>button[type="button"]:nth-child(1){
-	background: url("images/actionbtn_add_selected.png") top left;
+	background: url("images/actionbtn_add_selected.png") top left no-repeat;
 }
 
 
 .actionBtnContainer>button[type="button"]:nth-child(2){
-	background: url("images/actionbtn_delete.png") top left;
+	background: url("images/actionbtn_delete.png") top left no-repeat;
 }
 
 .actionBtnContainer>button[type="button"]:nth-child(3){
-	background: url("images/actionbtn_drag.png") top left;
+	background: url("images/actionbtn_drag.png") top left no-repeat;
 }
 
 .actionBtnContainer>button[type="button"]:nth-child(4){
-	background: url("images/actionbtn_select.png") top left;
+	background: url("images/actionbtn_select.png") top left no-repeat;
 }
 
 #map {

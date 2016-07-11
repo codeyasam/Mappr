@@ -443,7 +443,7 @@
 
 				$('#addBranchBtn').on('click', function() {
 					unSelectAllActionBtn();
-					$(this).css("background", "url('images/actionbtn_add_selected.png') top left");
+					$(this).css("background", "url('images/actionbtn_add_selected.png') top left no-repeat");
 					toAdd = true;
 					toDelete = false;
 					onlyDrag = false;
@@ -452,14 +452,14 @@
 
 				$('#delBranchBtn').on('click', function() {
 					unSelectAllActionBtn();
-					$(this).css("background", "url('images/actionbtn_delete_selected.png') top left");
+					$(this).css("background", "url('images/actionbtn_delete_selected.png') top left no-repeat");
 					toDelete = true;
 					toAdd = false;
 				});
 
 				$('#dragBranchBtn').on('click', function() {
 					unSelectAllActionBtn();
-					$(this).css("background", "url('images/actionbtn_drag_selected.png') top left");
+					$(this).css("background", "url('images/actionbtn_drag_selected.png') top left no-repeat");
 					toDelete = false;
 					onlyDrag = true;
 					toAdd = false;
@@ -467,17 +467,17 @@
 
 				$('#selectBranchBtn').on('click', function() {
 					unSelectAllActionBtn();
-					$(this).css("background", "url('images/actionbtn_select_selected.png') top left");
+					$(this).css("background", "url('images/actionbtn_select_selected.png') top left no-repeat");
 					onlySelect = true;
 					toDelete = false;
 					toAdd = false;
 				});
 
 				function unSelectAllActionBtn() {
-					$('#addBranchBtn').css("background","url('images/actionbtn_add.png') top left");
-					$('#delBranchBtn').css("background","url('images/actionbtn_delete.png') top left");
-					$('#dragBranchBtn').css("background","url('images/actionbtn_drag.png') top left");
-					$('#selectBranchBtn').css("background","url('images/actionbtn_select.png') top left");
+					$('#addBranchBtn').css("background","url('images/actionbtn_add.png') top left no-repeat");
+					$('#delBranchBtn').css("background","url('images/actionbtn_delete.png') top left no-repeat");
+					$('#dragBranchBtn').css("background","url('images/actionbtn_drag.png') top left no-repeat");
+					$('#selectBranchBtn').css("background","url('images/actionbtn_select.png') top left no-repeat");
 				}
 				/*
 				function CenterControl(controlDiv, map, actionPerform) {
