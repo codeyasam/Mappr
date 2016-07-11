@@ -13,9 +13,9 @@
 	if (isset($_POST['deleteEstab'])) {
 		//echo $_GET['id'] . " : " . $_GET['sbscrbdID'];
 
-		echo "bat di gumagana";
+		//echo "bat di gumagana";
 
-		$currentSubsPlanEstab = SubsPlanEstab::find_by_id($_GET['id']);
+		$currentSubsPlanEstab = SubsPlanEstab::find_by_id($_POST['subsPlanEstabID']);
 		$sbscrbdID = $currentSubsPlanEstab->subs_plan_id;
 
  		$user_subscriptions = SubsPlan::get_owner_subscriptions($user->id);

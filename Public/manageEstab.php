@@ -57,12 +57,13 @@
 					<td><?php echo cym_decode_unicode($eachEstab->name); ?></td>
 					<td><?php echo cym_decode_unicode($eachEstab->description); ?></td>
 					<td>
-						<form id="myForm" action="deleteEstablishment.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>" method="POST">
+						<form action="deleteEstablishment.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>" method="POST">
 							<a href="manageBranch.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>">Manage Branches</a><br>
 							<a href="editEstabDetails.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>">
 							Edit Establishment Details</a>
 							<input type="hidden" name="deleteEstab" value="true"/>
-							<input id="deleteEstabBtn" type="button" value="delete establishment"/>
+							<input type="hidden" name="subsPlanEstabID" value="<?php echo htmlentities($eachSubsPlanEstab->id); ?>" />
+							<input class="deleteEstabBtn" type="button" value="delete establishment" data-internalId="<?php echo $key; ?>"/>
 						</form>
 					</td>
 				</tr>
@@ -82,11 +83,15 @@
 		<script type="text/javascript" src="js/jquery.qrcode.min.js"></script>
 		<script type="text/javascript">
 
-			$('#deleteEstabBtn').on('click', function() {
+			$(document).on('click', '.deleteEstabBtn', function() {
 				console.log("delete clicked");
+				console.log($(this).attr("data-internalId"));
+				var index = $(this).attr("data-internalId");
 				var action_performed = function() {
 					$('#dialog').dialog('close');
-					document.getElementById("myForm").submit();
+					console.log(index);
+					$("form")[index].submit();
+					//document.getElementById("myForm").submit();
 				};
 
 				confirm_action("Are you sure you want to delete this establishment?", action_performed);
