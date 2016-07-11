@@ -15,7 +15,7 @@
 
 		//echo "bat di gumagana";
 
-		$currentSubsPlanEstab = SubsPlanEstab::find_by_id($_POST['subsPlanEstabID']);
+		$currentSubsPlanEstab = SubsPlanEstab::find_by_id($_GET['id']);
 		$sbscrbdID = $currentSubsPlanEstab->subs_plan_id;
 
  		$user_subscriptions = SubsPlan::get_owner_subscriptions($user->id);

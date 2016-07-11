@@ -62,7 +62,6 @@
 							<a href="editEstabDetails.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>">
 							Edit Establishment Details</a>
 							<input type="hidden" name="deleteEstab" value="true"/>
-							<input type="hidden" name="subsPlanEstabID" value="<?php echo htmlentities($eachSubsPlanEstab->id); ?>" />
 							<input class="deleteEstabBtn" type="button" value="delete establishment" data-internalId="<?php echo $key; ?>"/>
 						</form>
 					</td>
