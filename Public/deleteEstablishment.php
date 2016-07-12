@@ -8,8 +8,8 @@
 	// in_array($_GET['sbscrbdID'], $subscriptionIDs) ? null : redirect_to("index.php");
 	// SubsPlanEstab::delete_by_id($_GET['id']);
 	// redirect_to("manageEstab.php?sbscrbdID=" . $_GET['sbscrbdID']);
-	print_r($_POST);
-	print_r($_GET);
+	//print_r($_POST);
+	//print_r($_GET);
 	if (isset($_POST['deleteEstab'])) {
 		//echo $_GET['id'] . " : " . $_GET['sbscrbdID'];
 
@@ -25,6 +25,7 @@
 		$branches = EstabBranch::find_all(array('key'=>'estab_id', 'value'=>$currentSubsPlanEstab->estab_id, 'isNumeric'=>true));
 		
 		foreach ($branches as $key => $branch) {
+			BranchGallery::delete_all(array('key'=>'branch_id', 'value'=>$branch->id, 'isNumeric'=>true));
 			BranchReview::delete_by_branch_id($branch->id);
 			MapprBookmark::delete_by_branch_id($branch->id);			
 		}
