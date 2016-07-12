@@ -41,7 +41,7 @@
 			$sql .= "e.category_id, e.name, e.display_picture ";
 			$sql .= "FROM BRANCHES_TB b, ESTABLISHMENT_TB e, SUBSCRIBED_PLAN sp, SUBSPLAN_ESTAB_TB se ";
 			$sql .= "WHERE e.name LIKE " . "'%{$search_string}%' ";
-			$sql .= "AND b.estab_id = e.id";
+			$sql .= "AND b.estab_id = e.id ";
 			$sql .= "AND sp.status = 'ACTIVE' AND sp.id = se.subs_plan_id AND b.estab_id = se.estab_id ";
 		}
 
