@@ -48,7 +48,7 @@
 				BranchGallery::delete_all(array("key" => "gallery_id", "value" => $_POST['selected'][$key], "isNumeric" => true));
 
 				EstabGallery::delete_by_id($_POST['selected'][$key]);
-
+				unlink(SITE_ROOT . DS . "Public" . DS . $photo->gallery_pic);
 			}
 		}
 		redirect_to("editEstabDetails.php?id=".urlencode($estabID)."&sbscrbdID=".urlencode($sbscrbdID));
