@@ -15,7 +15,6 @@
 			</div>
 		</header>
 		<div class="container center">
-			<h1>WEWS</h1>
 			<div class="featured" style="padding-top:0;background: url('images/map.jpg') top left; width: 1000px; height: 410px;">
 				<div class="featured-message">
 					<img src="images/pin.png" style="width:100px;float:left; margin-top: 20px; margin-left: 40px; padding: 10px;">
