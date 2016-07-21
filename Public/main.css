@@ -25,7 +25,7 @@ a:hover, a:active {
 
 input[type="submit"],input[type="button"] {
 	border: none;
-	background: #0c9794;
+	background: #97470c;
 	padding: 10px;
 	color: #fffde8;
 	border-radius: 5px;
@@ -35,7 +35,7 @@ input[type="submit"],input[type="button"] {
 
 input[type="submit"]:hover,input[type="button"]:hover {
 	background: #fffde8;
-	color: #0c9794;
+	color: #97470c;
 }
 
 .container {
@@ -48,7 +48,7 @@ input[type="submit"]:hover,input[type="button"]:hover {
 
 .container a:link,.container a:visited {
 	text-decoration: none;
-	/*color: #0c9794;*/
+	/*color: #97470c;*/
 	font-weight: 700;
 }
 
@@ -95,7 +95,7 @@ header nav a:hover {
 	background: #737373;
 }
 header nav a:active {
-	background: #0c9794;
+	background: #97470c;
 }
 
 table * {
@@ -109,7 +109,7 @@ table.data {
 }
 
 table.data th {
-	background: #0c9794;
+	background: #97470c;
 	color: #fffde8;
 	padding: 10px;
 	text-transform: uppercase;
@@ -117,7 +117,7 @@ table.data th {
 
 table.data td {
 	background: #FFF;
-	color: #0c9794;
+	color: #97470c;
 	padding: 10px;
 	font-weight: 400;
 	text-align: center;
@@ -132,9 +132,9 @@ table.data th, table.data td {
 }
 
 .data a:link,.data a:visited {
-	color: #0c9794;
+	color: #97470c;
 	text-decoration: none;
-	/*color: #0c9794;*/
+	/*color: #97470c;*/
 	font-weight: 700;
 }
 
@@ -172,7 +172,7 @@ table.data th, table.data td {
 /*---divs---*/
 
 .cyan {
-	background: #0c9794;
+	background: #97470c;
 }
 
 /*---------- SUBSCRIPTIONS -------------*/
@@ -191,7 +191,7 @@ table.data th, table.data td {
 }
 
 .subscriptions>div {
-	background: #0c9794;
+	background: #97470c;
 	margin: 10px 0;
 	width: 450px;
 	display: inline-block;
@@ -224,11 +224,13 @@ table.data th, table.data td {
 
 /*---------------FOOTER---------------*/
 
-footer {
+footer,footer.container {
 	background: #323232;
 	color: #fffde8;
 	font-size: .80em;
 }
+
+
 
 footer>* {
 	padding: 40px;
@@ -303,7 +305,7 @@ div.manage {
 .manage>h1 {
 	border-left: 10px solid #232323;
 	padding-left: 20px;
-	margin-top: 10px;
+	display: inline-block;
 }
 
 #qrCodeContainer {
@@ -330,10 +332,25 @@ div.manage {
 }
 
 #downloadQrCode {
-	color:#0c9794;
+	color:#97470c;
 }
 
 /* --- Edit Establishment --- */
+
+
+#display_picture {
+	width: 75px;
+	height: 75px;
+	text-align: center;
+	display: inline-block;
+	margin: 10px;
+	overflow: hidden;
+}
+
+#display_picture>img {
+	height: 75px;
+	margin: 0 auto;
+}
 
 .main-window {
 	overflow: auto;

@@ -53,6 +53,9 @@
 		</header>
 		<div class="container center clearfix">			
 			<div class="manage" style="margin-top: 0;">
+				<div id="display_picture">
+					<img src="<?php echo htmlentities($currentEstab->display_picture); ?>">
+				</div>
 				<h1><?php echo htmlentities($currentEstab->name); ?></h1>
 				<input type="text" id="autocomplete">
 				<form action="manageBranch.php?id=<?php echo urlencode($estabID); ?>" method="POST">
