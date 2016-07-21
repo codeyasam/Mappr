@@ -17,28 +17,32 @@
 ?>
 <?php 
 	if (isset($_POST['submit'])) {
+	
 		$estab->name = isset($_POST['estabName']) ? trim($_POST['estabName']) : "";
 		$estab->category_id = isset($_POST['estabCategory']) ? trim($_POST['estabCategory']) : "";
 		$estab->description = isset($_POST['description']) ? trim($_POST['description']) : "";
 		$estab->tags = isset($_POST['tags']) ? trim($_POST['tags']) : "";
 		if ($_FILES['img_upload']) {
-			move_uploaded_file($_FILES['img_upload']['tmp_name'], "DISPLAY_PICTURES/estab_display_pic".$estab->id);
-			$estab->display_picture = "DISPLAY_PICTURES/estab_display_pic".$estab->id;						
+			move_uploaded_file($_FILES['img_upload']['tmp_name'], "DISPLAY_PICTURES/estab_display_pic". $estab->id);
+			$estab->display_picture = "DISPLAY_PICTURES/estab_display_pic" . $estab->id;						
 		}				
 		$estab->update();	
 
-		$gallery_array = reArrayFiles($_FILES['gallery']);		
-		$fixedName = "GALLERY/estabGallery";
-		foreach ($gallery_array as $key => $gallery) {
-			$uniqueness = count(EstabGallery::find_all());
-			$unique_path = $fixedName . $uniqueness;
-			$estabGallery = new EstabGallery();
-			$estabGallery->estab_id = $estab->id;
-			$estabGallery->gallery_pic = $unique_path;		
-			$estabGallery->create();
+		if($_FILES['gallery']['error'][0] == 0){
+			$gallery_array = reArrayFiles($_FILES['gallery']);		
+			$fixedName = "GALLERY/estabGallery";
+			foreach ($gallery_array as $key => $gallery) {
+				$uniqueness = count(EstabGallery::find_all());
+				$unique_path = $fixedName . $uniqueness;
+				$estabGallery = new EstabGallery();
+				$estabGallery->estab_id = $estab->id;
+				$estabGallery->gallery_pic = $unique_path;		
+				$estabGallery->create();
 
-			move_uploaded_file($gallery['tmp_name'], $unique_path);
+				move_uploaded_file($gallery['tmp_name'], $unique_path);
+			}
 		}
+
 		redirect_to("manageEstab.php?sbscrbdID=".urlencode($sbscrbdID));		
 	}
 
