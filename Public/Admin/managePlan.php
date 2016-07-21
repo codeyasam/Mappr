@@ -197,7 +197,7 @@
 			</script>
 		</div>
 		<footer class="container center">
-			<?php include '../includes/footer.php'; ?>
+			<?php include '../../includes/footer.php'; ?>
 		</footer>
 	</body>
 </html>
