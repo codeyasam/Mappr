@@ -2,8 +2,22 @@
 <?php  
 
 	if (isset($_POST['submit'])) {
+		$user_id = $database->escape_value($_POST['user_id']);
+		$branch_id = $database->escape_value($_POST['branch_id']);
+		$result_array = BranchReview::find_by_sql("SELECT * FROM REVIEW_TB WHERE user_id = " . $user_id . " AND branch_id = " . $branch_id);
+		$branch_review = !empty($result_array) ? array_shift($result_array) : false;
 
-		if ($_POST['hasReview'] == "false") {
+		if ($branch_review) {
+			$branch_review->rating = isset($_POST['rating']) ? trim($_POST['rating']) : "";
+			$branch_review->comment = isset($_POST['comment']) ? trim($_POST['comment']) : "";
+			$branch_review->submit_date = time(); //strftime("%Y-%m-%d %H:%M:%S", time()); //get_mysql_datetime(time());
+			
+			if ($branch_review->update()) {
+				echo '{"success":"true"}';
+			} else {
+				echo '{"success":"false"}';
+			}			
+		} else {
 			$branch_review = new BranchReview();		
 			$branch_review->branch_id = isset($_POST['branch_id']) ? trim($_POST['branch_id']) : "";
 			$branch_review->rating = isset($_POST['rating']) ? trim($_POST['rating']) : "";
@@ -16,28 +30,48 @@
 				echo '{"success":"true"}';
 			} else {
 				echo '{"success":"false"}';
-			}
-		} else {
-			//update
-			$user_id = $database->escape_value($_POST['user_id']);
-			$branch_id = $database->escape_value($_POST['branch_id']);
-			$result_array = BranchReview::find_by_sql("SELECT * FROM REVIEW_TB WHERE user_id = " . $user_id . " AND branch_id = " . $branch_id);
-			$branch_review = !empty($result_array) ? array_shift($result_array) : false;
-			
-			if ($branch_review) {
-				$branch_review->rating = isset($_POST['rating']) ? trim($_POST['rating']) : "";
-				$branch_review->comment = isset($_POST['comment']) ? trim($_POST['comment']) : "";
-				$branch_review->submit_date = time(); //strftime("%Y-%m-%d %H:%M:%S", time()); //get_mysql_datetime(time());
-				
-				if ($branch_review->update()) {
-					echo '{"success":"true"}';
-				} else {
-					echo '{"success":"false"}';
-				}
-			}
+			}			
 		}
+						
+	} else { echo '{"success":"false"}'; }
 
-	} else echo '{"success":"false"}'; 
+	// if (isset($_POST['submit'])) {
+
+	// 	if ($_POST['hasReview'] == "false") {
+	// 		$branch_review = new BranchReview();		
+	// 		$branch_review->branch_id = isset($_POST['branch_id']) ? trim($_POST['branch_id']) : "";
+	// 		$branch_review->rating = isset($_POST['rating']) ? trim($_POST['rating']) : "";
+	// 		$branch_review->user_id = isset($_POST['user_id']) ? trim($_POST['user_id']) : "";
+	// 		$branch_review->comment = isset($_POST['comment']) ? trim($_POST['comment']) : "";
+	// 		$branch_review->submit_date = time(); //strftime("%Y-%m-%d %H:%M:%S", time());//get_mysql_datetime(time());
+
+			
+	// 		if ($branch_review->create()) {
+	// 			echo '{"success":"true"}';
+	// 		} else {
+	// 			echo '{"success":"false"}';
+	// 		}
+	// 	} else {
+	// 		//update
+	// 		$user_id = $database->escape_value($_POST['user_id']);
+	// 		$branch_id = $database->escape_value($_POST['branch_id']);
+	// 		$result_array = BranchReview::find_by_sql("SELECT * FROM REVIEW_TB WHERE user_id = " . $user_id . " AND branch_id = " . $branch_id);
+	// 		$branch_review = !empty($result_array) ? array_shift($result_array) : false;
+			
+	// 		if ($branch_review) {
+	// 			$branch_review->rating = isset($_POST['rating']) ? trim($_POST['rating']) : "";
+	// 			$branch_review->comment = isset($_POST['comment']) ? trim($_POST['comment']) : "";
+	// 			$branch_review->submit_date = time(); //strftime("%Y-%m-%d %H:%M:%S", time()); //get_mysql_datetime(time());
+				
+	// 			if ($branch_review->update()) {
+	// 				echo '{"success":"true"}';
+	// 			} else {
+	// 				echo '{"success":"false"}';
+	// 			}
+	// 		}
+	// 	}
+
+	// } else echo '{"success":"false"}'; 
 
 
 //	if (isset($_GET['try'])) {
