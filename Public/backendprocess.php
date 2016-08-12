@@ -35,6 +35,8 @@
 			$output .= '"address":' . '"' . $branch->address . '",';	
 			$output .= '"lat":' . $branch->lat . ',';
 			$output .= '"lng":' . $branch->lng . ',';	
+			$output .= '"description":' . '"' . $branch->description . '",';
+			$output .= '"contact_number":' . '"' . $branch->contact_number . '",';
 			branchSelected($branch->id, true);
 		} else {
 			$output .= '"limitReached":true';
@@ -84,6 +86,18 @@
 		$branch->update();
 
 		$output .= '"updatedAddr":' . '"' . $branch->address . '"';
+	} else if (isset($_POST['saveBranchDescription'])) {
+		$branch = EstabBranch::find_by_id($_POST['branchID']);
+		$branch->description = trim($_POST['description']);
+		$branch->update();
+
+		$output .= '"updatedDescription":' . '"' . $branch->description . '"';
+	} else if (isset($_POST['saveBranchContact'])) {
+		$branch = EstabBranch::find_by_id($_POST['branchID']);
+		$branch->contact_number = trim($_POST['contact']);
+		$branch->update();
+
+		$output .= '"updatedContact":' . '"' . $branch->contact_number . '"';
 	} else if (isset($_POST['addPhoto'])) {
 		$newPhoto = new BranchGallery();
 		$newPhoto->branch_id = $_POST['branchID'];

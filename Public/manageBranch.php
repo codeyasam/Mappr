@@ -83,8 +83,22 @@
 
 						<p style="text-align:right;">
 							<input id="branchAddr" type="text"/>
+							<span style="float: left;" >Branch Address</span>
 							<input id="optEditSave" type="submit" value="EDIT"/>
-						</p>	
+						</p>
+
+						<p style="text-align: right;">
+							<input id="branchDescription" type="text"/>
+							<span style="float: left;" >Branch Details or Description</span>
+							<input id="bdOptEditSave" type="submit" value="EDIT" />
+						</p>
+
+						<p style="text-align: right;">
+							<input id="branchContact" type="text"/>
+							<span style="float: left;" >Contact Number</span>
+							<input id="bcOptEditSave" type="submit" value="EDIT" />
+						</p>						
+
 						<h2>Photo Gallery</h2>
 						<div id="galleryContainer">
 						</div>	
@@ -103,6 +117,8 @@
 			<script type="text/javascript" src="js/jquery.qrcode.min.js"></script>
 			<script type="text/javascript">
 				$('#branchAddr').prop('disabled', true);
+				$('#branchDescription').prop('disabled', true);
+				$('#branchContact').prop('disabled', true);
 				var estabID = document.getElementById('estabID').value;
 				var sbscrbdID = document.getElementById('sbscrbdID').value;
 				var selectedIndex = false;
@@ -210,6 +226,7 @@
 						console.log(selectedIndex + " selected index to.");
 						console.log(objReq.responseText);
 						var jsonObj = JSON.parse(objReq.responseText);
+
 						if (jsonObj.newBranch) {
 							markerOptions.position = new google.maps.LatLng(jsonObj.lat, jsonObj.lng);
 							var marker = setMarkerValues(markerOptions, jsonObj);
@@ -238,7 +255,10 @@
 							populateBranchesDropdown();
 							$('#branchesDropdown').val(markers[selectedIndex].id);
 						} else if (jsonObj.Branches) {
-							if(jsonObj.hasBranches <= 0) return;
+							if(jsonObj.hasBranches <= 0) {
+								manageDivInfos(jsonObj.hasBranches);
+								return; 
+							}
 							for (var key in jsonObj.Branches) {
 								if (jsonObj.Branches.hasOwnProperty(key)) {
 									markerOptions.position = new google.maps.LatLng(jsonObj.Branches[key].lat, jsonObj.Branches[key].lng);
@@ -252,7 +272,11 @@
 							markers[selectedIndex].address = jsonObj.updatedAddr;
 							populateBranchesDropdown();
 							$('#branchesDropdown').val(markers[selectedIndex].id);						
-						} 
+						} else if (jsonObj.updatedDescription) {
+							markers[selectedIndex].description = jsonObj.updatedDescription;
+						} else if (jsonObj.updatedContact) {
+							markers[selectedIndex].contact = jsonObj.updatedContact;
+						}
 
 						if (jsonObj.Gallery) {
 							setupGallery(jsonObj);
@@ -365,6 +389,8 @@
 					marker.setMap(map);
 					marker.id = jsonObject.id;
 					marker.address = jsonObject.address;
+					marker.description = jsonObject.description;
+					marker.contact = jsonObject.contact_number;
 					markers.push(marker);
 					return marker;
 				}
@@ -442,6 +468,8 @@
 					$('#latPOS').text("LAT: " + Number(latlngPOS[0]).toFixed(6));
 					$('#lngPOS').text("LNG: " + Number(latlngPOS[1]).toFixed(6));
 					$('#branchAddr').val(marker.address);
+					$('#branchDescription').val(marker.description);
+					$('#branchContact').val(marker.contact);
 				}
 
 				$('#addBranchBtn').on('click', function() {
@@ -570,7 +598,36 @@
 					}
 
 					$(this).val($(this).val() == "EDIT" ? "SAVE" : "EDIT");
-				});								
+				});
+
+				$('#bdOptEditSave').on("click", function(e) {
+					e.preventDefault();
+					if ($(this).val() == "EDIT") {
+						$('#branchDescription').prop('disabled', false);
+					}  else {
+						$('#branchDescription').prop('disabled', true);
+						processPOSTRequest("backendprocess.php", "saveBranchDescription=true&branchID="
+							+ $('#branchAddr').attr("data-internalid") + "&description="
+							+ $('#branchDescription').val());
+					}
+
+					$(this).val($(this).val() == "EDIT" ? "SAVE" : "EDIT");
+				});
+
+				$('#bcOptEditSave').on("click", function(e) {
+					e.preventDefault();
+					if ($(this).val() == "EDIT") {
+						$('#branchContact').prop('disabled', false);
+					}  else {
+						$('#branchContact').prop('disabled', true);
+						processPOSTRequest("backendprocess.php", "saveBranchContact=true&branchID="
+							+ $('#branchAddr').attr("data-internalid") + "&contact="
+							+ $('#branchContact').val());
+					}
+
+					$(this).val($(this).val() == "EDIT" ? "SAVE" : "EDIT");
+				});				
+
 			</script>
 		</div>
 		<footer class="container center">
