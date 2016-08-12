@@ -51,6 +51,8 @@ CREATE TABLE BRANCHES_TB (
 	address VARCHAR(255) NOT NULL,
 	lat FLOAT( 10, 6 ) NOT NULL,
 	lng FLOAT( 10, 6 ) NOT NULL,
+	description TEXT, 
+	contact_number VARCHAR(255),
 	CONSTRAINT CPK_branches PRIMARY KEY(id, estab_id)
 );
 
