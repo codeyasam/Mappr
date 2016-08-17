@@ -245,5 +245,11 @@
    		   return preg_replace($pattern, "", $str);		
 	}	
 
-
+	function time_txt_to_24hour($str_time, $period) {
+		$time_array = explode(":", $str_time);
+		if ($period == "pm" || $period == "PM") {
+			$time_array[0] += 12;
+		}
+		return implode(":", $time_array);
+	}
 ?>
