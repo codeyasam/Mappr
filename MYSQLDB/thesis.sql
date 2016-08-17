@@ -180,6 +180,17 @@ CREATE TABLE SUBSPLAN_ESTAB_TB (
 	REFERENCES ESTABLISHMENT_TB(id)
 );
 
+CREATE TABLE BUSINESS_HOURS_TB (
+	id INT(11) AUTO_INCREMENT,
+	day_no INT(11) NOT NULL,
+	branch_id INT(11) NOT NULL,
+	CONSTRAINT bh_branch_id_FK FOREIGN KEY(branch_id)
+	REFERENCES BRANCHES_TB(id),
+	opening_hour TIME NOT NULL,
+	closing_hour TIME NOT NULL,
+	CONSTRAINT CPK_Business_hours PRIMARY KEY (id, day_no)
+);
+ 
 #default values
 -- INSERT INTO PLAN_TB (name, estab_no, branch_no, cost, days_no) VALUES ('WEEKLY SUBSCRIPTION', 3, 9, 2500, 7);
 -- INSERT INTO PLAN_TB (name, estab_no, branch_no, cost, days_no) VALUES ('MONTHLY SUBSCRIPTION', 3, 9, 5000, 31);
