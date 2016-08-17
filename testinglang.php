@@ -46,15 +46,57 @@
 <html>
 	<head>
 		<title></title>
+		<!-- to be added -->
 		<link rel="stylesheet" type="text/css" href="Public/js/jquery_timeentry/jquery.timeentry.css"/>
+		<!-- end -->
+		<link rel="stylesheet" type="text/css" href="Public/js/jquery-ui.css"/>
 	</head>
 	<body>
+
+		<div id="hoursContainerBACK" style="width: 700px">
+			
+		</div>
+
+		<div id="hoursContainer" style="width: 700px; display: none;">
+			
+		</div>		
+
+		<input type="submit" value="CANCEL"/>
+		<input id="hourSave" type="submit" value="SAVE"/>
+
+		<input type="submit" id="setBusinessHours" value="SET BUSINESS HOURS"/>
+
 		<script type="text/javascript" src="Public/js/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="Public/js/jquery-ui.min.js"></script>
+		<!-- to be added -->
 		<script type="text/javascript" src="Public/js/jquery_timeentry/jquery.plugin.js"></script> 
-		<script type="text/javascript" src="Public/js/jquery_timeentry/jquery.timeentry.js"></script>		
+		<script type="text/javascript" src="Public/js/jquery_timeentry/jquery.timeentry.js"></script>	
+		<!-- end -->
+		<script type="text/javascript" src="Public/js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="Public/js/functions.js"></script>
 		<script type="text/javascript">
+
+			$('#setBusinessHours').click(function() {
+				$("#hoursContainer").dialog("open");
+			});
+
+			$("#hoursContainer").dialog({
+				width: 650,
+				autoOpen: false,
+				modal: true,
+				buttons : {
+				    "Cancel" : function() {
+				      $(this).dialog("close");
+				    },"SAVE" : function() {
+						var json_hours_string = JSON.stringify(branchHourArray);
+						console.log(json_hours_string);
+						processPOSTRequest("testprocess.php", "test=true&jsonHours=" + json_hours_string);
+						$(this).dialog("close");
+				    }
+				  }
+			});	
+
+						
 
 			function myTimeEntry(inputID, defaultTime) {
 				$(inputID).timeEntry();
@@ -80,7 +122,7 @@
 
 			var branchHourInputs = "";
 			for (var i = 0; i < days.length; i++) {
-				branchHourInputs += '<div style="width: 700px;"><div style="width: 10%; float: left;" >' + days[i] + ': </div><span>';
+				branchHourInputs += '<div><div style="width: 10%; float: left;" >' + days[i] + ': </div><span>';
 				branchHourInputs += '<input type="radio" class="setTimeManual" name="timeSelection' + i + '" checked="checked" data-internalid="' + i + '" />';
 
 				branchHourInputs += '<input type="text" size="10" id="defaultEntryOpen' + i + '" class="defaultEntryOpen" data-internalid='
@@ -94,8 +136,7 @@
 				branchHourInputs += '<input type="radio" class="setTimeClosed" name="timeSelection' + i + '" value="closed" data-internalid="' + i + '"/> closed';
 
 				branchHourInputs += '<input type="radio" class="setTime24Hours" name="timeSelection' + i + '" data-internalid="' + i + '" /> 24 Hours';
-				branchHourInputs += '</div>';
-
+				branchHourInputs += "</div>";
 				var branchHour = {branch_id : branch_id, day_no : '', opening_hour : '', closing_hour : ''};
 
 				branchHour.day_no = i;
@@ -104,7 +145,7 @@
 				branchHourArray[i] = branchHour;
 			}
 
-			$('body').append(branchHourInputs);
+			$('#hoursContainer').append(branchHourInputs);
 			myTimeEntry(".defaultEntryOpen", "08:00AM");
 			myTimeEntry(".defaultEntryClose", "08:00PM");
 
@@ -154,8 +195,23 @@
 
 				branchHourArray[internalID].opening_hour = time_txt_to_24hour("12:00AM");
 				branchHourArray[internalID].closing_hour = time_txt_to_24hour("12:00PM");
-				
+
 			});		
+
+			function handleServerResponse() {
+				if (objReq.readyState == 4 && objReq.status == 200) {
+					console.log(objReq.responseText);
+					var jsonObj = JSON.parse(objReq.responseText);
+
+				}
+			}
+
+			$(document).on('click', '#hourSave', function() {
+				var json_hours_string = JSON.stringify(branchHourArray);
+				console.log(json_hours_string);
+				processPOSTRequest("testprocess.php", "test=true&jsonHours=" + json_hours_string);
+			});
+
 
 			console.log(branchHourArray);
 		</script>
