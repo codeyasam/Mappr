@@ -31,7 +31,7 @@
 
 		public static function delete_all($condition = "") {
 			global $database;
-			static::find_by_sql("DELETE FROM " . static::$table_name . ($condition != "" ? " WHERE " . $condition['key'] . "=" . ($condition['isNumeric'] ? $condition['value'] : "'" . $condition['value'] . "'") : ""));
+			$database->query("DELETE FROM " . static::$table_name . ($condition != "" ? " WHERE " . $condition['key'] . "=" . ($condition['isNumeric'] ? $condition['value'] : "'" . $condition['value'] . "'") : ""));
 			return $database->affected_rows() == 1 ? true : false;
 		}
 
@@ -124,7 +124,25 @@
 				$sql .= "WHERE id = '" . $database->escape_value($id) . "'";
 			else
 				$sql .= "WHERE id = '" . $database->escape_value($this->id) . "'";
+
 			$database->query($sql);
+			return ($database->affected_rows() == 1) ? true : false;
+		}
+
+		public function customUpdate($whereClause) {
+			global $database;
+
+			$attributes = $this->sanitized_attributes();
+			$attribute_pairs = array();
+
+			foreach ($attributes as $key => $value) {
+				$attribute_pairs[] = "{$key} = '{$value}'";
+			}
+
+			$sql  = "UPDATE " . static::$table_name . " SET ";
+			$sql .= join(", ", $attribute_pairs);			
+			$sql .= $whereClause;
+			$database->query($sql);	
 			return ($database->affected_rows() == 1) ? true : false;
 		}
 
