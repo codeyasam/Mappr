@@ -26,6 +26,7 @@
 		
 		foreach ($branches as $key => $branch) {
 			BranchGallery::delete_all(array('key'=>'branch_id', 'value'=>$branch->id, 'isNumeric'=>true));
+			BranchHours::delete_by_branch_id($branch->id);
 			BranchReview::delete_by_branch_id($branch->id);
 			MapprBookmark::delete_by_branch_id($branch->id);			
 		}
