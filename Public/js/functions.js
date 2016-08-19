@@ -73,3 +73,5 @@ function create_confirm_dialog() {
 	confirm_div.appendChild(confirm_p);
 	return confirm_div;
 }
+
+console.log("functions.js loaded");

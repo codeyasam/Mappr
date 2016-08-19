@@ -41,6 +41,7 @@
 			}
 
 		</style>	
+			<link rel="stylesheet" type="text/css" href="js/jquery_timeentry/jquery.timeentry.css"/>
 				<link rel="stylesheet" type="text/css" href="js/jquery-ui.css"/>		
 		<?php include '../includes/styles.php'; ?>
 	</head>
@@ -99,6 +100,15 @@
 							<input id="bcOptEditSave" type="submit" value="EDIT" />
 						</p>						
 
+						<div id="branchHours">
+							
+						</div>
+
+						<div id="hoursContainer" style="width: 700px; display: none;">
+							
+						</div>
+						<input type="submit" id="setBusinessHours" value="SET BUSINESS HOURS"/>
+
 						<h2>Photo Gallery</h2>
 						<div id="galleryContainer">
 						</div>	
@@ -112,9 +122,12 @@
 			<div id="map"  class="main-window"></div>
 
 			<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+			<script type="text/javascript" src="js/jquery_timeentry/jquery.plugin.js"></script> 
+			<script type="text/javascript" src="js/jquery_timeentry/jquery.timeentry.js"></script>
 			<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 			<script type="text/javascript" src="js/functions.js"></script>
 			<script type="text/javascript" src="js/jquery.qrcode.min.js"></script>
+
 			<script type="text/javascript">
 				$('#branchAddr').prop('disabled', true);
 				$('#branchDescription').prop('disabled', true);
@@ -287,6 +300,7 @@
 						if (jsonObj.branchSelected) {
 							//console.log("branch is now selected: " + selectedIndex);
 							manageDivInfos(jsonObj.hasBranches);
+							manageBranchHours(jsonObj.BranchHours);
 						}
 					}							
 				}
@@ -302,6 +316,36 @@
 						$('#emptyBranchesPrompt').show();
 						$('#branchesDropdown').hide();
 					}
+				}
+
+				function manageBranchHours(jsonBranchHours) {
+					var days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+					var outputBranchHours = "";
+					for (var i = 0; i < days.length; i++) {
+						console.log(jsonBranchHours[i]);
+						var daySched = getBrancHourDaySched(jsonBranchHours[i].opening_hour, 
+										jsonBranchHours[i].closing_hour);
+
+						outputBranchHours += '<div><div style="width: 10%; float: left; margin-right: 10px;" >' + days[i] + ': </div>';
+						outputBranchHours += daySched;
+						outputBranchHours += '</div>';
+					}
+					$('#branchHours').html("");
+					$('#branchHours').append(outputBranchHours);
+				}
+
+				function getBrancHourDaySched(opening_hour, closing_hour) {
+					var daySched = "";
+					if (opening_hour == closing_hour) {
+						daySched = "closed";
+					} else if (opening_hour == "00:00:00" && closing_hour == "23:59:00") {
+						daySched = "24 hours open";
+					} else {
+						daySched  = time_txt_to_12hour(opening_hour) + " to ";
+						daySched += time_txt_to_12hour(closing_hour);
+					}
+
+					return daySched; 
 				}
 
 				$('#branchesDropdown').on('change', function() {
@@ -627,8 +671,9 @@
 
 					$(this).val($(this).val() == "EDIT" ? "SAVE" : "EDIT");
 				});				
-
+			
 			</script>
+			<script type="text/javascript" src="js/setBusinessHours.js"></script>
 		</div>
 		<footer class="container center">
 			<?php include '../includes/footer.php'; ?>
