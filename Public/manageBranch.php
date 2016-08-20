@@ -289,6 +289,9 @@
 							markers[selectedIndex].description = jsonObj.updatedDescription;
 						} else if (jsonObj.updatedContact) {
 							markers[selectedIndex].contact = jsonObj.updatedContact;
+						} else if (jsonObj.updatedBranchHours) {
+							console.log(jsonObj.updatedBranchHours);
+							manageBranchHours(jsonObj.updatedBranchHours, true);
 						}
 
 						if (jsonObj.Gallery) {
@@ -299,8 +302,9 @@
 
 						if (jsonObj.branchSelected) {
 							//console.log("branch is now selected: " + selectedIndex);
-							manageDivInfos(jsonObj.hasBranches);
-							manageBranchHours(jsonObj.BranchHours);
+							var hasBranchHours = jsonObj.hasBranchHours > 0 ? true : false;
+							manageDivInfos(jsonObj.hasBranches);	
+							manageBranchHours(jsonObj.BranchHours, hasBranchHours);		
 						}
 					}							
 				}
@@ -318,7 +322,15 @@
 					}
 				}
 
-				function manageBranchHours(jsonBranchHours) {
+				function manageBranchHours(jsonBranchHours, hasBranchHours) {
+					$('#branchHours').html("");
+					var branch_id = markers[selectedIndex].id;
+					if (!hasBranchHours) {
+						$('#setBusinessHours').val("SET BUSINESS HOURS");
+						setupBranchHourInputs(branch_id);
+						return;
+					}
+					setupBranchHourInputs(branch_id, jsonBranchHours);
 					var days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 					var outputBranchHours = "";
 					for (var i = 0; i < days.length; i++) {
@@ -330,7 +342,7 @@
 						outputBranchHours += daySched;
 						outputBranchHours += '</div>';
 					}
-					$('#branchHours').html("");
+					$('#setBusinessHours').val("EDIT BUSINESS HOURS");
 					$('#branchHours').append(outputBranchHours);
 				}
 

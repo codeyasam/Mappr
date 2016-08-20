@@ -131,12 +131,13 @@
 			} 
 		}
 		
-		$output .= '"process": "dumaan dito"';
-	} else if (isset($_GET['getBranchHours'])) { 
-		$branch_id = $database->escape_value($_GET['branch_id']);
-		$branchHours = BranchHours::find_all(array('key'=>'branch_id', 'value'=>$branch_id, 'isNumeric'=>true));
-		$output .= createJSONEntity("BranchHours", $branchHours);
-	}
+		$output .= '"updatedBranchHours": ' . $_POST['jsonHours'];
+	} 
+	// else if (isset($_GET['getBranchHours'])) { 
+	// 	$branch_id = $database->escape_value($_GET['branch_id']);
+	// 	$branchHours = BranchHours::find_all(array('key'=>'branch_id', 'value'=>$branch_id, 'isNumeric'=>true));
+	// 	$output .= createJSONEntity("BranchHours", $branchHours);
+	// }
 
 	if (isset($_GET['branchSelected'])) {
 		branchSelected($_GET['branchID']);
@@ -154,7 +155,8 @@
 		$estabID = $database->escape_value($estabID);
 		$branches = EstabBranch::find_all(array('key'=>'estab_id','value'=> $estabID,'isNumeric'=>true));
 		$branchHours = BranchHours::find_all(array('key'=>'branch_id', 'value'=>$branchID, 'isNumeric'=>true));
-		$output .= '"hasBranches":' . count($branches) . ",";		
+		$output .= '"hasBranches":' . count($branches) . ",";	
+		$output .= '"hasBranchHours":' . count($branchHours) . ","; 	
 		//$estabID = $database->escape_value($_GET['estabID']);
 		$estabGal = EstabGallery::find_all(array("key" => "estab_id", "value" => $estabID, "isNumeric"=>true));
 		$branchGal = BranchGallery::find_all(array("key" => "branch_id", "value" => $branchID, "isNumeric"=>true));

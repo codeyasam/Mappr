@@ -2,8 +2,8 @@ $('#setBusinessHours').click(function(e) {
 	e.preventDefault();
 	console.log("nalipat naman na");
 	var branch_id = markers[selectedIndex].id;
-	processRequest("backendprocess.php?getBranchHours=true&branch_id=" + branch_id);
-	setupBranchHourInputs(branch_id);
+	//processRequest("backendprocess.php?getBranchHours=true&branch_id=" + branch_id);
+	//setupBranchHourInputs(branch_id);
 	$("#hoursContainer").dialog("open");
 });	
 
@@ -39,7 +39,9 @@ function time_txt_to_24hour(str_time) {
 		str_time[0] = parseInt(str_time[0]) - 12;
 	}
 
-	return str_time.join(":");
+	if (str_time[0] == 0) str_time[0] += "0"; 
+
+	return str_time.join(":") + ":00";
 }
 
 function time_txt_to_12hour(str_time) {
@@ -55,40 +57,58 @@ function time_txt_to_12hour(str_time) {
 	return str_time[0] + ':' + str_time[1] + period;
 }
 
+function getTimeSelection(branchHour) {
+	var timeSelection = "";
+	if (branchHour.opening_hour == branchHour.closing_hour) {
+		timeSelection = "CLOSED";
+	} else if (branchHour.opening_hour == "00:00:00" && branchHour.closing_hour == "23:59:00") {
+		timeSelection = "24HOURS";
+	} else {
+		timeSelection = "MANUALTIME";
+	}
+	return timeSelection;
+}
+
 var branchHourArray = [];
 var days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
-function setupBranchHourInputs(branch_id) { 
+function setupBranchHourInputs(branch_id, jsonBranchHours=false) { 
 	console.log(selectedIndex + " in setupBranchHourInputs");
 	var branchHourInputs = "";
 	for (var i = 0; i < days.length; i++) {
-		branchHourInputs += '<div><div style="width: 10%; float: left;" >' + days[i] + ': </div><span>';
+		var branchHour = {branch_id : branch_id, day_no : '', opening_hour : '', closing_hour : ''};
+		branchHour.day_no = i;
+		branchHour.opening_hour = !jsonBranchHours ? time_txt_to_24hour("08:00AM") : jsonBranchHours[i].opening_hour;
+		branchHour.closing_hour = !jsonBranchHours ? time_txt_to_24hour("08:00PM") : jsonBranchHours[i].closing_hour;
+		branchHourArray[i] = branchHour;		
+
+		var timeSelection = getTimeSelection(branchHour);
+
+		branchHourInputs += '<div id="eachBranchHourContainer' + i + '"><div style="width: 10%; float: left;" >' + days[i] + ': </div><span>';
 		branchHourInputs += '<input type="radio" class="setTimeManual" name="timeSelection' + i + '" checked="checked" data-internalid="' + i + '" />';
 
 		branchHourInputs += '<input type="text" size="10" id="defaultEntryOpen' + i + '" class="defaultEntryOpen" data-internalid='
-		branchHourInputs += '"' + i + '"' + '/></span>';
+		branchHourInputs += '"' + i + '"' + 'value="' + time_txt_to_12hour(branchHour.opening_hour) + '"';
+		branchHourInputs += timeSelection == "CLOSED" || timeSelection == "24HOURS" ? ' disabled="disabled" /></span>' : '/></span>';
 		
 		branchHourInputs += ' to <span>';
 
 		branchHourInputs += '<input type="text" size="10" id="defaultEntryClose' + i + '" class="defaultEntryClose" data-internalid=';
-		branchHourInputs += '"' + i + '"' + '/></span>';
+		branchHourInputs += '"' + i + '"' + 'value="' + time_txt_to_12hour(branchHour.closing_hour) + '"';
+		branchHourInputs += timeSelection == "CLOSED" || timeSelection == "24HOURS" ? ' disabled="disabled" /></span>' : '/></span>';
 
-		branchHourInputs += '<input type="radio" class="setTimeClosed" name="timeSelection' + i + '" value="closed" data-internalid="' + i + '"/> closed';
+		branchHourInputs += '<input type="radio" class="setTimeClosed" name="timeSelection' + i + '" value="closed" data-internalid="' + i + '"';
+		branchHourInputs += timeSelection == "CLOSED" ? ' checked="checked" /> closed' : ' /> closed';
 
-		branchHourInputs += '<input type="radio" class="setTime24Hours" name="timeSelection' + i + '" data-internalid="' + i + '" /> 24 Hours';
+		branchHourInputs += '<input type="radio" class="setTime24Hours" name="timeSelection' + i + '" data-internalid="' + i + '"';
+		branchHourInputs += timeSelection == "24HOURS" ? ' checked="checked" /> 24 Hours'  : ' /> 24 Hours';
 		branchHourInputs += "</div>";
-		
-		var branchHour = {branch_id : branch_id, day_no : '', opening_hour : '', closing_hour : ''};
-		branchHour.day_no = i;
-		branchHour.opening_hour = time_txt_to_24hour("08:00AM");
-		branchHour.closing_hour = time_txt_to_24hour("08:00PM");
-		branchHourArray[i] = branchHour;
 	}
 
 	$('#hoursContainer').html("");
 	$('#hoursContainer').append(branchHourInputs);
-	myTimeEntry(".defaultEntryOpen", "08:00AM");
-	myTimeEntry(".defaultEntryClose", "08:00PM");
+	$('.defaultEntryOpen').timeEntry();
+	$('.defaultEntryClose').timeEntry();
 }
 
 $(document).on('change', '.defaultEntryOpen', function() {
