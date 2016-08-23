@@ -96,14 +96,13 @@
 						  $_POST['interval_count'] < 1 ? 1 : $_POST['interval_count'];
 
 		\Stripe\Plan::create(array(
-		  "amount" => (int)number_format($new_plan->cost, 2, '', ''), //
+		  "amount" => (int)number_format($new_plan->cost * 100, 2, '.', ''), //
 		  "interval" => $interval,
 		  "interval_count" => $interval_count,
 		  "name" => $new_plan->plan_name,
 		  "currency" => "usd",
 		  "id" => $new_plan->id)
 		);	
-
 		$objArr = Plan::find_all();
 		$output .= createJSONEntity("Plans", $objArr);		
 	} else if (isset($_POST['deletePlan'])) {
