@@ -29,7 +29,7 @@
 					//$user->display_picture = "DISPLAY_PICTURES/profile_pic".$user->id;
 					$user->display_picture = "https:" . $content; 	
 					//echo "here";
-				} else if ($_FILES['img_upload']) {
+				} else if (file_exists($_FILES['img_upload']['tmp_name']) && is_uploaded_file($_FILES['img_upload']['tmp_name'])) {
 					echo "<pre>";
 						print_r($_FILES['img_upload']);
 					echo "</pre>";
