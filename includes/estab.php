@@ -15,5 +15,15 @@
 		public $display_picture = "DISPLAY_PICTURES/defaultEstabIcon.png";
 		public $tags;
 		public $description;
+
+		public static function find_like_name($searchStr) {
+			global $database;
+			$searchStr = $database->escape_value($searchStr);
+
+			$sql  = "SELECT * FROM " . self::$table_name . " ";
+			$sql .= "WHERE name LIKE '%" . $searchStr . "%'";
+
+			return self::find_by_sql($sql);
+		}
 	}
 ?>

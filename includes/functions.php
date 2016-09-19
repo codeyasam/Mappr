@@ -226,12 +226,32 @@
 	}
 
 	//newly created function
-	function createJSONEntity($holder, $objArr) {
+	function BACKUPcreateJSONEntity($holder, $objArr) {
 		$otString = '"' . $holder . '":[';
 		$otArray = array();
 
 		foreach ($objArr as $key => $eachObj) {
 			$otArray[] = $eachObj->toJSON();
+		}
+
+		$otString .= "{" . join("},{", $otArray) . "}";
+		$otString .= "]";
+
+		return $otString;
+	}	
+
+	//handles array of object of the models
+	function createJSONEntity($holder, $objArr, $customized=false) {
+		$otString = '"' . $holder . '":[';
+		
+		if (empty($objArr)) {
+			return $otString .= ']';
+		}
+		
+		$otArray = array();
+
+		foreach ($objArr as $key => $eachObj) {
+			$otArray[] = !$customized ? $eachObj->toJSON() : $eachObj->toJSON($customized);
 		}
 
 		$otString .= "{" . join("},{", $otArray) . "}";
