@@ -226,7 +226,7 @@
 	}
 
 	//newly created function
-	function BACKUPcreateJSONEntity($holder, $objArr) {
+	function AnotherBACKUPcreateJSONEntity($holder, $objArr) {
 		$otString = '"' . $holder . '":[';
 		$otArray = array();
 
