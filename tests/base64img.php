@@ -15,8 +15,9 @@
 		$user->username = isset($_POST['username']) ? trim($_POST['username']) : "";		
 		$user->password = isset($_POST['password']) ? md5(trim($_POST['password'])) : "";
 		$user->email = isset($_POST['email']) ? trim($_POST['email']) : "";		
-
-		if ($user->create()) {
+		if (User::check_existing($user->username, "username", "user already exists")) {
+			echo '{"success":"false", "msg":"username already exists"}';
+		} else if ($user->create()) {
 			if (isset($_POST['image'])) {
 				$decodedImage = base64_decode($_POST['image']);
 				file_put_contents("../Public/DISPLAY_PICTURES/profile_pic".$user->id, $decodedImage);
