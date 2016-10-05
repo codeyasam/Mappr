@@ -11,5 +11,13 @@
 		public $duration_name;
 		public $description;
 		public $duration_visibility;
+
+		public static function find_by_duration_name($d_name) {
+			global $database;
+			$d_name = $database->escape_value($d_name);
+			$objArr = self::find_all(array("key" => "duration_name", "value" => $d_name, "isNumeric" => false));
+
+			return !empty($objArr) ? array_shift($objArr) : false;
+		}
 	}
 ?>
