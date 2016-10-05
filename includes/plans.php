@@ -5,7 +5,7 @@
 	class Plan extends DatabaseObject {
 
 		protected static $table_name = "PLAN_TB";
-		protected static $db_fields = array("id", "plan_name", "plan_interval", "estab_no", "branch_no", "cost", "visibility");
+		protected static $db_fields = array("id", "plan_name", "plan_interval", "estab_no", "branch_no", "cost", "visibility", "custom_interval", "interval_count");
 
 		public $id;
 		//public $name;
@@ -15,6 +15,10 @@
 		public $branch_no;
 		public $cost;
 		public $visibility = "VISIBLE";
+		
+		//For Custom Plan Duration - 3 days, 5 weeks, 4 months etc
+		public $custom_interval = "";
+		public $interval_count = "";
 		//public $days_no;
 
 		public static function BACKUPfind_by_duration($duration_id) {
@@ -37,13 +41,23 @@
 			return self::find_by_sql($sql);
 		}
 
+		public function getFields() {
+			return array("id", "plan_name", "plan_interval", "estab_no", "branch_no", "cost", "visibility"); 
+		}
+
 		//Override
 		public function toJSON() {
 			$fValueArr = array();
 			foreach ($this->getFields() as $key => $eachField) {
 				if ($eachField == "plan_interval") {
 					$obj = PlanDuration::find_by_id($this->$eachField);
-					$fValueArr[] = '"' . $eachField . '":"' . $obj->description . '"';	
+					if ($obj->duration_name == "other") {
+						//$durationObj = PlanDUration::find_by_id($this->custom_interval);
+						$promptInterval = "every " . $this->interval_count . " " . $this->custom_interval;
+						$fValueArr[] = '"' . $eachField . '":"' . $promptInterval . '"';
+					} else {
+						$fValueArr[] = '"' . $eachField . '":"' . $obj->description . '"';	
+					}
 				} else {
 					$fValueArr[] = '"' . $eachField . '":"' . $this->$eachField . '"';		
 				}
