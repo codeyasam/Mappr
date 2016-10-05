@@ -76,6 +76,7 @@
 
 		$objArr = PlanDuration::find_all();
 		$output .= createJSONEntity("PlanDurations", $objArr);		
+		$output .= ', "saveChangesPD":"true"';
 	} else if (isset($_GET['getPlans'])) { //For plan management
 		$objArr = Plan::find_all();
 		$output .= createJSONEntity("Plans", $objArr);
@@ -87,13 +88,20 @@
 		$new_plan->branch_no = trim($_POST['branch_no']);
 		$new_plan->cost = trim($_POST['cost']);
 		$new_plan->visibility = trim($_POST['visibility']);
-		$new_plan->create();
+		//$new_plan->create();
 
 		//\Stripe\Stripe::setApiKey("sk_test_5lqGe81cTwC39ryIuby7KNu2");
 		$duration = PlanDuration::find_by_id($new_plan->plan_interval);
 		$interval = !empty($_POST['interval']) ? $_POST['interval'] : $duration->duration_name; 
 		$interval_count = $_POST['interval_count'] == "" || 
 						  $_POST['interval_count'] < 1 ? 1 : $_POST['interval_count'];
+
+		if ($duration->duration_name == "other") {
+			$new_plan->custom_interval = $interval;
+			$new_plan->interval_count = $interval_count;			
+		}
+
+		$new_plan->create();
 
 		\Stripe\Plan::create(array(
 		  "amount" => (int)number_format($new_plan->cost * 100, 2, '.', ''), //
@@ -104,7 +112,8 @@
 		  "id" => $new_plan->id)
 		);	
 		$objArr = Plan::find_all();
-		$output .= createJSONEntity("Plans", $objArr);		
+		$output .= createJSONEntity("Plans", $objArr);	
+		$output .= ', "createdPlan":"true"';	
 	} else if (isset($_POST['deletePlan'])) {
 		try {
 			Plan::delete_by_id($_POST['planID']);
@@ -125,7 +134,15 @@
 		$output .= '"branch_no":"' . $selected_plan->branch_no . '",';
 		$output .= '"cost":"' . $selected_plan->cost . '",';
 		$output .= '"visibility":"' . $selected_plan->visibility . '",';		
-		$output .= '"plan_name":"' . $selected_plan->plan_name . '"';			
+		$output .= '"plan_name":"' . $selected_plan->plan_name . '"';
+
+		$customDurationObj = PlanDuration::find_by_duration_name($selected_plan->custom_interval);
+		
+		if ($customDurationObj) {
+			$output .= ',"custom_interval":"' . $customDurationObj->id . '"';
+			$output .= ',"interval_count":"' . $selected_plan->interval_count . '"';
+		}
+		
 	} else if (isset($_POST['saveChangesPL'])) {
 		$selected_plan = Plan::find_by_id($_POST['planID']);
 		$selected_plan->plan_name = trim($_POST['plan_name']);
