@@ -57,6 +57,11 @@
 							else 
 								$('#duration_visibility').prop('checked', false);											
 						}
+
+						if (jsonObj.saveChangesPD) {
+							$('#formContainer').hide();
+							console.log("save changes pd");
+						}
 					}
 				}
 
