@@ -74,7 +74,9 @@ CREATE TABLE PLAN_TB (
 	estab_no INT(11) NOT NULL,  #no of establishment
 	branch_no INT(11) NOT NULL, #no of branches in all establishment
 	cost DECIMAL(19, 4) NOT NULL,
-	visibility VARCHAR(255) NOT NULL
+	visibility VARCHAR(255) NOT NULL,
+	custom_interval VARCHAR(255),
+	interval_count VARCHAR(255)
 	-- days_no INT(11) NOT NULL
 );
 
