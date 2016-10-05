@@ -74,4 +74,39 @@ function create_confirm_dialog() {
 	return confirm_div;
 }
 
-console.log("functions.js loaded");
+function create_confirm_dialog(myId, myTitle) {
+	var confirm_div = document.createElement("div");
+	confirm_div.setAttribute("id", myId);
+	confirm_div.setAttribute("title", myTitle);
+	confirm_div.style.display = 'none';
+	var confirm_p = document.createElement("p");
+	confirm_div.appendChild(confirm_p);
+	return confirm_div;
+}
+
+function custom_alert_dialog(msg) {
+	if ($('#customAlert').length != 1) {
+		$('body').append(create_confirm_dialog("customAlert", "NOTICE"));
+	}
+
+	$('#customAlert > p').text(msg);
+
+	$('#customAlert').dialog({
+		autoOpen: false,
+		modal: true,
+		buttons : {
+			"OK" : function() {
+				$(this).dialog('close');
+			}
+		}
+	});
+
+	$('#customAlert').dialog('open');
+	//console.log("did this");
+}
+
+function forTestingOnly() {
+	console.log("called");
+}
+
+console.log("functions.js loaded now");
