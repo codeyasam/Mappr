@@ -58,6 +58,8 @@
 					} else {
 						$fValueArr[] = '"' . $eachField . '":"' . $obj->description . '"';	
 					}
+				} else if ($eachField == "cost") {
+					$fValueArr[] = '"' . $eachField . '":"' . number_format($this->$eachField, 2, ".", ",") . '"';
 				} else {
 					$fValueArr[] = '"' . $eachField . '":"' . $this->$eachField . '"';		
 				}
