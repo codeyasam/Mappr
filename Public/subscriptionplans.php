@@ -21,8 +21,11 @@
 		<br>
 		<?php foreach($filtered_plans as $key => $each_plan): ?>
 			<div class="subscription-plans">
-				<?php if ($each_plan->plan_interval == 5) echo "PLAN NAME: " . htmlentities($each_plan->plan_name); ?>
-				<h3>Php <?php echo number_format($each_plan->cost, 2, ".", ","); ?></h3>
+				<?php if ($each_plan->plan_interval == 5) { ?>
+					<?php echo "PLAN NAME: " . htmlentities($each_plan->plan_name); ?> 
+					<p>Description: <?php echo cym_decode_unicode("every " . $each_plan->interval_count . " " . $each_plan->custom_interval); ?></p>
+				<?php } ?>
+				<h3>JPY <?php echo number_format($each_plan->cost, 2, ".", ","); ?></h3>
 				<p>No of Business: <?php echo $each_plan->estab_no; ?></p>
 				<p>Total Branches of all Business: <?php echo $each_plan->branch_no; ?></p>
 				<?php if ($user) { ?>
@@ -33,11 +36,12 @@
 						<script
 						src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 						data-key="pk_test_YJhO1yO3EP02pBLccVMVNXm2"
-						data-amount="<?php echo (int)number_format($each_plan->cost, 2, '', ''); ?>"
+						data-amount="<?php echo (int)number_format($each_plan->cost, 2, '.', ''); ?>"
 						data-name="Demo Site"
 						data-description="Widget"
 						data-image="/img/documentation/checkout/marketplace.png"
 						data-email="<?php echo $user->email; ?>"
+						data-currency="jpy"
 						data-locale="auto">
 						</script>
 						</div>
