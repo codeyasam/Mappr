@@ -104,11 +104,11 @@
 		$new_plan->create();
 
 		\Stripe\Plan::create(array(
-		  "amount" => (int)number_format($new_plan->cost * 100, 2, '.', ''), //
+		  "amount" => (int)number_format($new_plan->cost, 2, '.', ''), //
 		  "interval" => $interval,
 		  "interval_count" => $interval_count,
 		  "name" => $new_plan->plan_name,
-		  "currency" => "usd",
+		  "currency" => "jpy",
 		  "id" => $new_plan->id)
 		);	
 		$objArr = Plan::find_all();
