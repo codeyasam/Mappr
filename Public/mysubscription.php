@@ -42,7 +42,9 @@
 			<table id="subsContainer" class="data">
 				<tr>
 					<th>Subscription</th>
+					<th>Interval</th>
 					<th>Status</th>
+					<th>Period End</th>
 					<th colspan="3">options</th>
 				</tr>
 
@@ -57,8 +59,14 @@
 					<tr>
 						<?php $updated_transact = SubsPlan::find_by_id($each_transac->id); ?>
 						<td><?php echo $plan->toString(); ?></td>
+						<td><?php echo cym_decode_unicode("every " . $plan->interval_count . " " . $plan->custom_interval); ?></td>
 						<td><?php echo $updated_transact->status; ?></td>
-						<td><a href="manageEstab.php?sbscrbdID=<?php echo urlencode($each_transac->id); ?>">MANAGE ESTABLISHMENT</a></td>			
+						<?php if ($stripeSubs !== false) { ?>
+							<td><?php echo format_date(get_mysql_datetime($stripeSubs->current_period_end)); ?></td>
+							<td><a href="manageEstab.php?sbscrbdID=<?php echo urlencode($each_transac->id); ?>">MANAGE ESTABLISHMENT</a></td>
+						<?php } else { ?>
+							<td>none</td>
+						<?php } ?>			
 						<input type="hidden" name="subsPlanID" value="<?php echo $each_transac->id; ?>"/>
 						<td>
 						
