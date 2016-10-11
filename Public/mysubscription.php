@@ -59,7 +59,17 @@
 					<tr>
 						<?php $updated_transact = SubsPlan::find_by_id($each_transac->id); ?>
 						<td><?php echo $plan->toString(); ?></td>
-						<td><?php echo cym_decode_unicode("every " . $plan->interval_count . " " . $plan->custom_interval); ?></td>
+						<td>
+							<?php 
+								if ($plan->plan_interval == 5) {
+									echo cym_decode_unicode("every " . $plan->interval_count . " " . $plan->custom_interval);
+								} else {
+									$planDuration = PlanDuration::find_by_id($plan->plan_interval);
+									echo cym_decode_unicode($planDuration->description);
+								}
+							?>
+							
+						</td>
 						<td><?php echo $updated_transact->status; ?></td>
 						<?php if ($stripeSubs !== false) { ?>
 							<td><?php echo format_date(get_mysql_datetime($stripeSubs->current_period_end)); ?></td>
