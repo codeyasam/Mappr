@@ -113,6 +113,8 @@
 							} else {
 								$('#customPlan').hide();
 							}							
+						} else if (jsonObj.hasPlanDeleteError) {
+							custom_alert_dialog("Can't delete this plan, a customer is currently subscribed to this plan.");
 						}
 					}				
 				}
@@ -149,7 +151,13 @@
 					console.log($(this).attr("data-internalid"));
 					var planID = $(this).attr("data-internalid");
 					//processRequest("backendprocess.php?deletePlan=true&planID=" + planID);
-					processPOSTRequest("backendprocess.php", "deletePlan=true&planID=" + planID);
+					var action_performed = function() {
+						processPOSTRequest("backendprocess.php", "deletePlan=true&planID=" + planID);	
+						$('#dialog').dialog('close');
+					}
+
+					confirm_action("Are you sure to delete this subscription?", action_performed);
+					//processPOSTRequest("backendprocess.php", "deletePlan=true&planID=" + planID);
 					return false;
 				});	
 

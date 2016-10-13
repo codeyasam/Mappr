@@ -116,9 +116,9 @@
 		$output .= ', "createdPlan":"true"';	
 	} else if (isset($_POST['deletePlan'])) {
 		try {
-			Plan::delete_by_id($_POST['planID']);
+			$has_affected_rows = Plan::delete_by_id($_POST['planID']);
 			$objArr = Plan::find_all();
-			$output .= createJSONEntity("Plans", $objArr);	
+			$output .= $has_affected_rows ? createJSONEntity("Plans", $objArr) : '"hasPlanDeleteError":"true"';	
 
 			$plan = \Stripe\Plan::retrieve($_POST['planID']);
 			$plan->delete();			
