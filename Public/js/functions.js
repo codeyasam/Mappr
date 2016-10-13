@@ -74,7 +74,7 @@ function create_confirm_dialog() {
 	return confirm_div;
 }
 
-function create_confirm_dialog(myId, myTitle) {
+function create_confirm_dialog(myId="dialog", myTitle="Confirmation Required") {
 	var confirm_div = document.createElement("div");
 	confirm_div.setAttribute("id", myId);
 	confirm_div.setAttribute("title", myTitle);
