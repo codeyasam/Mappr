@@ -28,6 +28,7 @@
 <html>
 	<head>
 		<title></title>
+		<link rel="stylesheet" type="text/css" href="js/jquery-ui.css"/>		
 		<?php include '../includes/styles.php'; ?>
 	</head>
 	<body>
@@ -95,7 +96,7 @@
 								}
 							} else {
 								?><form action="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=RENEW" method="POST">
-									<input type="submit" name="submit" value="RENEW"/>
+									<input class="renewBtn" type="submit" name="submit" value="RENEW" data-internalid="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=RENEW"/>
 								<?php
 									//echo "RENEW";
 							}
@@ -108,7 +109,39 @@
 			</table>
 		<?php } else { ?>
 			<p>You dont have any subscriptions yet. <a href="subscription.php">Pick a subscription here.</a></p>
-		<?php } ?>		
+		<?php } ?>
+		<div id="dialog" style="display: none;" title="Confirmation Required">
+			<p>Are you sure you want to renew this subscription?</p>
+			<form action="" method="POST"> 
+				<input id="confirmBtn" type="submit" name="submit" value="OK" />
+				<input id="cancelBtn" type="button" value="CANCEL" />
+			</form>
+		</div>
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/functions.js"></script>		
+		<script type="text/javascript">
+			$('#dialog').dialog({
+				autoOpen: false,
+				modal: true
+			});
+
+			$(document).on('click', '.renewBtn', function(e) {
+				e.preventDefault();
+				console.log($(this).attr('data-internalid'));
+				var actionRenew = $(this).attr('data-internalid');
+				$('#dialog > form').attr('action', actionRenew);
+				$('#dialog').dialog('open');
+			});
+
+			$('#cancelBtn').on('click', function() {
+				$('#dialog').dialog('close');
+			}); 
+
+			$('#confirmBtn').on('click', function() {
+				$('#dialog').dialog('close');
+			});
+		</script>		
 		<footer>
 			<?php include '../includes/footer.php'; ?>
 		</footer>
