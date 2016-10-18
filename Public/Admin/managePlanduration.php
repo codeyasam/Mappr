@@ -11,6 +11,7 @@
 	<head>
 		<title></title>
 		<?php include '../../includes/styles_admin.php'; ?>
+		<link rel="stylesheet" type="text/css" href="../js/jquery-ui.css">
 	</head>
 	<body>
 		<header>
@@ -61,6 +62,8 @@
 						if (jsonObj.saveChangesPD) {
 							$('#formContainer').hide();
 							console.log("save changes pd");
+							$('body').removeClass("mLoading");
+							custom_alert_dialog("Successfully updated");
 						}
 					}
 				}
@@ -122,13 +125,18 @@
 					var description = $('#description').val().trim();
 					var duration_name = $('#duration_name').val().trim();
 					var duration_visibility = $('#duration_visibility').is(":checked") ? "VISIBLE" : "HIDDEN";
-					if (description == "" || duration_name == "" || duration_visibility == "") return;				
+					if (description == "" || duration_name == "" || duration_visibility == "") {
+						custom_alert_dialog("Fill required field.");
+						return;	
+					}			
+					$('#formContainer').hide();
+					$('body').addClass("mLoading");
 					//processRequest("backendprocess.php?saveChangesPD=true&planDurationID=" + planDurationID + "&description=" + description +"&duration_name="+duration_name+"&duration_visibility="+duration_visibility);
 					processPOSTRequest("backendprocess.php", "saveChangesPD=true&planDurationID=" + planDurationID + "&description=" + description +"&duration_name="+duration_name+"&duration_visibility="+duration_visibility);	
 
 					$('#optSave').hide();
 					$('#optCancel').hide();	
-					$('#optAdd').show();
+					//$('#optAdd').show();
 
 					$('#optSave').attr("data-internalid", "");
 					$('#description').val("");
