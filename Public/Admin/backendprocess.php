@@ -17,14 +17,21 @@
 
 		$objArr = EstabCategory::find_all();
 		$output .= createJSONEntity("Categories", $objArr);
-
+		$output .= ', "createdCateg":"true"';
 	} else if (isset($_GET['getCategories'])) {
 		$objArr = EstabCategory::find_all();
 		$output .= createJSONEntity("Categories", $objArr);
 	} else if (isset($_POST['deleteCateg'])) {
-		EstabCategory::delete_by_id($_POST['categoryID']);
+		$has_affected_rows = EstabCategory::delete_by_id($_POST['categoryID']);
 		$objArr = EstabCategory::find_all();
-		$output .= createJSONEntity("Categories", $objArr);		
+		$output .= createJSONEntity("Categories", $objArr);
+		
+		if ($has_affected_rows) {
+			$output .= ', "deletedCateg":"true"';	
+		} else {
+			$output .= ', "deletedCateg":"false"';
+		}
+				
 	} else if (isset($_GET['editCateg'])) {
 		$selected_category = EstabCategory::find_by_id($_GET['categoryID']);
 		$output .= '"categorySelected":"true",';
@@ -45,6 +52,7 @@
 
 		$objArr = EstabCategory::find_all();
 		$output .= createJSONEntity("Categories", $objArr);
+		$output .= ', "updatedCateg":"true"';
 	} else if (isset($_GET['getPlanDurations'])) { //For plan duration management
 		$objArr = PlanDuration::find_all();
 		$output .= createJSONEntity("PlanDurations", $objArr);
@@ -124,7 +132,7 @@
 				$output .= createJSONEntity("Plans", $objArr);
 				$output .= ', "hasPlanDeleteError":"false"';
 			} else {
-				$outpu .= '"hasPlanDeleteError":"true"';
+				$output .= '"hasPlanDeleteError":"true"';
 			}
 
 			$plan = \Stripe\Plan::retrieve($_POST['planID']);

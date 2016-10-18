@@ -32,6 +32,7 @@
 				<p><input id="duration_visibility" type="checkbox" name="duration_visibility" value="Visible"/>Visible</p>
 				<p><input id="optAdd" type="submit" value="+ADD CATEGORY"/><input id="optSave" type="submit" value="SAVE CHANGES"/><input id="optCancel" type="submit" value="CANCEL"/></p>
 			</div>
+			<div class="mLoadingEffect"></div>
 			<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
 			<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
 			<script type="text/javascript" src="../js/functions.js"></script>
