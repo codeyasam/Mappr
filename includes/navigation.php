@@ -28,6 +28,7 @@
 					<li><a href="accountsettings.php">Edit Profile</a></li>
 					<li><a href="mysubscription.php">My Subscriptions</a></li>
 					<li><a href="paymentSummary.php">View Transactions</a></li>
+          <li><a href="activitylogSummary.php">View Activity Log</a></li>
         			<li role="separator" class="divider"></li>
 					<li><a href="logout.php">Logout</a></li>
            		</ul>
