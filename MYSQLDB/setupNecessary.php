@@ -21,7 +21,7 @@
 		  "amount" => (int)number_format($eachPlan->cost, 2, '', ''), //
 		  "interval" => $duration->duration_name,
 		  "name" => $eachPlan->plan_name,
-		  "currency" => "usd",
+		  "currency" => "jpy",
 		  "id" => $eachPlan->id)
 		);		
 	}
