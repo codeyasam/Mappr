@@ -3,7 +3,7 @@
 	//absolute path definition
 	defined("DS") ? null : define("DS", DIRECTORY_SEPARATOR);
 
-	defined("SITE_ROOT") ? null : define("SITE_ROOT", "D:" . DS . "SITE" . DS . "thesis");
+	defined("SITE_ROOT") ? null : define("SITE_ROOT", DS . "var" . DS . "www" . DS . "html" . DS . "thesis");
 
 	defined("LIB_PATH") ? null : define("LIB_PATH", SITE_ROOT . DS . "includes");
 
@@ -37,6 +37,7 @@
 	require_once(LIB_PATH . DS . "branchGallery.php");
 	require_once(LIB_PATH . DS . "bookmark.php");
 	require_once(LIB_PATH . DS . "businesshours.php");
+	require_once(LIB_PATH . DS . "activitylog.php");
 
 	//load minor dependencies
 	require_once(LIB_PATH . DS . "phpqrcode/qrlib.php");
