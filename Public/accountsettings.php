@@ -31,44 +31,80 @@
 				<?php include("../includes/navigation.php"); ?>
 			</div>
 		</header>
-		<form action="accountsettings.php" method="POST" enctype="multipart/form-data">
-			<p><img id="output" class="circle" height="100px" width="100px" src="<?php echo htmlentities($user->display_picture); ?>"/></p>
-			<p><input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/></p>
-			<p>First Name: <input id="fName" type="text" name="first_name" value="<?php echo cym_decode_unicode($user->first_name); ?>" required="required" placeholder="First name"/></p>
-			<p>Last Name: <input id="lName" type="text" name="last_name" value="<?php echo cym_decode_unicode($user->last_name); ?>" required="required" placeholder="Last name"></p>
-			<p>Email: <?php echo htmlentities($user->email); ?></p>  
-			<p>Username: <?php echo htmlentities($user->username); ?></p>
-			<hr/>OPTIONAL
-			<p><input type="text" name="contact" value="<?php echo htmlentities($user->contact); ?>" placeholder="contact"/></p>
-			<p><input id="hometown" type="text" name="hometown" value="<?php echo htmlentities($user->hometown); ?>" placeholder="hometown"/></p>
-			<p><input id="submit" type="submit" name="submit" value="EDIT PROFILE"></p>
-		</form>
 
-		<div id="changePassDialog" style="display: none;" title="CHANGE PASSWORD">
-			<table>
-				<tr>
-					<td>Old Password: </td>
-					<td><input id="oldPass" type="password" name=""/></td>
-				</tr>
-				<tr style="display: none;">
-					<td></td>
-					<td id="noticeOld"></td>
-				</tr>
-				<tr>
-					<td>New Password: </td>
-					<td><input id="newPass" type="password" name=""/></td>
-				</tr>
-				<tr>
-					<td>Confirm Password: </td>
-					<td><input id="confPass" type="password" name=""/></td>	
-				</tr>
-				<tr>
-					<td></td>
-					<td id="noticeConf"></td>
-				</tr>
-			</table>
+		<div class="container center">
+			<div class="panel panel-primary">
+				<div class="panel-heading"><h1 class="heading-label">Edit Profile</h1></div>
+				<div class="solo-form panel-body">
+					<form action="accountsettings.php" method="POST" enctype="multipart/form-data">
+						<div class="form-group text-center" style="padding: 10px;">
+							<div class="round-image" style="display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">
+								<img id="output" src="<?php echo htmlentities($user->display_picture); ?>"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Display Photo:</label>
+							<input type="file" class="form-control" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
+						</div>
+						<div class="form-group">
+							<label>First Name:</label>
+							<input id="fName" class="form-control" type="text" name="first_name" value="<?php echo cym_decode_unicode($user->first_name); ?>" required="required"/>
+						</div>
+						<div class="form-group">
+							<label>Last Name:</label>
+							<input id="lName" class="form-control" type="text" name="last_name" value="<?php echo cym_decode_unicode($user->last_name); ?>" required="required">
+						</div>
+						<div class="form-group">
+							<label>E-mail Address:</label> <?php echo htmlentities($user->email); ?>
+						</div>
+						<div class="form-group">
+							<label>Username:</label> <?php echo htmlentities($user->username); ?>
+						</div>
+						<hr>
+						<div class="form-group">
+							<label>Contact No.:</label>
+							<input type="text" class="form-control" name="contact" value="<?php echo htmlentities($user->contact); ?>"/>
+						</div>
+						<div class="form-group">
+							<label>Hometown:</label>
+							<input id="hometown" class="form-control" type="text" name="hometown" value="<?php echo htmlentities($user->hometown); ?>"/>
+						</div>
+						<div class="form-group text-center">
+							<input class="form-control btn btn-primary" style="display: inline-block; width:48%;" id="submit" type="submit" name="submit" value="EDIT PROFILE">
+							<input class="form-control btn btn-primary" style="display: inline-block; width:48%;" type="submit" id="changePass" value="CHANGE PASSWORD"/>
+						</div>
+					</form>		
+				</div>
+			</div>
+			<div id="changePassDialog" style="display: none;" title="CHANGE PASSWORD">
+				<table>
+					<tr>
+						<td>Old Password: </td>
+						<td><input id="oldPass" type="password" name=""/></td>
+					</tr>
+					<tr style="display: none;">
+						<td></td>
+						<td id="noticeOld"></td>
+					</tr>
+					<tr>
+						<td>New Password: </td>
+						<td><input id="newPass" type="password" name=""/></td>
+					</tr>
+					<tr>
+						<td>Confirm Password: </td>
+						<td><input id="confPass" type="password" name=""/></td>	
+					</tr>
+					<tr>
+						<td></td>
+						<td id="noticeConf"></td>
+					</tr>
+				</table>
+			</div>
 		</div>
-		<input type="submit" id="changePass" value="CHANGE PASSWORD"/>
+
+		
+		<?php include '../includes/footer.php'; ?>
+
 
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>	
@@ -85,7 +121,7 @@
 							alert("successfully changed the password.");
 							$('#changePassDialog').dialog('close');
 						} else {	
-							alert("wrong old password");
+							alert("Invalid old password!");
 						}
 					}					
 				}

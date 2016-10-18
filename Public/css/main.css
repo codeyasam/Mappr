@@ -1,0 +1,157 @@
+body, div {
+	/*margin: 0;*/
+	padding: 0;
+}
+
+body {
+	padding-top: 50px;
+	background-color: #e0e0e0;
+}
+
+footer {
+	font-size: .8em;
+	padding: 20px;
+	background: #202020;
+	color: #ccc;
+}
+
+.panel {
+	margin-top: 20px;
+}
+
+h1 {
+	padding: 10px;
+}
+
+h1.heading-label {
+	font-family: Impact;
+	/*border-left: 10px solid #555;*/
+
+}
+
+.page-wrap {
+	min-height: 650px;
+}
+
+.col {
+	overflow: hidden;
+	margin: 0;
+}
+
+.col-3>.col{
+	padding: 20px;
+	min-height: 200px;
+}
+
+.homepage>div.col:nth-child(even) {
+	background-color: #ddd;
+}
+
+.login {
+	margin: 350px auto 100px;
+	width: 30%;
+	background-color: rgba(255,255,255,.8);
+	padding: 20px;
+	/*color: #fff;*/
+	position: relative;
+	border-bottom: 30px solid #202020;
+	box-shadow: 0 10px 20px rgba(0,0,0,.3);
+	/*overflow: unset;*/
+}
+
+.login>h1 {
+	font-size: 2em;
+	/*margin: -10px 0 0 0;*/
+}
+
+.offset-title {
+	border-radius: 10px 10px 0 0;
+	display: block;
+	width: 88%;
+	text-align: center;
+	position: absolute;
+	top: -30px;
+	background-color: #eccf00;
+	font-size: 1.5em;
+	padding: 10px 30px;
+	color: #333;
+	font-weight: bold;
+}
+
+/* bootstrap */
+
+.navbar {
+	margin: 0;
+}
+
+/*---- CAROUSEL ----*/
+#myCarousel {
+	overflow: hidden;
+}
+
+#myCarousel .item {
+	text-align: center;
+}
+
+#myCarousel .item>img {
+	margin: 0 auto;
+}
+
+.container {
+	min-height: 700px;
+	background: #fff;
+}
+
+.solo-form {
+	width: 600px;
+	margin: 0 auto;
+}
+
+.round-image {
+	border-radius: 50%;
+}
+
+.subscription a {
+	color: #8a6d3b;
+	font-weight: bold;
+	font-size: .9em;
+}
+
+.subscription,.subscription-plans {
+	display: inline-block;
+	margin: 10px;
+	/*box-shadow: 10px 10px 15px rgba(0,0,0,.1);*/
+	padding: 15px;
+	border: 2px solid #fcf8e3;
+}
+
+.subscription>a:link, .subscription>a:visited {
+	font-family: Impact;
+	display: inline-block;
+	color: #8a6d3b;
+	text-decoration: none;
+}
+
+.subscription>a:hover, .subscription>a:active {
+	color: #c19953;
+}
+
+.subscription {
+	width: 48%;
+}
+
+.subscription-plans {
+	width: 31.2%;
+}
+
+.panel {
+	box-shadow: 10px 10px 15px rgba(0,0,0,.1);
+}
+
+.manage {
+
+}
+
+#map {
+	background: red;
+}

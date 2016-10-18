@@ -17,37 +17,45 @@
 		</div>
 	</header>
 	<div class="container center clearfix">
-		<h1>Choose a plan</h1>
-		<br>
-		<?php foreach($filtered_plans as $key => $each_plan): ?>
-			<div class="subscription-plans">
-				<?php if ($each_plan->plan_interval == 5) echo "PLAN NAME: " . htmlentities($each_plan->plan_name); ?>
-				<h3>Php <?php echo number_format($each_plan->cost, 2, ".", ","); ?></h3>
-				<p>No of Business: <?php echo $each_plan->estab_no; ?></p>
-				<p>Total Branches of all Business: <?php echo $each_plan->branch_no; ?></p>
-				<?php if ($user) { ?>
-					<form action="processpayment.php" method="POST">
-						<p>Coupon Code: <input type=text size="6" class="coupon" name="coupon_id" />
-						<input class="applyCoupon" type="button" value="Apply"><br><span style="font-weight: 700;" class="msg"></span></p>
-						<div class="right">
-						<script
-						src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-						data-key="pk_test_YJhO1yO3EP02pBLccVMVNXm2"
-						data-amount="<?php echo (int)number_format($each_plan->cost, 2, '', ''); ?>"
-						data-name="Demo Site"
-						data-description="Widget"
-						data-image="/img/documentation/checkout/marketplace.png"
-						data-email="<?php echo $user->email; ?>"
-						data-locale="auto">
-						</script>
-						</div>
-						<input type="hidden" name="plan_id" value="<?php echo $each_plan->id; ?>"/>
-					</form>
-				<?php } else { ?>
-					<a href="registeruser.php">REGISTER NOW</a>
-				<?php } ?>
-			</div>
-		<?php endforeach; ?>
+
+		<div class="panel panel-warning">
+			<div class="panel-heading"><h1 class="heading-label">Choose a plan</h1></div>
+			<div class="panel-body">
+			<?php foreach($filtered_plans as $key => $each_plan): ?>
+				<div class="subscription-plans">
+					<?php if ($each_plan->plan_interval == 5) echo "PLAN NAME: " . htmlentities($each_plan->plan_name); ?>
+					<h3>Php <?php echo number_format($each_plan->cost, 2, ".", ","); ?></h3>
+					<p>No of Business: <?php echo $each_plan->estab_no; ?></p>
+					<p>Total Branches of all Business: <?php echo $each_plan->branch_no; ?></p>
+					<?php if ($user) { ?>
+						<form action="processpayment.php" method="POST">
+							<div class="form-group">
+								<label>Coupon Code:</label>
+								<input type=text size="6" style="width: 30%;display: inline-block;" class="coupon form-control" name="coupon_id" />
+								<input class="applyCoupon btn btn-primary" style="display: inline-block;" type="button" value="Apply">
+								<span style="font-weight: 700;" class="msg"></span>
+							</div>
+							<div class="right">
+								<script
+								src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+								data-key="pk_test_YJhO1yO3EP02pBLccVMVNXm2"
+								data-amount="<?php echo (int)number_format($each_plan->cost, 2, '', ''); ?>"
+								data-name="Demo Site"
+								data-description="Widget"
+								data-image="/img/documentation/checkout/marketplace.png"
+								data-email="<?php echo $user->email; ?>"
+								data-locale="auto">
+								</script>
+							</div>
+							<input type="hidden" name="plan_id" value="<?php echo $each_plan->id; ?>"/>
+						</form>
+					<?php } else { ?>
+						<a href="registeruser.php">REGISTER NOW</a>
+					<?php } ?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		</div>
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="js/functions.js"></script>	
@@ -74,11 +82,8 @@
 			});
 
 		</script>
-		<footer>
-			<?php include '../includes/footer.php'; ?>
-		</footer>
 	</div>
-		
+	<?php include '../includes/footer.php'; ?>
 	</body>
 </html>
 
