@@ -11,6 +11,9 @@
 			$user->password = $newPass;
 			$user->update();
 			$output .= '"changePass":"true"';
+
+			MapprActLog::recordActivityLog("Changed Password", $user->id);
+
 		}
 	}
 	$output .= "}";

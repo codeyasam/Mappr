@@ -13,7 +13,10 @@
 			move_uploaded_file($_FILES['img_upload']['tmp_name'], "DISPLAY_PICTURES/profile_pic".$user->id);
 			$user->display_picture = MAPPR_PUBLIC_URL . "DISPLAY_PICTURES/profile_pic".$user->id;			
 		}
-		$user->update();				
+		$user->update();	
+
+		MapprActLog::recordActivityLog("Edited Profile", $user->id);
+
 	}
 ?>
 

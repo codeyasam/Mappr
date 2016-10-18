@@ -37,7 +37,8 @@
 					$user->display_picture = MAPPR_PUBLIC_URL . "DISPLAY_PICTURES/profile_pic".$user->id;
 					//echo "poop";
 				}
-				$user->update();		
+				$user->update();	
+				MapprActLog::recordActivityLog("Registered to One Coin", $user->id);	
 				$session->login($user);
 				redirect_to("subscription.php");
 			}

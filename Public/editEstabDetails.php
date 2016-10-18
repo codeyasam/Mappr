@@ -43,6 +43,8 @@
 			}
 		}
 
+		MapprActLog::recordActivityLog("Updated an Establishment", $user->id);
+
 		redirect_to("manageEstab.php?sbscrbdID=".urlencode($sbscrbdID));		
 	}
 

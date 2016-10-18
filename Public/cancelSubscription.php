@@ -16,10 +16,16 @@
 		if ($_GET['opt'] === "CANCEL") {
 			$stripeSubs = \Stripe\Subscription::retrieve($each_transac->stripe_id);
 			$stripeSubs->cancel(array('at_period_end' => true));
+
+			MapprActLog::recordActivityLog("Cancelled a subscription at period end", $user->id);
+
 		} else if ($_GET['opt'] === "REACT") {
 			$stripeSubs = \Stripe\Subscription::retrieve($each_transac->stripe_id); 		
 	 		$stripeSubs->plan = $each_transac->plan_id; 
 	 		$stripeSubs->save();
+
+	 		MapprActLog::recordActivityLog("Reactivated recurring payments for a subscription", $user->id);
+
 		} else if ($_GET['opt'] === "RENEW") {
 			$subscription = \Stripe\Subscription::create(array(
 			  "customer" => $user->stripe_id,
@@ -29,6 +35,9 @@
 			$each_transac->status = "ACTIVE";
 			$each_transac->stripe_id = $subscription['id'];
 			$each_transac->update();
+
+			MapprActLog::recordActivityLog("Renewed a terminated subscription", $user->id);
+
 		}
 
 		redirect_to("mysubscription.php");

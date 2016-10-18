@@ -56,6 +56,8 @@
 			$subsPlanEstab->estab_id = $new_estab->id;
 			$subsPlanEstab->create();
 
+			MapprActLog::recordActivityLog("Added an Establishment", $user->id);
+
 			redirect_to("manageEstab.php?sbscrbdID=".$_GET['id']);
 		}
 
