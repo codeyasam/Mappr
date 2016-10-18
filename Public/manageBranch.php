@@ -52,17 +52,26 @@
 			</div>
 
 		</header>
-		<div class="container center clearfix">			
-			<div class="manage" style="margin-top: 0;">
-				<div id="display_picture">
-					<img src="<?php echo htmlentities($currentEstab->display_picture); ?>">
+		<div class="container center clearfix">
+		<div class="row">
+	
+			<div class="manage col col-sm-4" style="margin-top: 0;">
+				<div class="text-center">
+					<div id="display_picture" class="round-image text-center" style="display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">
+						<img style="height: 130px; margin-left: -50%;" id="output" src="<?php echo htmlentities($currentEstab->display_picture); ?>"/>
+					</div>
 				</div>
 				<h1><?php echo htmlentities($currentEstab->name); ?></h1>
-				<input type="text" id="autocomplete">
 				<form action="manageBranch.php?id=<?php echo urlencode($estabID); ?>" method="POST">
-					<p><select id="branchesDropdown" style="display: none;">
-						<option value="-1" hidden>Select a branch</option>
-					</select></p>
+					<div class="form-group">
+						<input class="form-control" type="text" id="autocomplete">
+					</div>
+					<div class="form-group">
+						<select id="branchesDropdown" class="form-control" style="display: none;">
+							<option value="-1" hidden><i class="glyphicon glyphicon-plus">a</i>Select a branch</option>
+						</select>
+					</div>
+					<p></p>
 					<div class="actionBtnContainer">
 						<button title="Add Tool" id="addBranchBtn" type="button"></button>
 						<button title="Delete Tool" id="delBranchBtn" type="button"></button>
@@ -116,10 +125,11 @@
 					</div>
 					<p id="emptyBranchesPrompt" style="display: none;">You do not have branches yet. Select the +, then find your location then click the map.</p>
 				</form>
-			</div>			
+			</div>	
 			<script src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDDpPDWu9z820FMYyOVsAphuy0ryz4kt2o&libraries=places&sensor=false"></script>
 			
-			<div id="map"  class="main-window"></div>
+			<div id="map" class="main-window col col-sm-8"></div>
+		</div>				
 
 			<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 			<script type="text/javascript" src="js/jquery_timeentry/jquery.plugin.js"></script> 
@@ -687,8 +697,6 @@
 			</script>
 			<script type="text/javascript" src="js/setBusinessHours.js"></script>
 		</div>
-		<footer class="container center">
-			<?php include '../includes/footer.php'; ?>
-		</footer>
+		<?php include '../includes/footer.php'; ?>
 	</body>
 </html>

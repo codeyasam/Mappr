@@ -38,19 +38,30 @@
 		</div>
 	</header>
 	<div class="container center">
+
 		<h1>My Subscription</h1>
-		<?php if (!empty($transactions)) { ?>
-			<table id="subsContainer" class="data">
-				<tr>
-					<th>Subscription</th>
-					<th>Interval</th>
-					<th>Status</th>
-					<th>Period End</th>
-					<th colspan="3">options</th>
-				</tr>
+		
+		<div class="panel panel-warning">
+			<div class="panel-heading"><h1 class="heading-label">My Subscription</h1></div>
+			<div class="panel-body">
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			</div>
+			<?php if (!empty($transactions)) { ?>
+				<table id="subsContainer" class="data">
+					<tr>
+						<th>Subscription</th>
+						<th>Interval</th>
+						<th>Status</th>
+						<th>Period End</th>
+						<th colspan="3">options</th>
+					</tr>
 
 				<?php foreach($transactions as $key => $each_transac):  ?>
-					
 					<?php $plan = Plan::find_by_id($each_transac->plan_id); ?>
 					<?php //$stripeSubs = \Stripe\Subscription::retrieve($each_transac->stripe_id); ?>
 					<?php $stripeSubs = stripeHasSubscription($each_transac->stripe_id, $each_transac->id); ?>
@@ -78,6 +89,10 @@
 						<?php } else { ?>
 							<td>none</td>
 						<?php } ?>			
+
+						<td><?php echo $updated_transact->status; ?></td>
+						<td><a href="manageEstab.php?sbscrbdID=<?php echo urlencode($each_transac->id); ?>">MANAGE ESTABLISHMENT</a></td>			
+
 						<input type="hidden" name="subsPlanID" value="<?php echo $each_transac->id; ?>"/>
 						<td>
 						
@@ -96,7 +111,10 @@
 								}
 							} else {
 								?><form action="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=RENEW" method="POST">
+
 									<input class="renewBtn" type="submit" name="submit" value="RENEW" data-internalid="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=RENEW"/>
+
+									<input type="submit" name="submit" value="RENEW"/>
 								<?php
 									//echo "RENEW";
 							}
@@ -117,35 +135,31 @@
 				<input id="cancelBtn" type="button" value="CANCEL" />
 			</form>
 		</div>
-		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
-		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="js/functions.js"></script>		
-		<script type="text/javascript">
-			$('#dialog').dialog({
-				autoOpen: false,
-				modal: true
-			});
+	</div>	
+	<?php include '../includes/footer.php'; ?>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>		
+	<script type="text/javascript">
+		$('#dialog').dialog({
+			autoOpen: false,
+			modal: true
+		});
 
-			$(document).on('click', '.renewBtn', function(e) {
-				e.preventDefault();
-				console.log($(this).attr('data-internalid'));
-				var actionRenew = $(this).attr('data-internalid');
-				$('#dialog > form').attr('action', actionRenew);
-				$('#dialog').dialog('open');
-			});
+		$(document).on('click', '.renewBtn', function(e) {
+			e.preventDefault();
+			console.log($(this).attr('data-internalid'));
+			var actionRenew = $(this).attr('data-internalid');
+			$('#dialog > form').attr('action', actionRenew);
+			$('#dialog').dialog('open');
+		});
 
-			$('#cancelBtn').on('click', function() {
-				$('#dialog').dialog('close');
-			}); 
+		$('#cancelBtn').on('click', function() {
+			$('#dialog').dialog('close');
+		}); 
 
-			$('#confirmBtn').on('click', function() {
-				$('#dialog').dialog('close');
-			});
-		</script>		
-		<footer>
-			<?php include '../includes/footer.php'; ?>
-		</footer>
-	</div>
-		
+		$('#confirmBtn').on('click', function() {
+			$('#dialog').dialog('close');
+		});
+	</script>				
 	</body>
 </html>

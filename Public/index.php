@@ -8,36 +8,57 @@
 		<title></title> 
 		<?php include '../includes/styles.php'; ?>
 	</head>
-	<body>
-		<header>
-			<div class="center">			
-				<?php include("../includes/navigation.php"); ?>
-			</div>
+	<body style="background: url('images/bg.jpg') no-repeat bottom center;">
+		<header class="center">
+			<?php include("../includes/navigation.php"); ?>
 		</header>
-		<div class="container center">
-			<div class="featured" style="padding-top:0;background: url('images/map.jpg') top left; width: 1000px; height: 410px;">
-				<div class="featured-message">
-					<img src="images/pin.png" style="width:100px;float:left; margin-top: 20px; margin-left: 40px; padding: 10px;">
-					<h1>Promote your business</h1>
-					<p>Customers will be able locate your business with just a tap.</p>
-				</div>
+		<div style="background: #fff;" class="container page-wrap">
+			<div class="row homepage">
+			<?php if($session->is_logged_in()) { ?>
+				
+			<?php } else { ?>
+					
+					<div class="col col-md-12">
+						<h1>Let others find your business.</h1>
+						<p><a href="registeruser.php">Register</a> now to know more.</p>
+						<p>Already have an account? Login <a href="login.php">here</a>.</p>
+					</div>
+
+					<div class="col col-md-12">
+						<div class="row col-3">
+
+							<div class="col col-md-4">
+								<h2>Great Exposure</h2>
+								<p class="text-justify">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+								tempor incididunt ut labore et dolore magna aliqua.
+								</p>
+							</div>
+
+							<div class="col col-md-4">
+								<h2>Affordable Subscriptions</h2>
+								<p class="text-justify">
+								Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip 
+								consequat.
+								</p>
+							</div>
+
+							<div class="col col-md-4">
+								<h2>Efficient</h2>
+								<p class="text-justify">
+								Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+								</p>
+							</div>
+
+						</div>
+					</div>
+					<div class="col col-md-12">
+						<div class="row"></div>
+					</div>
+			<?php } ?>
 			</div>
-			<section class="cyan featured">
-				<h1>Let everybody know your business.</h1>
-				<p style="text-align: center;font-size: 1.9em; margin-bottom:0px;">People are searching for your products and services let them locate you in real time.
-				<br>
-				<br>
-				<img src="images/phone.png"> <img src="images/clock.png">&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/check.png"></p>
-			</section>
-			<section class="featured"  style="background:url('images/banner.png'); height: 317px;">
-				<div class="featured-message">
-					<h1>THE BEST WAY</h1>
-					<p>To let your business grow.</p>
-				</div>
-			</section>
-			<footer>
-				<?php include '../includes/footer.php'; ?>
-			</footer>
+			<?php // include '../includes/carousel.php'; ?>
 		</div>
+		<?php include '../includes/footer.php'; ?>
 	</body>
 </html>
