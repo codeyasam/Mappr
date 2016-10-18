@@ -267,7 +267,8 @@
 							populateBranchesDropdown();
 							manageDivInfos(jsonObj.hasBranches);							
 						} else if (jsonObj.limitReached) {
-							alert('Plotted maximum number of branches');
+							//alert('Plotted maximum number of branches');
+							custom_alert_dialog('Plotted maximum number of branches');
 						}
 
 						if (jsonObj.updateBranch) {
@@ -614,7 +615,8 @@
 				    var geocoder = new google.maps.Geocoder();
 				    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
 				        if (status !== google.maps.GeocoderStatus.OK) {
-				            alert(status);
+				            //alert(status);
+				        	custom_alert_dialog('Something went wrong. Check your internet connection and then refresh');
 				        }
 				        // This is checking to see if the Geoeode Status is OK before proceeding
 				        if (status == google.maps.GeocoderStatus.OK) {
