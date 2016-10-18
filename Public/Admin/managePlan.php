@@ -38,7 +38,7 @@
 					</select>
 				</p>
 				<p id="customPlan">
-					<input id="intervalCount" type="number" min="1"/>
+					<input id="intervalCount" type="number" min="1" placeholder="No. of" />
 					<select id="customPlanDuration">
 						<?php $not_included = array('year', 'other'); ?>
 						<?php foreach($planDurations as $key => $eachDuration): ?>
@@ -55,8 +55,8 @@
 				<p><input id="visibility" type="checkbox" name="visibility" value="Visible"/>Visible</p>
 				<p><input id="optAdd" type="submit" value="+ADD PLAN"/><input id="optSave" type="submit" value="SAVE CHANGES"/><input id="optCancel" type="submit" value="CANCEL"/></p>			
 			</div>
-				
-
+			<div class="mLoadingEffect"></div>
+			<?php require_once('../../includes/footer.php'); ?>
 			<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
 			<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
 			<script type="text/javascript" src="../js/functions.js"></script>			
@@ -85,6 +85,7 @@
 							$('#intervalCount').val('');
 							$('#plan_name').val('');		
 							custom_alert_dialog("Successfully created a plan");
+							$('body').removeClass('mLoading');
 							console.log("created a plan");
 						}
 
@@ -94,6 +95,10 @@
 							tblRows += '<th colspan="2">OPTION</th></tr>';
 							tblRows += tableJSON("#planContainer", jsonObj.Plans);
 							$("#planContainer").append("<tbody>" + tblRows + "<tbody>");
+							if (jsonObj.planUpdated) {
+								$('body').removeClass('mLoading');
+								custom_alert_dialog("Successfully updated plan.");
+							}
 						} else if (jsonObj.planSelected) {
 							$('#planDuration').val(jsonObj.plan_interval);
 							$('#estab_no').val(jsonObj.estab_no);
@@ -113,8 +118,16 @@
 							} else {
 								$('#customPlan').hide();
 							}							
-						} else if (jsonObj.hasPlanDeleteError) {
-							custom_alert_dialog("Can't delete this plan, a customer is currently subscribed to this plan.");
+						} 
+
+						if (jsonObj.hasPlanDeleteError) {
+							$('body').removeClass("mLoading");
+							if (jsonObj.hasPlanDeleteError == "true") {
+								custom_alert_dialog("Can't delete this plan, a customer is currently subscribed to this plan.");
+							} else {
+								custom_alert_dialog("Successfully deleted plan.");
+							}
+
 						}
 					}				
 				}
@@ -136,11 +149,18 @@
 					// console.log(visibility);
 					if ($('#planDuration option:selected').text() == "custom") {
 						//console.log("yeah yeah");
-						if ($('#intervalCount').val().trim() == "") return;
+						if ($('#intervalCount').val().trim() == "") {  
+							custom_alert_dialog("Fill all required fields");
+							return; 
+						}
 						else customDuration = $('#customPlanDuration option:selected').text();
 					} 
 
-					if (durationID == "" || estab_no == "" || branch_no == "" || cost == "" || plan_name == "") return;
+					if (durationID == "" || estab_no == "" || branch_no == "" || cost == "" || plan_name == "") { 
+						custom_alert_dialog("Fill all required fields");
+						return; 
+					}
+					$('body').addClass('mLoading');
 				    //console.log("poop");
 					//processRequest("backendprocess.php?createPlan=true&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name);
 					processPOSTRequest("backendprocess.php", "createPlan=true&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name
@@ -154,6 +174,7 @@
 					var action_performed = function() {
 						processPOSTRequest("backendprocess.php", "deletePlan=true&planID=" + planID);	
 						$('#dialog').dialog('close');
+						$('body').addClass('mLoading');
 					}
 
 					confirm_action("Are you sure to delete this subscription?", action_performed);
@@ -225,9 +246,19 @@
 					var visibility = $('#visibility').is(":checked") ? "VISIBLE" : "HIDDEN";
 					// console.log(durationID);
 					// console.log(visibility);
-					if (durationID == "" || estab_no == "" || branch_no == "" || cost == "" || plan_name == "") return;				
+					if (durationID == "" || estab_no == "" || branch_no == "" || cost == "" || plan_name == "") { 
+						custom_alert_dialog("Fill all required fields");
+						return; 
+					}				
+					$('body').addClass('mLoading');
 					//processRequest("backendprocess.php?saveChangesPL=true"+"&planID="+planID+"&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name);
 					processPOSTRequest("backendprocess.php", "saveChangesPL=true"+"&planID="+planID+"&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name);
+
+					$('#planDuration').prop('disabled', false);
+					$('#customPlanDuration').prop('disabled', false);
+					$('#intervalCount').prop('disabled', false);
+					$('#intervalCount').val("");
+					$('#plan_name').val("");
 
 					$('#optSave').hide();
 					$('#optCancel').hide();	
@@ -241,8 +272,5 @@
 				});									
 			</script>
 		</div>
-		<footer class="container center">
-			<?php include '../../includes/footer.php'; ?>
-		</footer>
 	</body>
 </html>

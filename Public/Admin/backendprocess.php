@@ -118,7 +118,14 @@
 		try {
 			$has_affected_rows = Plan::delete_by_id($_POST['planID']);
 			$objArr = Plan::find_all();
-			$output .= $has_affected_rows ? createJSONEntity("Plans", $objArr) : '"hasPlanDeleteError":"true"';	
+			// $output .= $has_affected_rows ? createJSONEntity("Plans", $objArr) : '"hasPlanDeleteError":"true"';	
+
+			if ($has_affected_rows) {
+				$output .= createJSONEntity("Plans", $objArr);
+				$output .= ', "hasPlanDeleteError":"false"';
+			} else {
+				$outpu .= '"hasPlanDeleteError":"true"';
+			}
 
 			$plan = \Stripe\Plan::retrieve($_POST['planID']);
 			$plan->delete();			
@@ -161,7 +168,8 @@
 		$p->save();
 
 		$objArr = Plan::find_all();
-		$output .= createJSONEntity("Plans", $objArr);		
+		$output .= createJSONEntity("Plans", $objArr);	
+		$output .= ', "planUpdated":"true"';	
 	}
 
 	$output .= "}";
