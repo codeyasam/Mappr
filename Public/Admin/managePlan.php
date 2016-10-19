@@ -2,7 +2,7 @@
 <?php $session->is_logged_in() ? null : redirect_to("../index.php"); ?>
 <?php  
 	$user = User::find_by_id($session->user_id);
-	$user->user_type != "ADMIN" ? redirect_to("../index.php") : null; 
+	$user->user_type != "ADMIN" && $user->user_type != "SUPERADMIN" ? redirect_to("../index.php") : null; 
 	$plans = Plan::find_all();
 	$planDurations = PlanDuration::find_all();
 	//$planDurations = array("daily", "monthly", "yearly", "weekly");
@@ -219,7 +219,8 @@
 					$('#branch_no').val("");
 					$('#cost').val("");
 					$('#visibility').prop('checked', false);	
-
+					$('#intervalCount').val("");
+					$('#plan_name').val("");
 					//show the fields
 					// $('#interval').show();
 					// $('#estab_no').show();

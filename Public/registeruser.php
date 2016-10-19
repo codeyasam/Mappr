@@ -36,7 +36,10 @@
 					move_uploaded_file($_FILES['img_upload']['tmp_name'], "DISPLAY_PICTURES/profile_pic".$user->id);
 					$user->display_picture = MAPPR_PUBLIC_URL . "DISPLAY_PICTURES/profile_pic".$user->id;
 					//echo "poop";
+				} else {
+					$new_admin->display_picture = MAPPR_PUBLIC_URL . $new_admin->display_picture;
 				}
+				
 				$user->update();	
 				MapprActLog::recordActivityLog("Registered to One Coin", $user->id);	
 				$session->login($user);
