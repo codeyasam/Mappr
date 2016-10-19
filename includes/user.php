@@ -67,7 +67,7 @@
 		public static function designated_page($access_level) {
 			if ($access_level == "USER") {
 				//redirect_to("index.php");
-			} else if ($access_level == "ADMIN") {
+			} else if ($access_level == "ADMIN" || $access_level == "SUPERADMIN") {
 				redirect_to("Admin/index.php");
 			} else if ($access_level == "OWNER") {
 				redirect_to("index.php");
@@ -91,6 +91,6 @@
 			if ($result) $errors[] = $msg; 
 			return $result;
 		}
-		
+				
 	}
 ?>
