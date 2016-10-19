@@ -32,7 +32,7 @@
 				}
 
 				$new_admin->update();	
-				MapprActLog::recordActivityLog("Added " . $new_admin->full_name() . "as an Admin.", $user->id);
+				MapprActLog::recordActivityLog("Added " . $new_admin->full_name() . " as an Admin.", $user->id);
 				$session->message("created");
 			}
  
@@ -42,8 +42,10 @@
 
 <?php  
 	if (isset($_POST['deleteAdmin'])) {
+		$user_to_delete = User::find_by_id($_GET['id']);
 		User::delete_by_id($_GET['id']);
 		$session->message("deleted");
+		MapprActLog::recordActivityLog("Deleted admin " . $user_to_delete->full_name(), $user->id);
 	}
 ?>
 
@@ -81,7 +83,7 @@
 						<td><?php echo htmlentities($eachAdmin->id); ?></td>
 						<td><?php echo htmlentities($eachAdmin->full_name()); ?></td>
 						<td><img src="<?php echo htmlentities($eachAdmin->display_picture); ?>"/></td>
-						<td><a href="">VIEW ACTIVITY LOG</a></td>
+						<td><a href="adminsActivityLog.php?id=<?php echo $eachAdmin->id; ?>">VIEW ACTIVITY LOG</a></td>
 						<td class="optDelete" data-internalid="manageAdmins.php?id=<?php echo htmlentities($eachAdmin->id); ?>"><a href="">DELETE</a></td>
 					</tr>
 				<?php endforeach; ?>
