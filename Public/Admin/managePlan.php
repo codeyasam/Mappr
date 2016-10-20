@@ -18,42 +18,70 @@
 	<body>
 		<header>
 			<div class="center">		
-				<?php include("../../includes/admin_nav.php"); ?>
+				<?php include("../../includes/navigation.php"); ?>
 			</div>
 		</header>
+		<div class="banner"></div>
 		<div class="container center clearfix">
-			<h1>Plans</h1>
-			<div style="padding: 10px">
-				<table id="planContainer" class="data">
+			<div class="panel panel-warning clearfix drop-shadow">
+				<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-list-alt"></span> Manage Plans</h1></div>
+				<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+
+
+				<div class="manage" style="float: left; width: 20%;">
+					<form>
+						<div class="form-group">
+							<label>Interval</label>
+							<select id="planDuration" class="form-control" name="planDuration">
+							<?php foreach($planDurations as $key => $eachDuration): ?>
+								<option value="<?php echo $eachDuration->id; ?>"><?php echo strtoupper(substr($eachDuration->description, 0,1)) . substr($eachDuration->description, 1); ?></option>
+							<?php endforeach; ?>	
+							</select>					
+						</div>
+						<div class="form-group" id="customPlan">
+							<input id="intervalCount" type="number" min="1" value="1" />
+							<select id="customPlanDuration">
+								<?php $not_included = array('year', 'other'); ?>
+								<?php foreach($planDurations as $key => $eachDuration): ?>
+									<?php if (!in_array($eachDuration->duration_name, $not_included)) { ?>
+									<option value="<?php echo $eachDuration->id; ?>"><?php echo $eachDuration->duration_name; ?></option>
+									<?php } ?>
+								<?php endforeach; ?>			
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Plan Name</label>
+							<input class="form-control" id="plan_name" type="text" name="plan_name" />
+						</div>
+						<div class="form-group">
+							<label>No. of Establishment</label>
+							<input id="estab_no" class="form-control" type="number" min="1" value="1" name="estab_no" />
+						</div>
+						<div class="form-group">
+							<label>No. of Branches</label>
+							<input id="branch_no" class="form-control" type="number" min="1" value="1" name="branch_no" />
+						</div>
+						<div class="form-group">
+							<label>Cost</label>
+							<input id="cost" type="number" min="1" value="1" name="cost" class="form-control" />
+						</div>
+						<div class="form-group">
+							<input id="visibility" type="checkbox" name="visibility" value="Visible"/> <label>Visible</label>
+						</div>
+						<div class="form-group">
+							<input id="optAdd" class="btn btn-primary" type="submit" value="+ Add Plan"/>
+							<input id="optCancel" class="btn btn-warning" type="submit" value="Cancel"/>
+							<input id="optSave" class="btn btn-primary" type="submit" value="Save"/>
+						</div>
+					</form>
+				</div>
+				<table id="planContainer" class="data table table-hover drop-shadow" style="float:left; width: 78%;">
 				</table>
-			</div>
-			<div class="manage" style="max-height:550px;margin: 0 0 0 15px;">
-				<h2>Manage Plan</h2>
-				<p>
-				<h5 id="interval"><i>Interval:</i></h5>
-					<select id="planDuration" name="planDuration">
-					<?php foreach($planDurations as $key => $eachDuration): ?>
-						<option value="<?php echo $eachDuration->id; ?>"><?php echo $eachDuration->description; ?></option>
-					<?php endforeach; ?>	
-					</select>
-				</p>
-				<p id="customPlan">
-					<input id="intervalCount" type="number" min="1"/>
-					<select id="customPlanDuration">
-						<?php $not_included = array('year', 'other'); ?>
-						<?php foreach($planDurations as $key => $eachDuration): ?>
-							<?php if (!in_array($eachDuration->duration_name, $not_included)) { ?>
-							<option value="<?php echo $eachDuration->id; ?>"><?php echo $eachDuration->duration_name; ?></option>
-							<?php } ?>
-						<?php endforeach; ?>			
-					</select>
-				</p>
-				<p><h5 id="interval"><i>Plan Name:</i></h5><input id="plan_name" type="text" name="plan_name" placeholder="Plan Name"/></p>
-				<p><h5 id="interval"><i>No. of Establishment:</i></h5><input id="estab_no" type="number" name="estab_no" placeholder="No of Establishment"/></p>
-				<p><h5 id="interval"><i>No. of Branches:</i></h5><input id="branch_no" type="number" name="branch_no" placeholder="No of Branches"/></p>
-				<p><h5 id="interval"><i>Cost:</i></h5><input id="cost" type="number" name="cost" placeholder="cost"/></p>
-				<p><input id="visibility" type="checkbox" name="visibility" value="Visible"/>Visible</p>
-				<p><input id="optAdd" type="submit" value="+ADD PLAN"/><input id="optSave" type="submit" value="SAVE CHANGES"/><input id="optCancel" type="submit" value="CANCEL"/></p>			
 			</div>
 				
 
@@ -90,8 +118,8 @@
 
 						if (jsonObj.Plans) {
 							var tblRows = "<tr>";
-							tblRows += "<th>ID</th><th>NAME</th><th>INTERVAL</th><th>NO OF ESTABLISHMENT</th><th>NO OF BRANCHES</th><th>COST</th><th>VISIBILITY</th>";
-							tblRows += '<th colspan="2">OPTION</th></tr>';
+							tblRows += "<th>#</th><th>Name</th><th>Interval</th><th>No. of Establishment</th><th>No. of Branches</th><th>Cost</th><th>Visibility</th>";
+							tblRows += '<th colspan="2">Options</th></tr>';
 							tblRows += tableJSON("#planContainer", jsonObj.Plans);
 							$("#planContainer").append("<tbody>" + tblRows + "<tbody>");
 						} else if (jsonObj.planSelected) {
@@ -233,8 +261,6 @@
 				});									
 			</script>
 		</div>
-		<footer class="container center">
-			<?php include '../../includes/footer.php'; ?>
-		</footer>
+		<?php include '../../includes/footer.php'; ?>
 	</body>
 </html>

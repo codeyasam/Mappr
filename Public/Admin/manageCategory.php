@@ -10,50 +10,83 @@
 <html>
 	<head>
 		<title></title>
-		<?php include '../../includes/styles_admin.php'; ?>
+		<?php include '../../includes/styles.php'; ?>
 		<style type="text/css">
 		</style>		
 	</head>
 	<body>
 		<header>
 			<div class="center">		
-				<?php include("../../includes/admin_nav.php"); ?>
+				<?php include("../../includes/navigation.php"); ?>
 			</div>
 		</header>
+		<div class="banner"></div>
 		<div class="container center clearfix">
-			<h1>Categories</h1>
-			<table id="categoryContainer" class="data">
-				<tbody>
-					<tr>
-						<th>ID</th>
-						<th>NAME</th>
-						<th>FEATURED</th>
-						<th>ICON PATH</th>
-						<th>DESCRIPTION</th>
-						<th colspan="2">OPTIONS</th>
-					</tr>
-				<?php foreach($categories as $key => $eachCategory): ?>
-					<tr>
-						<td><?php echo htmlentities($eachCategory->id); ?></td>
-						<td><?php echo htmlentities($eachCategory->name); ?></td>
-						<td><img class="category-icon" src="<?php echo "../" . htmlentities($eachCategory->display_picture); ?>"></td>
-						<td><?php echo htmlentities($eachCategory->description); ?></td>
-						<td><a class="optEdit" href="">EDIT</a></td>
-						<td><a class="optDelete" href="">DELETE</a></td>
-					</tr>
-				<?php endforeach; ?>
-				</tbody>
-			</table>
+			<div class="panel panel-warning clearfix drop-shadow">
+				<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-list"></span> Manage Categories</h1></div>
+				<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+
 			
-			<div class="manage" style="max-height:550px;margin: 0 0 0 15px;">
-				<h2>Manage Category</h2>
-				<form>
-					<p><img id="output" class="category-icon" src="../DISPLAY_PICTURES/defaultCategIcon.png"/><h5><i>Icon:</i></h5><input id="pic" style="max-width: 200px;" type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/></p>
-					<p><h5><i>Category Name:</i></h5><input id="categName" type="text" name="categName" placeholder="Name"/></p>
-					<p><h5><i>Description:</i></h5><textarea id="categDescription" placeholder="Description"></textarea></p>
-					<p><h5><i>Icon:</i></h5><input id="featured_category" type="checkbox" value="FEATURED"/>Featured</p>
-					<p><input id="optAdd" type="submit" value="+ADD CATEGORY"/><input id="optSave" type="submit" value="SAVE CHANGES"/><input id="optCancel" type="submit" value="CANCEL"/></p>
-				</form>
+				<div class="manage" style="float: left; width: 30%;">
+					<form>
+						<div class="row">
+
+							<div class="form-group col col-sm-4 round-image">
+								<div class="round-image text-center drop-shadow" style="display:inline-block; text-align:center; width: 50px; height: 50px; overflow: hidden;">
+									<img style="height: 60px; margin-left: -10%;" id="output" src="../DISPLAY_PICTURES/defaultCategIcon.png"/>
+								</div>
+							</div>
+							<div class="form-group col col-sm-8">
+								<label>Icon</label>
+								<input id="pic" class="" style="max-width: 100%;" type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Category Name</label>
+							<input class="form-control" id="categName" style="max-width: 100%;" type="text" name="categName"/>
+						</div>
+						<div class="form-group">
+							<label>Description</label>
+							<textarea id="categDescription" style="max-width: 100%;" class="form-control"></textarea>
+						</div>
+						<div class="form-group">
+							<input id="featured_category" style="max-width: 100%;" type="checkbox" value="FEATURED"/> <label>Featured</label>
+						</div>
+						<div class="form-group text-right">
+							<input id="optAdd" type="submit" class="btn btn-primary" value="+ Add Category"/>
+							<input id="optCancel" type="submit" class="btn btn-warning" value="Cancel"/>
+							<input id="optSave" type="submit" class="btn btn-primary" value="Save"/>
+						</div>
+						<p></p>
+					</form>
+				</div>
+				<table id="categoryContainer" class="data table table-hover drop-shadow"  style="width: 68%;float: left;">
+					<tbody>
+						<tr>
+							<th>ID</th>
+							<th>NAME</th>
+							<th>FEATURED</th>
+							<th>ICON PATH</th>
+							<th>DESCRIPTION</th>
+							<th colspan="2">OPTIONS</th>
+						</tr>
+					<?php foreach($categories as $key => $eachCategory): ?>
+						<tr>
+							<td><?php echo htmlentities($eachCategory->id); ?></td>
+							<td><?php echo htmlentities($eachCategory->name); ?></td>
+							<td><img class="category-icon" src="<?php echo "../" . htmlentities($eachCategory->display_picture); ?>"></td>
+							<td><?php echo htmlentities($eachCategory->description); ?></td>
+							<td><input class="optEdit" href=""><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>
+							<td><a class="optDelete text-danger" href=""><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+						</tr>
+					<?php endforeach; ?>
+					</tbody>
+				</table>
 			</div>
 
 			<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
@@ -91,9 +124,9 @@
 									//console.log(jsonObjRoot[key][eachField]);
 								}
 							}
-							newTr += '<td><a class="optEdit" data-internalid="' + jsonObjRoot[key].id + '" href="">EDIT</a></td>';
+							newTr += '<td><a class="optEdit" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>';
 							if (hasOptDelete)
-								newTr += '<td><a class="optDelete" data-internalid="' + jsonObjRoot[key].id + '" href="">DELETE</a></td>';
+								newTr += '<td><a class="optDelete text-danger" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-remove"></span> Delete</a></td>';
 							newTr += "</tr>";
 						}
 					}
@@ -118,9 +151,9 @@
 					var jsonObj = JSON.parse(response);
 					if (jsonObj.Categories) {
 						var tblRows = "<tr>";
-						tblRows += "<th>ID</th><th>NAME</th><th>FEATURED</th>";
-						tblRows += '<th>ICON</th><th>DESCRIPTION</th>';
-						tblRows += '<th colspan="2">OPTION</th></tr>';
+						tblRows += "<th>#</th><th>Name</th><th>Featured</th>";
+						tblRows += '<th>Icon</th><th>Description</th>';
+						tblRows += '<th colspan="2">Options</th></tr>';
 						tblRows += tableJSON("#categoryContainer", jsonObj.Categories);
 						$("#categoryContainer").append("<tbody>" + tblRows + "<tbody>");
 					} else if (jsonObj.categorySelected) {
@@ -143,9 +176,9 @@
 						var jsonObj = JSON.parse(objReq.responseText);
 						if (jsonObj.Categories) {
 							var tblRows = "<tr>";
-							tblRows += "<th>ID</th><th>NAME</th><th>FEATURED</th>";
-							tblRows += '<th>ICON</th><th>DESCRIPTION</th>';
-							tblRows += '<th colspan="2">OPTION</th></tr>';
+							tblRows += "<th>#</th><th>Name</th><th>Featured</th>";
+							tblRows += '<th>Icon</th><th>Description</th>';
+							tblRows += '<th colspan="2">Options</th></tr>';
 							tblRows += tableJSON("#categoryContainer", jsonObj.Categories);
 							$("#categoryContainer").append("<tbody>" + tblRows + "<tbody>");
 						} else if (jsonObj.categorySelected) {
@@ -286,8 +319,6 @@
 				});
 			</script>
 		</div>	
-		<footer class="container center">
-			<?php include '../../includes/footer.php'; ?>
-		</footer>
+		<?php include '../../includes/footer.php'; ?>
 	</body>
 </html>

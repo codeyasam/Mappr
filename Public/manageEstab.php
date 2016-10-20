@@ -42,39 +42,50 @@
 			<?php include("../includes/navigation.php"); ?>
 		</div>
 	</header>
-	<div class="container center">		
-		<h1>Manage Establishments</h1>
-		<br>
-		<table class="data">
-			<tr>
-				<th style="width: 100px;">NAME</th>
-				<th style="width: 600px;">DESCRIPTION</th>
-				<th>OPTION</th>
-			</tr>
-		<?php foreach($subsPlanEstab as $key => $eachSubsPlanEstab): ?>
+	<div class="container center">	
+
+		<div class="panel panel-warning">
+			<div class="panel-heading"><h1 class="heading-label">Manage Establishments</h1></div>
+			<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+
+			<table class="table table-hover data">
+				<tr>
+					<th style="width: 100px;">NAME</th>
+					<th style="width: 600px;">DESCRIPTION</th>
+					<th>OPTION</th>
+				</tr>
+			<?php 
+			foreach($subsPlanEstab as $key => $eachSubsPlanEstab): ?>
 			<?php $eachEstab = Establishment::find_by_id($eachSubsPlanEstab->estab_id); ?>
 				<tr>
-					<td><?php echo cym_decode_unicode($eachEstab->name); ?></td>
+					<td style="font-weight: bolder;"><?php echo cym_decode_unicode($eachEstab->name); ?></td>
 					<td><?php echo cym_decode_unicode($eachEstab->description); ?></td>
 					<td>
 						<form action="deleteEstablishment.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>" method="POST">
-							<a href="manageBranch.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>">Manage Branches</a><br>
+							<a href="manageBranch.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>"><span class="glyphicon glyphicon-cog"></span> Manage Branches</a><br>
 							<a href="editEstabDetails.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>">
-							Edit Establishment Details</a>
-							<input type="hidden" name="deleteEstab" value="true"/>
-							<input class="deleteEstabBtn" type="button" value="delete establishment" data-internalId="<?php echo $key; ?>"/>
+							<span class="glyphicon glyphicon-pencil"></span> Edit Establishment Details</a>
+							<input type="hidden" name="deleteEstab" value="true"/><br>
+							<input class="btn btn-danger deleteEstabBtn" type="button" value="Delete Establishment" data-internalId="<?php echo $key; ?>"/>
 						</form>
 					</td>
 				</tr>
-
-		<?php endforeach; ?>
-		<tr><td colspan="100%">
-		<?php if (count($all_user_establishment) < $plan->estab_no) {  ?>
-		<a href="addEstab.php?id=<?php echo urlencode($_GET['sbscrbdID']); ?>">+ ADD ESTABLISHMENT</a>
-		<?php } else { ?>
-		<p>YOU HAVE REACHED MAXIMUM NUMBER OF ESTABLISHMENT FOR THIS SUBSCRIPTION</p>
-		<?php } ?></td></tr>
-		</table>
+			<?php endforeach; ?>
+			<tr>
+				<td colspan="100%" class="text-right">
+				<?php if (count($all_user_establishment) < $plan->estab_no) {  ?>
+				<a href="addEstab.php?id=<?php echo urlencode($_GET['sbscrbdID']); ?>"><span class="glyphicon glyphicon-plus-sign"></span> Add Establishment</a>
+				<?php } else { ?>
+				<p>YOU HAVE REACHED MAXIMUM NUMBER OF ESTABLISHMENT FOR THIS SUBSCRIPTION</p>
+				<?php } ?></td>
+			</tr>
+			</table>
+		</div>	
 
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
@@ -97,8 +108,6 @@
 			});
 		</script>		
 	</div>
-	<footer class="container center">
-		<?php include '../includes/footer.php'; ?>
-	</footer>
+	<?php include '../includes/footer.php'; ?>
 	</body>
 </html>

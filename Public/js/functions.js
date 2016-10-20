@@ -34,9 +34,9 @@ function tableJSON(tableID, jsonObjRoot, hasOptDelete=true) {
 					//console.log(jsonObjRoot[key][eachField]);
 				}
 			}
-			newTr += '<td><a class="optEdit" data-internalid="' + jsonObjRoot[key].id + '" href="">EDIT</a></td>';
+			newTr += '<td><a class="optEdit" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>';
 			if (hasOptDelete)
-				newTr += '<td><a class="optDelete" data-internalid="' + jsonObjRoot[key].id + '" href="">DELETE</a></td>';
+				newTr += '<td><a class="optDelete text-danger" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-remove"></span> Delete</a></td>';
 			newTr += "</tr>";
 		}
 	}

@@ -58,26 +58,80 @@
 				<?php include("../includes/navigation.php"); ?>
 			</div>
 		</header>
-		<div class="regForm">
-			<form action="registeruser.php" method="POST" enctype="multipart/form-data">
-				<p><img id="output" class="circle" height="100px" width="100px" src="DISPLAY_PICTURES/defaultavatar.png"/></p>
-				<p><input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/></p>
-				<p><input id="fName" type="text" name="first_name" value="" required="required" placeholder="First name"/></p>
-				<p><input id="lName" type="text" name="last_name" value="" required="required" placeholder="Last name"></p>
-				<p><input id="userEmail" type="email" name="email" value="" required="" placeholder="Email"><span id="emailNotice"></span></p>
-				<a id="facebookLogin" href="#">connect with facebook</a>  
-				<p><input id="username" type="text" name="username" value="" required="required" placeholder="Username"/><span id="usernameNotice"></span></p>
-				<p><input id="password" type="password" name="password" value="" required="required" placeholder="Password"/></p>
-				<p><input id="confPass" type="password" name="confPass" value="" required="required" placeholder="Confirm Password"/><span id="passNotice"></span></p>
-				<hr/>OPTIONAL
-				<p><input type="text" name="contact" value="" placeholder="contact"/></p>
-				<p><input id="hometown" type="text" name="hometown" value="" placeholder="hometown"/></p>
-				<p><input id="urlContent" type="hidden" name="urlContent" value=""/></p>
-				<p><input id="submit" type="submit" name="submit" value="REGISTER"></p>
-			</form>			
+		<div class="banner"></div>
+		<div class="container center">
+			<div class="panel panel-primary drop-shadow">
+				<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-tag"></span> Register</h1></div>
+				<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+
+				<div class="solo-form">
+					<form action="registeruser.php" method="POST" enctype="multipart/form-data">
+						<div class="form-group text-center" style="padding: 10px;">
+							<div class="round-image drop-shadow" style="display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">
+								<img id="output" src="DISPLAY_PICTURES/defaultavatar.png"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Display Photo:</label>
+							<input type="file" class="form-control" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
+						</div>
+						<div class="form-group">
+							<label>First Name:</label>
+							<input id="fName" class="form-control" type="text" name="first_name" value="" required="required"/>
+						</div>
+						<div class="form-group">
+							<label>Last Name:</label>
+							<input id="lName" class="form-control" type="text" name="last_name" value="" required="required">
+						</div>
+						<div class="form-group">
+							<label>E-mail Address:</label>
+							<input id="userEmail" class="form-control" type="email" name="email" value="" required=""><span id="emailNotice"></span>
+						</div>
+						<div class="form-group text-right">
+							<a id="facebookLogin" href="#"><img style="border-radius: 2px;" src="images/fb.jpg"></a>
+						</div>
+						<div class="form-group">
+							<label>Username:</label>
+							<input id="username" class="form-control" type="text" name="username" value="" required="required"/><span id="usernameNotice"></span></p>
+						</div>
+						<div class="form-group">
+							<label>Password:</label>
+							<input id="password" class="form-control" type="password" name="password" value="" required="required"/>
+						</div>
+						<div class="form-group">
+							<label>Confirm Password:</label>
+							<input id="confPass" class="form-control" type="password" name="confPass" value="" required="required"/><span id="passNotice"></span>
+						</div>
+						<hr>
+						<div class="form-group">
+							<h2>Optional</h2>
+						</div>
+						<div class="form-group">
+							<label>Contact No.:</label>
+							<input type="text" class="form-control" name="contact" value=""/>
+						</div>
+						<div class="form-group">
+							<label>Hometown:</label>
+							<input id="hometown" class="form-control" type="text" name="hometown" value=""/>
+						</div>
+						<div class="form-group text-center">
+							By signing up, you have agreed to our <a href="terms.php">Terms and Conditions</a>.
+						</div>
+						<input id="urlContent" type="hidden" name="urlContent" value=""/>
+						<div class="form-group">
+							<input class="form-control btn btn-primary" id="submit" type="submit" name="submit" value="Sign Up">
+						</div>
+					</form>			
+				</div>
+			</div>
 		</div>
 
-
+		<?php include '../includes/footer.php'; ?>
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>	
 		<script type="text/javascript" src="js/functions.js"></script>		

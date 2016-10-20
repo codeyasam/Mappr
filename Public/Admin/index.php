@@ -11,14 +11,14 @@
 		<title></title>
 		<?php include '../../includes/styles_admin.php'; ?>
 	</head>
-	<body>
+	<body style="background: url('../images/bg.jpg') no-repeat bottom center;">
 		<header>
 			<div class="center">		
-				<?php include("../../includes/admin_nav.php"); ?>
+				<?php include("../../includes/navigation.php"); ?>
 			</div>
 		</header>
-		<footer class="container center">
-			<?php include '../../includes/footer.php'; ?>
-		</footer>
+		<div style="background: #fff;" class="container page-wrap">
+		</div>
+		<?php include '../../includes/footer.php'; ?>
 	</body>
 </html>

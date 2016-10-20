@@ -15,22 +15,44 @@
 	<body>
 		<header>
 			<div class="center">		
-				<?php include("../../includes/admin_nav.php"); ?>
+				<?php include("../../includes/navigation.php"); ?>
 			</div>
 		</header>
+		<div class="banner"></div>
 		<div class="container center clearfix">
-			<h1>Plan Duration</h1>
-			<table id="planDurationContainer" class="data">
-				
-			</table>
+			<div class="panel panel-warning clearfix">
+				<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-time"></span> Manage Plan Duration</h1></div>
+				<div class="panel-body">
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</div>
+				<div class="manage" id="formContainer" style="float: left; width: 30%">
+					<!-- <div class="form-group">
+						<label>Duration Name</label>
+					</div> -->
+					<div class="form-group">
+						<input id="duration_name" type="text" class="form-control" name="duration_name" disable />
+						<label>Description</label>
+						<input id="description" type="text" class="form-control" name="description" />
+					</div>
+					<div class="form-group">
+						<input id="duration_visibility" type="checkbox" name="duration_visibility" value="Visible"/> <label>Visible</label>
+					</div>
+					<div class="form-group">
+						<input id="optCancel" type="submit" class="btn btn-warning" value="Cancel"/>
+						<input id="optSave" type="submit" class="btn btn-primary" value="Save"/>
+					</div>
+				</div>
 
-			<div class="manage" id="formContainer">
-				<h2>Manage Plan Duration</h2>
-				<p><input id="duration_name" type="text" name="duration_name" placeholder="Duration name"/></p>
-				<p><input id="description" type="text" name="description" placeholder="Description"/></p>
-				<p><input id="duration_visibility" type="checkbox" name="duration_visibility" value="Visible"/>Visible</p>
-				<p><input id="optAdd" type="submit" value="+ADD CATEGORY"/><input id="optSave" type="submit" value="SAVE CHANGES"/><input id="optCancel" type="submit" value="CANCEL"/></p>
+				<table id="planDurationContainer" class="data table table-hover" style="float: left; width: 99.5%">				
+				</table>
 			</div>
+			
+
 			<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
 			<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
 			<script type="text/javascript" src="../js/functions.js"></script>
@@ -44,8 +66,8 @@
 						var jsonObj = JSON.parse(objReq.responseText);
 						if (jsonObj.PlanDurations) {
 							var tblRows = "<tr>";
-							tblRows += "<th>ID</th><th>NAME</th><th>DESCRIPTION</th><th>VISIBILITY</th>";
-							tblRows += '<th colspan="2">OPTION</th></tr>';
+							tblRows += "<th>#</th><th>Name</th><th>Description</th><th>Visibility</th>";
+							tblRows += '<th colspan="2">Option</th></tr>';
 							tblRows += tableJSON("#planDurationContainer", jsonObj.PlanDurations, false);
 							$("#planDurationContainer").append("<tbody>" + tblRows + "<tbody>");						
 						} else if (jsonObj.planDurationSelected) {
@@ -83,6 +105,7 @@
 				$(document).on('click', '.optDelete', function() {
 					console.log($(this).attr("data-internalid"));
 					var planDurationID = $(this).attr("data-internalid");
+					$("#planDurationContainer").css({width: "99.5%"});
 					//processRequest("backendprocess.php?deletePlanDuration=true&planDurationID=" + planDurationID);
 					processPOSTRequest("backendprocess.php", "deletePlanDuration=true&planDurationID=" + planDurationID);
 					return false;
@@ -95,6 +118,7 @@
 					$('#optAdd').hide();
 					$('#optSave').show();
 					$('#optCancel').show();
+					$("#planDurationContainer").css({width: "69.5%"});
 					var planDurationID = $(this).attr("data-internalid");
 					$('#optSave').attr("data-internalid", planDurationID);
 					processRequest("backendprocess.php?editPlanDuration=true&planDurationID=" + planDurationID);
@@ -109,6 +133,7 @@
 					$('#optAdd').show();	
 
 					$('#optSave').attr("data-internalid", "");
+					$("#planDurationContainer").css({width: "99.5%"});
 					$('#description').val("");
 					$('#duration_name').val("");
 
@@ -129,6 +154,7 @@
 					$('#optSave').hide();
 					$('#optCancel').hide();	
 					$('#optAdd').show();
+					$("#planDurationContainer").css({width: "99.5%"});
 
 					$('#optSave').attr("data-internalid", "");
 					$('#description').val("");
@@ -136,8 +162,6 @@
 				});										
 			</script>	
 		</div>			
-		<footer class="container center">
-			<?php include '../../includes/footer.php'; ?>
-		</footer>	
+		<?php include '../../includes/footer.php'; ?>
 	</body>
 </html>
