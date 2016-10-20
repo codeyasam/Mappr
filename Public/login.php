@@ -70,7 +70,7 @@
 				  		</div>
 				  		<div class="row form-group text-right">
 				  			<div class="col col-md-7" style="margin: 2px 0 5px 0;">
-					  			<a href="registeruser.php"><span class="glyphicon glyphicon-tag"></span> Not yet a member?</a>
+					  			<a href="registeruser.php" title="Register"><span class="glyphicon glyphicon-tag"></span> Not yet a member?</a>
 					  			<br>
 					  			<a id="forgotPass" href="">Forgot password?</a>
 				  			</div>

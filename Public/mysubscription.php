@@ -40,7 +40,9 @@
 	<div class="banner"></div>
 	<div class="container center">
 		<div class="panel panel-warning drop-shadow">
-			<div class="panel-heading"><h1 class="heading-label">My Subscription</h1></div>
+			<div class="panel-heading"><h1 class="heading-label">
+				<span class="glyphicon glyphicon-tags"></span> &nbsp;My Subscription</h1>
+			</div>
 			<div class="panel-body">
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -56,7 +58,7 @@
 						<th>Interval</th>
 						<th>Status</th>
 						<th>Period End</th>
-						<th colspan="3">options</th>
+						<th colspan="3">Options</th>
 					</tr>
 
 				<?php foreach($transactions as $key => $each_transac):  ?>
@@ -83,7 +85,7 @@
 						<td><?php echo $updated_transact->status; ?></td>
 						<?php if ($stripeSubs !== false) { ?>
 							<td><?php echo format_date(get_mysql_datetime($stripeSubs->current_period_end)); ?></td>
-							<td><a href="manageEstab.php?sbscrbdID=<?php echo urlencode($each_transac->id); ?>">MANAGE ESTABLISHMENT</a></td>
+							<td><a style="display: block;margin-top: 5px;" href="manageEstab.php?sbscrbdID=<?php echo urlencode($each_transac->id); ?>"><span class="glyphicon glyphicon-glass"></span> Manage Establishments</a></td>
 						<?php } else { ?>
 							<td>none</td>
 						<?php } ?>					
@@ -94,19 +96,19 @@
 							if ($stripeSubs !== false) {
 								if ($stripeSubs->cancel_at_period_end === true) {
 								?><form action="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=REACT" method="POST">
-									<input class="reactivateBtn" type="submit" name="submit" value="REACTIVATE RECURRING" data-internalid="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=REACT"/>
+									<input class="reactivateBtn btn btn-primary" type="submit" name="submit" value="Reactivate" data-internalid="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=REACT"/>
 								<?php 
 									//echo "REACTIVATE RECURRING";
 								} else {
 								?><form action="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=CANCEL" method="POST">
-									<input class="cancelPeriodBtn" type="submit" name="submit" value="CANCEL AT PERIOD END" data-internalid="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=CANCEL"/>
+									<input class="cancelPeriodBtn btn btn-danger" type="submit" name="submit" value="Deactivate" data-internalid="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=CANCEL"/>
 								<?php
 									//echo "CANCEL AT PERIOD END";
 								}
 							} else {
 								?><form action="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=RENEW" method="POST">
 
-									<input class="renewBtn" type="submit" name="submit" value="RENEW" data-internalid="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=RENEW"/>
+									<input class="renewBtn btn btn-primary" type="submit" name="submit" value="RENEW" data-internalid="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=RENEW"/>
 								<?php
 									//echo "RENEW";
 							}
@@ -128,8 +130,10 @@
 				<input id="cancelBtn" type="button" value="CANCEL" />
 			</form>
 		</div>
-	</div>	
-		<?php include '../includes/footer.php'; ?>
+	</div>
+	</div>
+	</div>
+	<?php include '../includes/footer.php'; ?>
 	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/functions.js"></script>		
 	<script type="text/javascript">
@@ -173,9 +177,6 @@
 			$('#dialog > form').attr('action', actionReactivate);
 			$('#dialog').dialog('open');
 		});
-
-		
 	</script>	
-			
 	</body>
 </html>

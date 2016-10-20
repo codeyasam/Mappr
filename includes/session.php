@@ -52,7 +52,7 @@
 				$this->logged_in = true;
 				//User::page_redirect($this->user_id);
 
-				MapprActLog::recordActivityLog("logged in", $user->id);
+				MapprActLog::recordActivityLog("Logged in", $user->id);
 			}
 		}
 
@@ -71,7 +71,7 @@
 
 		public function logout() {
 			if (isset($_SESSION['user_id'])) {
-				MapprActLog::recordActivityLog("logged out", $this->user_id);
+				MapprActLog::recordActivityLog("Logged out", $this->user_id);
 				unset($_SESSION['user_id']);
 				unset($this->user_id);
 				$this->logged_in = false;				

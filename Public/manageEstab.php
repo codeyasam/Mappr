@@ -42,6 +42,7 @@
 			<?php include("../includes/navigation.php"); ?>
 		</div>
 	</header>
+	<div class="banner"></div>
 	<div class="container center">	
 
 		<div class="panel panel-warning">
@@ -77,14 +78,15 @@
 				</tr>
 			<?php endforeach; ?>
 			<tr>
-				<td colspan="100%" class="text-right">
+				<td colspan="100%" class="text-center">
 				<?php if (count($all_user_establishment) < $plan->estab_no) {  ?>
-				<a href="addEstab.php?id=<?php echo urlencode($_GET['sbscrbdID']); ?>"><span class="glyphicon glyphicon-plus-sign"></span> Add Establishment</a>
+				<a href="addEstab.php?id=<?php echo urlencode($_GET['sbscrbdID']); ?>"><h5><span class="glyphicon glyphicon-plus"></span> Add Establishment</h5></a>
 				<?php } else { ?>
 				<p>YOU HAVE REACHED MAXIMUM NUMBER OF ESTABLISHMENT FOR THIS SUBSCRIPTION</p>
 				<?php } ?></td>
 			</tr>
 			</table>
+		</div>	
 		</div>	
 
 		<?php include '../includes/footer.php'; ?>

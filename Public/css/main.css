@@ -175,11 +175,14 @@ h1.heading-label {
 }
 
 .manage {
-
+	/*overflow-y: auto;*/
+	height: 700px;
+	padding: 20px;
+	background-color: #fff;
 }
 
 #map {
-	background: red;
+	/*background: red;*/
 }
 
 .banner {
@@ -237,4 +240,33 @@ body.mLoading {
    modal element will be visible */
 body.mLoading .mLoadingEffect {
     display: block;
+}
+
+textarea {
+	min-width: 100%;
+	max-width: 100%;
+}
+
+
+#output { 
+	border: none;
+}
+
+.thumbnail {
+	width: 100px;
+	height: 100px;
+	overflow: hidden;
+    display: inline-block;
+	margin: 8px;
+	float: left;
+	position: relative;
+}
+
+
+.thumbnail>img {
+	height: 200px;
+}
+
+#map {
+	height: 700px;
 }

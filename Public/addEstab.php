@@ -72,22 +72,6 @@
 	<head>
 		<title></title>
 		<style type="text/css">
-			#output { 
-				border: none;
-			}
-
-			.thumbnail {
-				width: 200px;
-				height: 200px;
-				overflow: hidden;
-			    display: inline-block;
-				margin: 10px;
-			}
-
-
-			.thumbnail>img {
-				height: 200px;
-			}
 		</style>
 		<?php include '../includes/styles.php'; ?>
 	</head>
@@ -97,33 +81,78 @@
 				<?php include("../includes/navigation.php"); ?>
 			</div>
 		</header>
+		<div class="banner"></div>
 		<div class="container edit-establishment center clearfix">	
-			<form id="mainForm" action="addEstab.php?id=<?php echo urlencode($_GET['id']); ?>" enctype="multipart/form-data" method="post"  runat="server">
-				<div class="manage" style="margin-top: 0;">
-					<div class="branch-dp"><img id="output" height="100px" width="100px" src=""/></div>
-					<h5><i>Upload Display Photo</i></h5>					
-					<input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
-					<h5><i>Name:</i></h5>
-					<input type="text" name="estabName" value="" placeholder="Name" required="required"/>
-					<h5><i>Category:</i></h5>
-					<select name="estabCategory" >
-					<?php foreach($all_category as $key => $eachCateg): ?>
-						<option value="<?php echo $eachCateg->id; ?>"><?php echo htmlentities($eachCateg->name); ?></option>
-					<?php endforeach; ?>
-					</select>
-					<h5><i>Description:</i></h5>
-					<textarea name="description" placeholder="description"></textarea>
-					<h5><i>Tags:</i></h5>
-					<input type="text" name="tags" value="" placeholder="tags"/>
-					<h5><i>Add photos to gallery:</i></h5>
-					<input id="files" name="gallery[]" type="file" multiple="multiple"/>
-					<input type="submit" name="submit" value="SAVE"/>
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<h1 class="heading-label">
+						<span class="glyphicon glyphicon-plus"></span> Add Establishment
+					</h1>
 				</div>
-				<div class="main-window">
-					<h3>PHOTO GALLERY</h3>
-					<output class="li-align" id="result" />
+				<div class="panel-body">
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+
+					<form id="mainForm" action="addEstab.php?id=<?php echo urlencode($_GET['id']); ?>" enctype="multipart/form-data" method="post"  runat="server">
+						<div class="manage" style="margin-top: 0;">
+
+							<div class="form-group text-center" style="padding: 10px;">
+								<div class="branch-dp round-image drop-shadow" style="display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">
+									<img id="output" src="DISPLAY_PICTURES/defaultavatar.png"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label>Upload Logo</label>
+								<input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
+							</div>
+							<div class="form-group">
+								<label>Name</label>
+								<input type="text" class="form-control" name="estabName" value="" placeholder="Name" required="required"/>
+							</div>
+							
+							<div class="form-group">
+								<label>Category</label>
+								<select class="form-control" name="estabCategory" >
+								<?php foreach($all_category as $key => $eachCateg): ?>
+									<option value="<?php echo $eachCateg->id; ?>"><?php echo htmlentities($eachCateg->name); ?></option>
+								<?php endforeach; ?>
+								</select>
+							</div>
+							
+							<div class="form-group">
+								<label>Description</label>
+								<textarea name="description" class="form-control" placeholder="Say something about your establishment..."></textarea>
+							</div>
+							
+							<div class="form-group">
+								<label>Tags</label>
+								<input type="text" class="form-control" name="tags" value="" placeholder="tags"/>
+							</div>
+							
+							<div class="form-group">
+								<label>Add photos to gallery</label>
+								<input id="files" name="gallery[]" type="file" multiple="multiple"/>
+							</div>		
+							
+							<hr>
+							<div class="form-group main-window clearfix">
+								<label><h4>Photo Gallery</h4></label>
+								<output class="li-align" id="result" />
+							</div>
+
+							<div class="form-group">
+								<input type="submit" class="btn btn-primary" name="submit" value="Save"/>
+							</div>
+						</div>
+					</form>
 				</div>
-			</form>
+
+			</div>
 			<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 			<script type="text/javascript" src="js/jquery-ui.min.js"></script>	
 			<script type="text/javascript" src="js/myScript.js"></script>
@@ -150,7 +179,8 @@
 			                picReader.addEventListener("load",function(event){
 			                    var picFile = event.target;
 			                    var div = document.createElement("div");
-			                    div.className += div.className + 'thumbnail';
+			                    div.className += div.className + 'thumbnail ';
+			                    div.className += div.className + 'establishment-gallery';
 			                    div.innerHTML = "<img src='" + picFile.result + "'" +
 			                    "title='" + picFile.name + "'/>";
 			                    output.insertBefore(div,null);
@@ -162,8 +192,6 @@
 			    }					
 			</script>	
 		</div>	
-		<footer class="container center">
-			<?php include '../includes/footer.php'; ?>
-		</footer>
+		<?php include '../includes/footer.php'; ?>
 	</body>
 </html>

@@ -126,21 +126,28 @@
 			$new_plan->interval_count = $interval_count;			
 		}
 
-		$new_plan->create();
+		try {
+			$new_plan->create();
+			\Stripe\Plan::create(array(
+			  "amount" => (int)number_format($new_plan->cost, 2, '.', ''), //
+			  "interval" => $interval,
+			  "interval_count" => $interval_count,
+			  "name" => $new_plan->plan_name,
+			  "currency" => "jpy",
+			  "id" => $new_plan->id)
+			);	
+			$objArr = Plan::find_all();
+			$output .= createJSONEntity("Plans", $objArr);	
+			$output .= ', "createdPlan":"true"';
 
-		\Stripe\Plan::create(array(
-		  "amount" => (int)number_format($new_plan->cost, 2, '.', ''), //
-		  "interval" => $interval,
-		  "interval_count" => $interval_count,
-		  "name" => $new_plan->plan_name,
-		  "currency" => "jpy",
-		  "id" => $new_plan->id)
-		);	
-		$objArr = Plan::find_all();
-		$output .= createJSONEntity("Plans", $objArr);	
-		$output .= ', "createdPlan":"true"';
+			MapprActLog::recordActivityLog("Created " . $new_plan->plan_name . " plan", $user->id);
+		} catch (Exception $e) {
+			Plan::delete_by_id($new_plan->id);
+			$output .= '"createError":"true"';
+			//die($e);
+		}
 
-		MapprActLog::recordActivityLog("Created " . $new_plan->plan_name . " plan", $user->id);
+		
 
 	} else if (isset($_POST['deletePlan'])) {
 		try {

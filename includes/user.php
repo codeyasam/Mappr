@@ -69,7 +69,7 @@
 			if ($access_level == "USER") {
 				//redirect_to("index.php");
 			} else if ($access_level == "ADMIN" || $access_level == "SUPERADMIN") {
-				redirect_to("Admin/index.php");
+				redirect_to("index.php");
 			} else if ($access_level == "OWNER") {
 				redirect_to("index.php");
 			}

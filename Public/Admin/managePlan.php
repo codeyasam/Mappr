@@ -84,6 +84,7 @@
 				</table>
 			</div>
 		</div>
+		<div class="mLoadingEffect"></div>
 		<?php include '../../includes/footer.php'; ?>
 			<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
 			<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
@@ -95,7 +96,7 @@
 				$('#planDuration').change(function() {
 					$('#customPlan').hide();
 					//console.log("plan duration changes" + $('#planDuration option:selected').text());
-					if ($('#planDuration option:selected').text() == "custom") {
+					if ($('#planDuration option:selected').val() == 5) {
 						$('#customPlan').show();
 						//console.log("custom plan");
 					}
@@ -156,7 +157,11 @@
 								custom_alert_dialog("Successfully deleted plan.");
 							}
 
+						} else if (jsonObj.createError) {
+							$('body').removeClass('mLoading');
+							custom_alert_dialog("Cannot add a new plan. Check you internet connection.");
 						}
+
 					}				
 				}
 

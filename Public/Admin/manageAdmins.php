@@ -61,54 +61,107 @@
 		<link rel="stylesheet" type="text/css" href="../js/jquery-ui.css">		
 	</head>
 	<body>
-		<input id="manageState" type="hidden" name="" value="<?php echo htmlentities($_SESSION['message']); ?>">
+		<input id="manageState" type="hidden" name="" value="<?php if(isset($_SESSION['message'])) echo htmlentities($_SESSION['message']); ?>">
 		<header>
 			<div class="center">		
-				<?php include("../../includes/admin_nav.php"); ?>
+				<?php include("../../includes/navigation.php"); ?>
 			</div>
 		</header>
-		
-		<div>
-			<h1>Manage Admins</h1>
-			<table id="adminContainer" border="1">
-				<tr>
-					<th>ID</th>
-					<th>Name</th>
-					<th>Display Picture</th>
-					<th colspan="2">Options</th>
-				</tr>
+		<div class="banner"></div>
+		<div class="container page-wrap">
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<h1 class="heading-label">Manage Admins</h1>
+				</div>
+				<div class="panel-body">
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</div>
+				<div class="clearfix">
+					<table id="adminContainer" class="table table-hover data" style="float: right; width: 65%;">
+						<tr>
+							<th>#</th>
+							<th>Name</th>
+							<th>Display Picture</th>
+							<th colspan="2">Options</th>
+						</tr>
 
-				<?php foreach ($all_admins as $key => $eachAdmin): ?>
-					<tr>
-						<td><?php echo htmlentities($eachAdmin->id); ?></td>
-						<td><?php echo htmlentities($eachAdmin->full_name()); ?></td>
-						<td><img src="<?php echo htmlentities($eachAdmin->display_picture); ?>"/></td>
-						<td><a href="adminsActivityLog.php?id=<?php echo $eachAdmin->id; ?>">VIEW ACTIVITY LOG</a></td>
-						<td class="optDelete" data-internalid="manageAdmins.php?id=<?php echo htmlentities($eachAdmin->id); ?>"><a href="">DELETE</a></td>
-					</tr>
-				<?php endforeach; ?>
-			</table>
+						<?php foreach ($all_admins as $key => $eachAdmin): ?>
+							<tr>
+								<td><?php echo htmlentities($eachAdmin->id); ?></td>
+								<td><?php echo htmlentities($eachAdmin->full_name()); ?></td>
+								<td class="text-center">
+									<div class="round-image drop-shadow" style="margin-left: -60px;display:inline-block; text-align:center; width: 35px; height: 35px; overflow: hidden;">
+										<img id="output" style="width: 40px; margin-left: -3px;" class="category-icon" src="<?php echo htmlentities($eachAdmin->display_picture); ?>"/>
+									</div>
+								</td>
+								<td><a href="adminsActivityLog.php?id=<?php echo $eachAdmin->id; ?>"><span class="glyphicon glyphicon-list"></span> View Activity Log</a></td>
+								<td><a data-internalid="manageAdmins.php?id=<?php echo htmlentities($eachAdmin->id); ?>" class="text-danger optDelete" href=""><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+							</tr>
+						<?php endforeach; ?>
+					</table>
 
-			<div>
-				<h2>CREATE AN ADMIN</h2>
-				<form action="manageAdmins.php" method="POST" enctype="multipart/form-data">
-					<p><img id="output" class="category-icon" src="../DISPLAY_PICTURES/defaultavatar.png"/><input type="file" class="form-control" name="img_upload" accept="image/*" onchange="loadFile(event)"/></p>
-					<p><input id="first_name" type="text" name="first_name" placeholder="first name" required="required" /></p>
-					<p><input id="last_name" type="text" name="last_name" placeholder="last name" required="required" /></p>
-					<p><input id="email" type="email" name="email" placeholder="email" required="required" /><span id="emailNotice"></span></p>
-					<p><input id="username" type="text" name="username" placeholder="username"required="required" /><span id="usernameNotice"></span></p>
-					<p><input id="password" type="password" name="password" placeholder="password" required="required" /></p>
-					<p><input id="confPass" type="password" name="confPass" placeholder="confirm password" required="required" /><span id="passNotice"></span></p>
-					<p><input id="createAdminBtn" type="submit" name="submit" value="CREATE ADMIN"></p>
-				</form>
+					<div style="float: left; width: 30%; margin: 20px;">
+						<form action="manageAdmins.php" method="POST" enctype="multipart/form-data">
+							<div class="form-group text-center" >
+								<div class="round-image drop-shadow" style="margin-left: -60px;display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">
+									<img id="output" style="width: 130px; margin-left: -3px;" class="category-icon" src="../DISPLAY_PICTURES/defaultavatar.png"/>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label>Display Photo</label>
+								<input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
+							</div>
+
+							<div class="form-group">
+								<label>First Name</label>
+								<input  class="form-control" style="width: 80%;" id="first_name" type="text" name="first_name" placeholder="First Name" required="required" />
+							</div>
+							
+							<div class="form-group">
+								<label>Last Name</label>
+								<input  class="form-control" style="width: 80%;" id="last_name" type="text" name="last_name" placeholder="Last Name" required="required" />
+							</div>
+
+							<div class="form-group">
+								<label>E-mail Address</label>
+								<input  class="form-control" style="width: 80%;" id="email" type="email" name="email" placeholder="E-mail" required="required" /><span id="emailNotice"></span>
+							</div>
+
+							<div class="form-group">
+								<label>Username</label>
+								<input  class="form-control" style="width: 80%;" id="username" type="text" name="username" placeholder="Username"required="required" /><span id="usernameNotice"></span>
+							</div>
+
+							<div class="form-group">
+								<label>Password</label>
+								<input  class="form-control" style="width: 80%;" id="password" type="password" name="password" placeholder="Password" required="required" />
+							</div>
+
+							<div class="form-group">
+								<label>Confirm Password</label>
+								<input  class="form-control" style="width: 80%;" id="confPass" type="password" name="confPass" placeholder="Confirm Password" required="required" /><span id="passNotice"></span>
+							</div>
+
+							<div class="form-group">
+								<input id="createAdminBtn" class="btn btn-primary" type="submit" name="submit" value="Create Admin">
+							</div>
+						</form>
+					</div>
+				</div>
+				<div id="dialogDelete" style="display: none;" title="Confirmation Required">
+					<p>Are you sure you want to delete this log?</p>
+					<form action="" method="POST"> 
+						<input id="confirmBtn" type="submit" name="deleteAdmin" value="OK" />
+						<input id="cancelBtn" type="button" value="CANCEL" />
+					</form>
+				</div>
 			</div>
-		</div>
-		<div id="dialogDelete" style="display: none;" title="Confirmation Required">
-			<p>Are you sure you want to renew this subscription?</p>
-			<form action="" method="POST"> 
-				<input id="confirmBtn" type="submit" name="deleteAdmin" value="OK" />
-				<input id="cancelBtn" type="button" value="CANCEL" />
-			</form>
 		</div>
 		<?php require_once('../../includes/footer.php'); ?>	
 		<div class="mLoadingEffect"></div>
@@ -193,7 +246,7 @@
 						tblRows += "<th>Display Picture</th>";
 						tblRows += '<th colspan="2">Options</th>';
 						tblRows += "</tr>"; 
-						tblRows += tableJSON("#adminContainer", jsonObj.Admins, {viewActLog : "VIEW ACTIVITY LOG", delete : "DELETE"});
+						tblRows += tableJSON("#adminContainer", jsonObj.Admins, {viewActLog : "<span class='glyphicon glyphicon-list'></span> View Activity Log", delete : "<span class='glyphicon glyphicon-remove'></span> Delete"});
 						$('#adminContainer').append('<tbody>' + tblRows + '</tbody>');
 					}
 

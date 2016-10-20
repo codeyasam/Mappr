@@ -82,7 +82,7 @@
 							<td><?php echo htmlentities($eachCategory->name); ?></td>
 							<td><img class="category-icon" src="<?php echo "../" . htmlentities($eachCategory->display_picture); ?>"></td>
 							<td><?php echo htmlentities($eachCategory->description); ?></td>
-							<td><input class="optEdit" href=""><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>
+							<td><a class="optEdit" href=""><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>
 							<td><a class="optDelete text-danger" href=""><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
 						</tr>
 					<?php endforeach; ?>
@@ -90,6 +90,9 @@
 				</table>
 			</div>
 			<div class="mLoadingEffect"></div>
+		</div>	
+		
+			<?php include '../../includes/footer.php'; ?>
 			<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
 			<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
 			<script type="text/javascript" src="../js/functions.js"></script>	
@@ -353,7 +356,5 @@
 					$('#categDescription').val("");
 				});
 			</script>
-		</div>	
-		<?php include '../../includes/footer.php'; ?>
 	</body>
 </html>
