@@ -41,6 +41,7 @@
 
 	//load minor dependencies
 	require_once(LIB_PATH . DS . "phpqrcode/qrlib.php");
+	require_once(LIB_PATH . DS . "mailer.php");
 
 	//joinedModule
 	require_once(LIB_PATH . DS . "mapprplotretriever.php");
