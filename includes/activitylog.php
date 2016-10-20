@@ -11,6 +11,12 @@
 		public $description;
 		public $processed_date;
 
-		
+		public static function recordActivityLog($mDescription, $mUserId) {
+			$actLog = new MapprActLog();
+			$actLog->user_id = $mUserId;
+			$actLog->description = $mDescription;
+			$actLog->processed_date = get_mysql_datetime(time());
+			$actLog->create();
+		}
 	}
 ?>

@@ -6,7 +6,7 @@
 
 
 <div class="panel panel-warning drop-shadow">
-	<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-bookmark"></span> Choose a Subscription:</h1></div>
+	<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-bookmark"></span> Choose a Subscription</h1></div>
 	<div class="subscriptions panel-body">
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,

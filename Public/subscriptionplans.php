@@ -26,10 +26,12 @@
 					<div class="form-group">
 						<?php if ($each_plan->plan_interval == 5) { ?>
 							<label>Plan Name: </label> <?php echo htmlentities($each_plan->plan_name); ?>
+							<p>Description: <?php echo cym_decode_unicode("every " . $each_plan->interval_count . " " . $each_plan->custom_interval); ?></p>
 						<?php } ?>
+
 					</div>
 					<div class="form-group">
-						<h3>Php <?php echo number_format($each_plan->cost, 2, ".", ","); ?></h3>
+						<h3>JPY <?php echo number_format($each_plan->cost, 2, ".", ","); ?></h3>
 					</div>
 					<div class="form-group">
 						<label>No of Business:</label> <?php echo $each_plan->estab_no; ?>
@@ -49,11 +51,12 @@
 								<script
 								src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 								data-key="pk_test_YJhO1yO3EP02pBLccVMVNXm2"
-								data-amount="<?php echo (int)number_format($each_plan->cost, 2, '', ''); ?>"
+								data-amount="<?php echo (int)number_format($each_plan->cost, 2, '.', ''); ?>"
 								data-name="Demo Site"
 								data-description="Widget"
 								data-image="/img/documentation/checkout/marketplace.png"
 								data-email="<?php echo $user->email; ?>"
+								data-currency="jpy"
 								data-locale="auto">
 								</script>
 							</div>
@@ -66,6 +69,7 @@
 			<?php endforeach; ?>
 		</div>
 		</div>
+		<?php include '../includes/footer.php'; ?>
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="js/functions.js"></script>	
@@ -93,7 +97,6 @@
 
 		</script>
 	</div>
-	<?php include '../includes/footer.php'; ?>
 	</body>
 </html>
 

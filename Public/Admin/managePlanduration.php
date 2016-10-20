@@ -2,7 +2,7 @@
 <?php $session->is_logged_in() ? null : redirect_to("../index.php"); ?>
 <?php  
 	$user = User::find_by_id($session->user_id);
-	$user->user_type != "ADMIN" ? redirect_to("../index.php") : null; 
+	$user->user_type != "ADMIN" && $user->user_type != "SUPERADMIN" ? redirect_to("../index.php") : null; 
 	$planDurations = PlanDuration::find_all();
 ?>
 
@@ -11,6 +11,7 @@
 	<head>
 		<title></title>
 		<?php include '../../includes/styles_admin.php'; ?>
+		<link rel="stylesheet" type="text/css" href="../js/jquery-ui.css">
 	</head>
 	<body>
 		<header>
@@ -51,8 +52,8 @@
 				<table id="planDurationContainer" class="data table table-hover" style="float: left; width: 99.5%">				
 				</table>
 			</div>
-			
 
+			<div class="mLoadingEffect"></div>
 			<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
 			<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
 			<script type="text/javascript" src="../js/functions.js"></script>
@@ -83,6 +84,8 @@
 						if (jsonObj.saveChangesPD) {
 							$('#formContainer').hide();
 							console.log("save changes pd");
+							$('body').removeClass("mLoading");
+							custom_alert_dialog("Successfully updated");
 						}
 					}
 				}
@@ -147,7 +150,12 @@
 					var description = $('#description').val().trim();
 					var duration_name = $('#duration_name').val().trim();
 					var duration_visibility = $('#duration_visibility').is(":checked") ? "VISIBLE" : "HIDDEN";
-					if (description == "" || duration_name == "" || duration_visibility == "") return;				
+					if (description == "" || duration_name == "" || duration_visibility == "") {
+						custom_alert_dialog("Fill required field.");
+						return;	
+					}			
+					$('#formContainer').hide();
+					$('body').addClass("mLoading");
 					//processRequest("backendprocess.php?saveChangesPD=true&planDurationID=" + planDurationID + "&description=" + description +"&duration_name="+duration_name+"&duration_visibility="+duration_visibility);
 					processPOSTRequest("backendprocess.php", "saveChangesPD=true&planDurationID=" + planDurationID + "&description=" + description +"&duration_name="+duration_name+"&duration_visibility="+duration_visibility);	
 

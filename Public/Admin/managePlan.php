@@ -2,7 +2,7 @@
 <?php $session->is_logged_in() ? null : redirect_to("../index.php"); ?>
 <?php  
 	$user = User::find_by_id($session->user_id);
-	$user->user_type != "ADMIN" ? redirect_to("../index.php") : null; 
+	$user->user_type != "ADMIN" && $user->user_type != "SUPERADMIN" ? redirect_to("../index.php") : null; 
 	$plans = Plan::find_all();
 	$planDurations = PlanDuration::find_all();
 	//$planDurations = array("daily", "monthly", "yearly", "weekly");
@@ -83,8 +83,8 @@
 				<table id="planContainer" class="data table table-hover drop-shadow" style="float:left; width: 78%;">
 				</table>
 			</div>
-				
-
+		</div>
+		<?php include '../../includes/footer.php'; ?>
 			<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
 			<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
 			<script type="text/javascript" src="../js/functions.js"></script>			
@@ -113,6 +113,7 @@
 							$('#intervalCount').val('');
 							$('#plan_name').val('');		
 							custom_alert_dialog("Successfully created a plan");
+							$('body').removeClass('mLoading');
 							console.log("created a plan");
 						}
 
@@ -122,6 +123,10 @@
 							tblRows += '<th colspan="2">Options</th></tr>';
 							tblRows += tableJSON("#planContainer", jsonObj.Plans);
 							$("#planContainer").append("<tbody>" + tblRows + "<tbody>");
+							if (jsonObj.planUpdated) {
+								$('body').removeClass('mLoading');
+								custom_alert_dialog("Successfully updated plan.");
+							}
 						} else if (jsonObj.planSelected) {
 							$('#planDuration').val(jsonObj.plan_interval);
 							$('#estab_no').val(jsonObj.estab_no);
@@ -141,6 +146,16 @@
 							} else {
 								$('#customPlan').hide();
 							}							
+						} 
+
+						if (jsonObj.hasPlanDeleteError) {
+							$('body').removeClass("mLoading");
+							if (jsonObj.hasPlanDeleteError == "true") {
+								custom_alert_dialog("Can't delete this plan, a customer is currently subscribed to this plan.");
+							} else {
+								custom_alert_dialog("Successfully deleted plan.");
+							}
+
 						}
 					}				
 				}
@@ -162,11 +177,18 @@
 					// console.log(visibility);
 					if ($('#planDuration option:selected').text() == "custom") {
 						//console.log("yeah yeah");
-						if ($('#intervalCount').val().trim() == "") return;
+						if ($('#intervalCount').val().trim() == "") {  
+							custom_alert_dialog("Fill all required fields");
+							return; 
+						}
 						else customDuration = $('#customPlanDuration option:selected').text();
 					} 
 
-					if (durationID == "" || estab_no == "" || branch_no == "" || cost == "" || plan_name == "") return;
+					if (durationID == "" || estab_no == "" || branch_no == "" || cost == "" || plan_name == "") { 
+						custom_alert_dialog("Fill all required fields");
+						return; 
+					}
+					$('body').addClass('mLoading');
 				    //console.log("poop");
 					//processRequest("backendprocess.php?createPlan=true&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name);
 					processPOSTRequest("backendprocess.php", "createPlan=true&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name
@@ -177,7 +199,14 @@
 					console.log($(this).attr("data-internalid"));
 					var planID = $(this).attr("data-internalid");
 					//processRequest("backendprocess.php?deletePlan=true&planID=" + planID);
-					processPOSTRequest("backendprocess.php", "deletePlan=true&planID=" + planID);
+					var action_performed = function() {
+						processPOSTRequest("backendprocess.php", "deletePlan=true&planID=" + planID);	
+						$('#dialog').dialog('close');
+						$('body').addClass('mLoading');
+					}
+
+					confirm_action("Are you sure to delete this subscription?", action_performed);
+					//processPOSTRequest("backendprocess.php", "deletePlan=true&planID=" + planID);
 					return false;
 				});	
 
@@ -218,7 +247,8 @@
 					$('#branch_no').val("");
 					$('#cost').val("");
 					$('#visibility').prop('checked', false);	
-
+					$('#intervalCount').val("");
+					$('#plan_name').val("");
 					//show the fields
 					// $('#interval').show();
 					// $('#estab_no').show();
@@ -245,9 +275,19 @@
 					var visibility = $('#visibility').is(":checked") ? "VISIBLE" : "HIDDEN";
 					// console.log(durationID);
 					// console.log(visibility);
-					if (durationID == "" || estab_no == "" || branch_no == "" || cost == "" || plan_name == "") return;				
+					if (durationID == "" || estab_no == "" || branch_no == "" || cost == "" || plan_name == "") { 
+						custom_alert_dialog("Fill all required fields");
+						return; 
+					}				
+					$('body').addClass('mLoading');
 					//processRequest("backendprocess.php?saveChangesPL=true"+"&planID="+planID+"&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name);
 					processPOSTRequest("backendprocess.php", "saveChangesPL=true"+"&planID="+planID+"&durationID="+durationID+"&estab_no="+estab_no+"&branch_no="+branch_no+"&cost="+cost+"&visibility="+visibility+"&plan_name="+plan_name);
+
+					$('#planDuration').prop('disabled', false);
+					$('#customPlanDuration').prop('disabled', false);
+					$('#intervalCount').prop('disabled', false);
+					$('#intervalCount').val("");
+					$('#plan_name').val("");
 
 					$('#optSave').hide();
 					$('#optCancel').hide();	
@@ -260,7 +300,5 @@
 					$('#visibility').prop('checked', false);
 				});									
 			</script>
-		</div>
-		<?php include '../../includes/footer.php'; ?>
 	</body>
 </html>

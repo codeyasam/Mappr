@@ -36,7 +36,7 @@ h1.heading-label {
 }
 
 .page-wrap {
-	/*min-height: 650px;*/
+	min-height: 650px;
 }
 
 .col {
@@ -58,8 +58,6 @@ h1.heading-label {
 	width: 30%;
 	background-color: rgba(255,255,255,.8);
 	padding: 20px;
-	/*padding-top: 100px;*/
-	/*color: #fff;*/
 	position: relative;
 	border-bottom: 30px solid #202020;
 	/*overflow: unset;*/
@@ -115,7 +113,7 @@ h1.heading-label {
 }
 
 .container {
-	/*min-height: 700px;*/
+	min-height: 700px;
 	background: #fff;
 }
 
@@ -128,6 +126,10 @@ h1.heading-label {
 	border-radius: 50%;
 }
 
+.round-image>img {
+	height: 120%;
+	margin-left: -10%;
+}
 
 .subscription a {
 	color: #8a6d3b;
@@ -169,6 +171,7 @@ h1.heading-label {
 
 .panel>.panel-heading {
 	margin: -10px;
+	box-shadow: 10px 10px 15px rgba(0,0,0,.1);
 }
 
 .manage {
@@ -208,4 +211,30 @@ h1.heading-label {
 	background-color: #888;
 	color: #fff;
 	text-align: center;
+}
+
+.mLoadingEffect {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('../images/ajax-loader.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.mLoading {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.mLoading .mLoadingEffect {
+    display: block;
 }

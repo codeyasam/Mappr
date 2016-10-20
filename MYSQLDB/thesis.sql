@@ -16,7 +16,8 @@ CREATE TABLE END_USER_TB (
 	hometown VARCHAR(255),
 	display_picture VARCHAR(255),
 	user_type VARCHAR(255) NOT NULL,
-	stripe_id VARCHAR(255)
+	stripe_id VARCHAR(255),
+	reset_code VARCHAR(255)
 );
 
 CREATE TABLE CATEGORY_TB (
@@ -236,3 +237,6 @@ INSERT INTO CATEGORY_TB (name, featured_category, display_picture, description) 
 
 INSERT INTO END_USER_TB (email, username, password, first_name, last_name, contact, hometown, display_picture , user_type)
 VALUES ("bautistamaryjo143@gmail.com", "jojo", "7510d498f23f5815d3376ea7bad64e29", "Maryjo", "Yasa", "09069081822", "Malolos, Bulacan", "DISPLAY_PICTURES/defaultavatar.png", "ADMIN");
+
+INSERT INTO END_USER_TB (email, username, password, first_name, last_name, contact, hometown, display_picture , user_type)
+VALUES ("codeyasam@gmail.com", "root", "63a9f0ea7bb98050796b649e85481845", "Emmanuel", "Yasa", "09069081822", "Malolos, Bulacan", "DISPLAY_PICTURES/defaultavatar.png", "SUPERADMIN");

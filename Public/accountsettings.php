@@ -13,7 +13,10 @@
 			move_uploaded_file($_FILES['img_upload']['tmp_name'], "DISPLAY_PICTURES/profile_pic".$user->id);
 			$user->display_picture = MAPPR_PUBLIC_URL . "DISPLAY_PICTURES/profile_pic".$user->id;			
 		}
-		$user->update();				
+		$user->update();	
+
+		MapprActLog::recordActivityLog("Edited Profile", $user->id);
+
 	}
 ?>
 
@@ -44,7 +47,7 @@
 						</div>
 						<div class="form-group">
 							<label>Display Photo:</label>
-							<input type="file" class="form-control" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
+							<input type="file" class="" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
 						</div>
 						<div class="form-group">
 							<label>First Name:</label>

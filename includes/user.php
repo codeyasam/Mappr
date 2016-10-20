@@ -6,7 +6,7 @@
 		protected static $table_name = "END_USER_TB";
 		protected static $db_fields = array('id', 'email', 'username', 'password', 'first_name',
 											'last_name', 'contact', 'hometown', 'display_picture', 
-											'user_type', 'stripe_id');
+											'user_type', 'stripe_id', 'reset_code');
 
 		public $id;
 		public $email;
@@ -19,6 +19,7 @@
 		public $display_picture = "DISPLAY_PICTURES/defaultavatar.png";	
 		public $user_type = "USER";
 		public $stripe_id;
+		public $reset_code;
 
 		public function full_name() {
 			if (isset($this->first_name) && isset($this->last_name)) {
@@ -67,7 +68,7 @@
 		public static function designated_page($access_level) {
 			if ($access_level == "USER") {
 				//redirect_to("index.php");
-			} else if ($access_level == "ADMIN") {
+			} else if ($access_level == "ADMIN" || $access_level == "SUPERADMIN") {
 				redirect_to("Admin/index.php");
 			} else if ($access_level == "OWNER") {
 				redirect_to("index.php");
@@ -91,6 +92,16 @@
 			if ($result) $errors[] = $msg; 
 			return $result;
 		}
-		
+
+		public static function getRandomResetCode() {
+			$letters = range('a','z');
+			$numbers = range(0, 9);
+			$result = array_merge($letters, $numbers);
+			shuffle($result);
+			$str = implode("", $result);
+			$string = substr($str,0,5);
+			return $string;
+		}		
+				
 	}
 ?>

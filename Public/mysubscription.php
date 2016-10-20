@@ -6,6 +6,7 @@
 	$condition['value'] = $user->id;
 	$condition['isNumeric'] = true;
 	$transactions = SubsPlan::find_all($condition);	
+	$transactions = SubsPlan::deleteNonExistentPlans($transactions, $condition);
 ?>
 <?php  //Handle 
 	function stripeHasSubscription($stripe_id, $id) {
@@ -26,8 +27,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title></title>
+		<title></title>		
 		<?php include '../includes/styles.php'; ?>
+		<link rel="stylesheet" type="text/css" href="js/jquery-ui.css"/>
 	</head>
 	<body>
 	<header>
@@ -47,22 +49,17 @@
 				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 			</div>
-			<table id="subsContainer" class="table table-hover data">
-				<tr class="">
-					<th>#</th>
-					<th>Subscription</th>
-					<th>Status</th>
-					<th colspan="3">Options</th>
-				</tr><!-- 
-				<tr>
-					<td></td>
-					<td>Active</td>
-					<td><a href="#">MANAGE ESTABLISHMENT</a></td>			
-					<input type="hidden" name="subsPlanID" value="<?php echo $each_transac->id; ?>"/>
-					<td></td>
-				</tr> -->
-				<?php 			
-				foreach($transactions as $key => $each_transac):  ?>
+			<?php if (!empty($transactions)) { ?>
+				<table id="subsContainer" class="table table-hover data">
+					<tr>
+						<th>Subscription</th>
+						<th>Interval</th>
+						<th>Status</th>
+						<th>Period End</th>
+						<th colspan="3">options</th>
+					</tr>
+
+				<?php foreach($transactions as $key => $each_transac):  ?>
 					<?php $plan = Plan::find_by_id($each_transac->plan_id); ?>
 					<?php //$stripeSubs = \Stripe\Subscription::retrieve($each_transac->stripe_id); ?>
 					<?php $stripeSubs = stripeHasSubscription($each_transac->stripe_id, $each_transac->id); ?>
@@ -72,8 +69,24 @@
 					<tr>
 						<?php $updated_transact = SubsPlan::find_by_id($each_transac->id); ?>
 						<td><?php echo $plan->toString(); ?></td>
+						<td>
+							<?php 
+								if ($plan->plan_interval == 5) {
+									echo cym_decode_unicode("every " . $plan->interval_count . " " . $plan->custom_interval);
+								} else {
+									$planDuration = PlanDuration::find_by_id($plan->plan_interval);
+									echo cym_decode_unicode($planDuration->description);
+								}
+							?>
+							
+						</td>
 						<td><?php echo $updated_transact->status; ?></td>
-						<td><a href="manageEstab.php?sbscrbdID=<?php echo urlencode($each_transac->id); ?>">MANAGE ESTABLISHMENT</a></td>			
+						<?php if ($stripeSubs !== false) { ?>
+							<td><?php echo format_date(get_mysql_datetime($stripeSubs->current_period_end)); ?></td>
+							<td><a href="manageEstab.php?sbscrbdID=<?php echo urlencode($each_transac->id); ?>">MANAGE ESTABLISHMENT</a></td>
+						<?php } else { ?>
+							<td>none</td>
+						<?php } ?>					
 						<input type="hidden" name="subsPlanID" value="<?php echo $each_transac->id; ?>"/>
 						<td>
 						
@@ -81,18 +94,19 @@
 							if ($stripeSubs !== false) {
 								if ($stripeSubs->cancel_at_period_end === true) {
 								?><form action="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=REACT" method="POST">
-									<input type="submit" name="submit" value="REACTIVATE RECURRING"/>
+									<input class="reactivateBtn" type="submit" name="submit" value="REACTIVATE RECURRING" data-internalid="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=REACT"/>
 								<?php 
 									//echo "REACTIVATE RECURRING";
 								} else {
 								?><form action="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=CANCEL" method="POST">
-									<input type="submit" name="submit" value="CANCEL AT PERIOD END"/>
+									<input class="cancelPeriodBtn" type="submit" name="submit" value="CANCEL AT PERIOD END" data-internalid="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=CANCEL"/>
 								<?php
 									//echo "CANCEL AT PERIOD END";
 								}
 							} else {
 								?><form action="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=RENEW" method="POST">
-									<input type="submit" name="submit" value="RENEW"/>
+
+									<input class="renewBtn" type="submit" name="submit" value="RENEW" data-internalid="cancelSubscription.php?id=<?php echo urlencode($each_transac->id); ?>&opt=RENEW"/>
 								<?php
 									//echo "RENEW";
 							}
@@ -100,11 +114,68 @@
 
 						</form></td>
 					</tr>
-				<?php endforeach; ?>
+					
+				<?php endforeach; ?>		
 			</table>
+		<?php } else { ?>
+			<p>You dont have any subscriptions yet. <a href="subscription.php">Pick a subscription here.</a></p>
+		<?php } ?>
+		<!--Dialog for Renew-->
+		<div id="dialog" style="display: none;" title="Confirmation Required">
+			<p>Are you sure you want to renew this subscription?</p>
+			<form action="" method="POST"> 
+				<input id="confirmBtn" type="submit" name="submit" value="OK" />
+				<input id="cancelBtn" type="button" value="CANCEL" />
+			</form>
 		</div>
+	</div>	
+		<?php include '../includes/footer.php'; ?>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>		
+	<script type="text/javascript">
+		//dialog for RENEW 
+		$('#dialog').dialog({
+			autoOpen: false,
+			modal: true
+		});
 
-	</div>
-	<?php include '../includes/footer.php'; ?>		
+		$(document).on('click', '.renewBtn', function(e) {
+			e.preventDefault();
+			console.log($(this).attr('data-internalid'));
+			var actionRenew = $(this).attr('data-internalid');
+			$('#dialog > p').text('Are you sure you want to renew this subscription?');
+			$('#dialog > form').attr('action', actionRenew);
+			$('#dialog').dialog('open');
+		});
+
+		$('#cancelBtn').on('click', function() {
+			$('#dialog').dialog('close');
+		}); 
+
+		$('#confirmBtn').on('click', function() {
+			$('#dialog').dialog('close');
+		});
+
+		//Dialog for Cancel at Period End
+		$(document).on('click', '.cancelPeriodBtn', function(e) {
+			e.preventDefault();
+			var actionCancelPeriod = $(this).attr('data-internalid');
+			$('#dialog > p').text('Are you sure you want to cancel at period? (You may reactivate this again before termination else if terminated, you can renew)');
+			$('#dialog > form').attr('action', actionCancelPeriod);
+			$('#dialog').dialog('open');
+		});
+
+		//Dialog for Reactivate Recurring
+		$(document).on('click', '.reactivateBtn', function(e) {
+			e.preventDefault();
+			var actionReactivate = $(this).attr('data-internalid');
+			$('#dialog > p').text('Are you sure you want to reactivate recurring payments? (This wont charge you anything, until the period end to automatically repurchase the subscription)');
+			$('#dialog > form').attr('action', actionReactivate);
+			$('#dialog').dialog('open');
+		});
+
+		
+	</script>	
+			
 	</body>
 </html>

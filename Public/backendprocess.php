@@ -38,6 +38,8 @@
 			$output .= '"description":' . '"' . $branch->description . '",';
 			$output .= '"contact_number":' . '"' . $branch->contact_number . '",';
 			branchSelected($branch->id, true);
+
+			MapprActLog::recordActivityLog("Plotted a branch", $user->id);
 		} else {
 			$output .= '"limitReached":true';
 		}
@@ -55,7 +57,9 @@
 		$output .= '"id":' . $_POST['branchID'] . ',';
 		$output .= '"address":' . '"' . $branch->address . '",';	
 
-		branchSelected($_POST['branchID'], true);		
+		branchSelected($_POST['branchID'], true);	
+
+		MapprActLog::recordActivityLog("Updated a branch", $user->id);	
 
 	} else if (isset($_POST['deleteBranch'])) {
 		$branchID = $database->escape_value($_POST['branchID']);
@@ -71,7 +75,9 @@
 		MapprBookmark::delete_by_branch_id($branchID);
 		EstabBranch::delete_by_id($branchID);
 		$branches = EstabBranch::find_all(array('key'=>'estab_id','value'=>$branch->estab_id,'isNumeric'=>true));
-		$output .= '"hasBranches":' . count($branches) . "";				
+		$output .= '"hasBranches":' . count($branches) . "";	
+
+		MapprActLog::recordActivityLog("Deleted a branch", $user->id);			
 
 	} else if (isset($_GET['retrieveBranches'])) {
 		$estabID = $database->escape_value($_GET['estabID']);
@@ -87,18 +93,27 @@
 		$branch->update();
 
 		$output .= '"updatedAddr":' . '"' . $branch->address . '"';
+
+		MapprActLog::recordActivityLog("Updated branch address", $user->id);
+
 	} else if (isset($_POST['saveBranchDescription'])) {
 		$branch = EstabBranch::find_by_id($_POST['branchID']);
 		$branch->description = trim($_POST['description']);
 		$branch->update();
 
 		$output .= '"updatedDescription":' . '"' . $branch->description . '"';
+
+		MapprActLog::recordActivityLog("Updated branch description", $user->id);
+
 	} else if (isset($_POST['saveBranchContact'])) {
 		$branch = EstabBranch::find_by_id($_POST['branchID']);
 		$branch->contact_number = trim($_POST['contact']);
 		$branch->update();
 
 		$output .= '"updatedContact":' . '"' . $branch->contact_number . '"';
+
+		MapprActLog::recordActivityLog("Update branch contact number", $user->id);
+
 	} else if (isset($_POST['addPhoto'])) {
 		$newPhoto = new BranchGallery();
 		$newPhoto->branch_id = $_POST['branchID'];
@@ -107,8 +122,13 @@
 
 		$output .= '"photoAddedID":' . $newPhoto->id . ',';
 		branchSelected($_POST['branchID'], true);
+
+		MapprActLog::recordActivityLog("Added a photo to a branch gallery", $user->id);
+
 	} else if (isset($_POST['removePhoto'])) {
 		BranchGallery::delete_by_id($_POST['galleryID']);
+
+		MapprActLog::recordActivityLog("Removed a photo from a branch gallery", $user->id);
 	} else if (isset($_POST['setBusinessHours'])) {
 		$jsonHours = json_decode($_POST['jsonHours']);
 
@@ -132,6 +152,8 @@
 		}
 		
 		$output .= '"updatedBranchHours": ' . $_POST['jsonHours'];
+
+		MapprActLog::recordActivityLog("Configured Business Hours", $user->id);
 	} 
 	// else if (isset($_GET['getBranchHours'])) { 
 	// 	$branch_id = $database->escape_value($_GET['branch_id']);

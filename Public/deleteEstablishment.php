@@ -34,6 +34,9 @@
 		EstabBranch::delete_all(array('key'=>'estab_id', 'value'=>$currentSubsPlanEstab->estab_id, 'isNumeric'=>true));
 		EstabGallery::delete_all(array('key'=>'estab_id', 'value'=>$currentSubsPlanEstab->estab_id, 'isNumeric'=>true));
 		Establishment::delete_by_id($currentSubsPlanEstab->estab_id);
+
+		MapprActLog::recordActivityLog("Deleted an Establishment", $user->id);	
+
 		redirect_to("manageEstab.php?sbscrbdID=" . $sbscrbdID);		
 	}
 

@@ -51,6 +51,8 @@
 	$subs_plan->stripe_id = $subscription['id'];
 	$subs_plan->create();
 
+	MapprActLog::recordActivityLog("Purchased a subscription", $user->id);
+
 	redirect_to("mysubscription.php");
 	
 

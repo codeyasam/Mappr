@@ -36,8 +36,12 @@
 					move_uploaded_file($_FILES['img_upload']['tmp_name'], "DISPLAY_PICTURES/profile_pic".$user->id);
 					$user->display_picture = MAPPR_PUBLIC_URL . "DISPLAY_PICTURES/profile_pic".$user->id;
 					//echo "poop";
+				} else {
+					$new_admin->display_picture = MAPPR_PUBLIC_URL . $new_admin->display_picture;
 				}
-				$user->update();		
+				
+				$user->update();	
+				MapprActLog::recordActivityLog("Registered to One Coin", $user->id);	
 				$session->login($user);
 				redirect_to("subscription.php");
 			}
@@ -78,7 +82,7 @@
 						</div>
 						<div class="form-group">
 							<label>Display Photo:</label>
-							<input type="file" class="form-control" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
+							<input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
 						</div>
 						<div class="form-group">
 							<label>First Name:</label>
@@ -130,7 +134,6 @@
 				</div>
 			</div>
 		</div>
-
 		<?php include '../includes/footer.php'; ?>
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>	

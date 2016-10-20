@@ -25,13 +25,16 @@
             <li><a href="registeruser.php"><span class="glyphicon glyphicon-tag"></span> Register</a></li>
           <?php } else { ?>
 
-            <?php if(strtolower($user->user_type) == "admin") { ?>
+            <?php if(strtolower($user->user_type) == "admin" || strtolower($user->user_type) == "superadmin") { ?>
             <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span> Control Panel <span class="caret"></span></a>
-                    <ul class="dropdown-menu">          
-                      <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>admin/manageCategory.php"><span class="glyphicon glyphicon-list"></span> Manage Establishment Category</a></li>
-                      <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>admin/managePlan.php"><span class="glyphicon glyphicon-list-alt"></span> Manage Plans</a></li>
-                      <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>admin/managePlanduration.php"><span class="glyphicon glyphicon-time"></span> Manage Plan Duration</a></li>
+                    <ul class="dropdown-menu">   
+                      <?php if(strtolower($user->user_type) == "superadmin") { ?>
+                      <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>Admin/manageAdmins.php"><span class="glyphicon glyphicon-cog"></span> Super Admin Panel</a></li>
+                      <?php } ?>
+                      <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>Admin/manageCategory.php"><span class="glyphicon glyphicon-list"></span> Manage Establishment Category</a></li>
+                      <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>Admin/managePlan.php"><span class="glyphicon glyphicon-list-alt"></span> Manage Plans</a></li>
+                      <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>Admin/managePlanduration.php"><span class="glyphicon glyphicon-time"></span> Manage Plan Duration</a></li>
                     </ul>
                   </li>
             <?php } else { ?>

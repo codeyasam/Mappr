@@ -2,7 +2,7 @@
 <?php $session->is_logged_in() ? null : redirect_to("../index.php"); ?>
 <?php  
 	$user = User::find_by_id($session->user_id);
-	$user->user_type != "ADMIN" ? redirect_to("../index.php") : null; 
+	$user->user_type != "ADMIN" && $user->user_type != "SUPERADMIN" ? redirect_to("../index.php") : null; 
 	$categories = EstabCategory::find_all();
 ?>
 
@@ -11,6 +11,7 @@
 	<head>
 		<title></title>
 		<?php include '../../includes/styles.php'; ?>
+		<link rel="stylesheet" type="text/css" href="../js/jquery-ui.css">
 		<style type="text/css">
 		</style>		
 	</head>
@@ -88,7 +89,7 @@
 					</tbody>
 				</table>
 			</div>
-
+			<div class="mLoadingEffect"></div>
 			<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
 			<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
 			<script type="text/javascript" src="../js/functions.js"></script>	
@@ -156,6 +157,13 @@
 						tblRows += '<th colspan="2">Options</th></tr>';
 						tblRows += tableJSON("#categoryContainer", jsonObj.Categories);
 						$("#categoryContainer").append("<tbody>" + tblRows + "<tbody>");
+						if (jsonObj.createdCateg) {
+							$('body').removeClass('mLoading');
+							custom_alert_dialog("Successfully created category.");
+						} else if (jsonObj.updatedCateg) {
+							$('body').removeClass('mLoading');
+							custom_alert_dialog("Successfully updated category.");
+						}
 					} else if (jsonObj.categorySelected) {
 						$('#categName').val(jsonObj.name);
 						$('#categDescription').val(jsonObj.description);
@@ -181,6 +189,14 @@
 							tblRows += '<th colspan="2">Options</th></tr>';
 							tblRows += tableJSON("#categoryContainer", jsonObj.Categories);
 							$("#categoryContainer").append("<tbody>" + tblRows + "<tbody>");
+							if (jsonObj.deletedCateg) {
+								$('body').removeClass('mLoading');
+								if (jsonObj.deletedCateg == "true") {
+									custom_alert_dialog("Successfully deleted");
+								} else {
+									custom_alert_dialog("Can't delete this category, an Establishment is assigned to it.");
+								}
+							} 
 						} else if (jsonObj.categorySelected) {
 							$('#categName').val(jsonObj.name);
 							$('#categDescription').val(jsonObj.description);
@@ -224,7 +240,12 @@
 					var categDescription = $('#categDescription').val().trim();
 					var featured_category = $('#featured_category').is(":checked") ? "FEATURED" : "NOT FEATURED";
 
-					if (categName == "" || categDescription == "") return;
+					if (categName == "" || categDescription == "") { 
+						custom_alert_dialog("Fill up required fields.");
+						return;
+					}
+
+					$('body').addClass('mLoading');
 					console.log("poop");
 					//processRequest("backendprocess.php?createCateg=true&categName="+categName+"&categDescription="+categDescription);
 					// processPOSTRequest("backendprocess.php", "createCateg=true&categName="+categName+"&categDescription="+categDescription+"&featured_category="+featured_category);
@@ -254,8 +275,14 @@
 				$(document).on('click', '.optDelete', function() {
 					console.log($(this).attr("data-internalid"));
 					var categoryID = $(this).attr("data-internalid");
-					//processRequest("backendprocess.php?deleteCateg=true&categoryID=" + categoryID);
-					processPOSTRequest("backendprocess.php", "deleteCateg=true&categoryID=" + categoryID);
+					var action_performed = function() {
+						//processRequest("backendprocess.php?deleteCateg=true&categoryID=" + categoryID);
+						processPOSTRequest("backendprocess.php", "deleteCateg=true&categoryID=" + categoryID);
+						$('#dialog').dialog('close');						
+						$('body').addClass('mLoading');
+					}
+					confirm_action("Are you sure you want to delete this category?", action_performed);
+
 					return false;
 				});
 
@@ -273,7 +300,10 @@
 					e.preventDefault();
 					$('#optSave').hide();
 					$('#optCancel').hide();	
-					$('#optAdd').show();			
+					$('#optAdd').show();
+
+					$('#categName').val("");
+					$('#categDescription').val("");			
 				});
 
 				$('#optSave').on('click', function(e) {
@@ -283,7 +313,12 @@
 					var categDescription = $('#categDescription').val().trim();
 					var featured_category = $('#featured_category').is(":checked") ? "FEATURED" : "NOT FEATURED";
 					
-					if (categName == "" || categDescription == "") return;				
+					if (categName == "" || categDescription == "") { 
+						custom_alert_dialog('Fill all required fields.');
+						return; 
+					}
+
+					$('body').addClass("mLoading");
 					//processRequest("backendprocess.php?saveChanges=true&categoryID=" + categoryID + "&categName=" + categName + "&categDescription=" + categDescription);
 					// processPOSTRequest("backendprocess.php", "saveChanges=true&categoryID=" + categoryID + "&categName=" + categName + "&categDescription=" + categDescription+"&featured_category="+featured_category);
 					

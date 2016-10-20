@@ -6,7 +6,10 @@
 	$condition['value'] = $user->id;
 	$condition['isNumeric'] = true;
 	//$transactions = SubsPlan::find_all($condition);
-	$transactions = \Stripe\Invoice::all(array("customer" => $user->stripe_id));
+	//$user->stripe_id = "cus_9Jvf01ISXoiUSO"; //debug 
+	$transactions = "";
+	if (!empty($user->stripe_id)) 
+		$transactions = \Stripe\Invoice::all(array("customer" => $user->stripe_id));
 	// echo "<pre>";
 	// 	print_r($transactions);
 	// echo "</pre>";
@@ -35,13 +38,14 @@
 			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
 
-			<table class="table table-hover data">
-				<tr>
-					<th>Price</th>
-					<th>Discount</th>
-					<th>Amount Paid</th>
-					<th>Date: (timezone - server)</th>
-				</tr>	
+			<?php if (!empty($transactions)) { ?>
+				<table class="table table-hover data">
+					<tr>
+						<th>Price</th>
+						<th>Discount</th>
+						<th>Amount Paid</th>
+						<th>Date: (timezone - server)</th>
+					</tr>	
 				<?php for ($i = 0; $i < count($transactions['data']); $i++) { ?>
 					<?php $each_transac = $transactions['data'][$i]; ?>
 					<?php $total_amount = $each_transac->total / 100; ?>
@@ -64,6 +68,12 @@
 						<td><?php echo htmlentities(format_date(get_mysql_datetime($each_transac->date))); ?></td>
 					</tr>
 				<?php } ?>
+			<?php } else { ?>
+				<div class="panel-body">
+					<?php echo "You dont have any transactions yet. "; ?>	
+					<a href="subscription.php">Purchase a subscription here.</a>
+				</div>
+			<?php } ?>
 			</table>
 		</div>
 	</div>
