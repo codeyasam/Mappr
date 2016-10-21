@@ -112,8 +112,8 @@
 							<input id="confPass" class="form-control" type="password" name="confPass" value="" required="required"/><span id="passNotice"></span>
 						</div>
 						<hr>
-						<div class="form-group">
-							<h2>Optional</h2>
+						<div class="form-group">							
+							<h3 style="font-variant: small-caps;"><b><span class="glyphicon glyphicon-equalizer"></span> Optional</b></h3>
 						</div>
 						<div class="form-group">
 							<label>Contact No.:</label>

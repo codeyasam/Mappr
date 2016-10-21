@@ -64,6 +64,7 @@
 							<label>Username:</label> <?php echo htmlentities($user->username); ?>
 						</div>
 						<hr>
+						<h3 style="font-variant: small-caps;"><b><span class="glyphicon glyphicon-equalizer"></span> Optional</b></h3>
 						<div class="form-group">
 							<label>Contact No.:</label>
 							<input type="text" class="form-control" name="contact" value="<?php echo htmlentities($user->contact); ?>"/>

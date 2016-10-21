@@ -35,17 +35,15 @@
 			
 				<div class="manage" style="float: left; width: 30%;">
 					<form>
-						<div class="row">
 
-							<div class="form-group col col-sm-4 round-image">
-								<div class="round-image text-center drop-shadow" style="display:inline-block; text-align:center; width: 50px; height: 50px; overflow: hidden;">
-									<img style="height: 60px; margin-left: -10%;" id="output" src="../DISPLAY_PICTURES/defaultCategIcon.png"/>
-								</div>
+						<div class="form-group text-center">
+							<div class="round-image text-center drop-shadow" style="display:inline-block; text-align:center; width: 130px; height: 130px; overflow: hidden;">
+								<img style="height: 150px; margin-left: -10%;" id="output" src="../DISPLAY_PICTURES/defaultCategIcon.png"/>
 							</div>
-							<div class="form-group col col-sm-8">
-								<label>Icon</label>
-								<input id="pic" class="" style="max-width: 100%;" type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
-							</div>
+						</div>
+						<div class="form-group">
+							<label>Icon</label>
+							<input id="pic" class="" style="max-width: 100%;" type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
 						</div>
 						<div class="form-group">
 							<label>Category Name</label>
@@ -82,8 +80,8 @@
 							<td><?php echo htmlentities($eachCategory->name); ?></td>
 							<td><img class="category-icon" src="<?php echo "../" . htmlentities($eachCategory->display_picture); ?>"></td>
 							<td><?php echo htmlentities($eachCategory->description); ?></td>
-							<td><a class="optEdit" href=""><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>
-							<td><a class="optDelete text-danger" href=""><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+							<td><a class="optEdit" href=""><span class="glyphicon glyphicon-pencil"></span><br>Edit</a></td>
+							<td><a class="optDelete text-danger" href=""><span class="glyphicon glyphicon-remove"></span><br>Delete</a></td>
 						</tr>
 					<?php endforeach; ?>
 					</tbody>
@@ -113,7 +111,7 @@
 					var n = d.getTime();
 
 					$(tableID).html("");
-					$(tableID).attr("border", 1);
+					// $(tableID).attr("border", 1);
 					var newTr = "";
 					for (var key in jsonObjRoot) {
 						if (jsonObjRoot.hasOwnProperty(key)) {
@@ -128,9 +126,9 @@
 									//console.log(jsonObjRoot[key][eachField]);
 								}
 							}
-							newTr += '<td><a class="optEdit" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>';
+							newTr += '<td class="text-center"><a class="optEdit" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-pencil"></span><br>Edit</a></td>';
 							if (hasOptDelete)
-								newTr += '<td><a class="optDelete text-danger" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-remove"></span> Delete</a></td>';
+								newTr += '<td class="text-center"><a class="optDelete text-danger" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-remove"></span><br>Delete</a></td>';
 							newTr += "</tr>";
 						}
 					}
@@ -290,6 +288,10 @@
 				});
 
 				$(document).on('click', '.optEdit', function() {
+					$(".highlight").removeClass("highlight");
+					$(this).parent().parent().prop({class: "highlight"});
+				   	var output = document.getElementById('output');
+				   	output.src = "";
 					$('#optAdd').hide();
 					$('#optSave').show();
 					$('#optCancel').show();
@@ -300,13 +302,15 @@
 				});
 
 				$('#optCancel').on('click', function(e) {
+					$(".highlight").removeClass("highlight");
 					e.preventDefault();
 					$('#optSave').hide();
 					$('#optCancel').hide();	
 					$('#optAdd').show();
 
 					$('#categName').val("");
-					$('#categDescription').val("");			
+					$('#categDescription').val("");
+					$("#output").prop({src: "../DISPLAY_PICTURES/defaultCategIcon.png"});
 				});
 
 				$('#optSave').on('click', function(e) {
@@ -317,7 +321,7 @@
 					var featured_category = $('#featured_category').is(":checked") ? "FEATURED" : "NOT FEATURED";
 					
 					if (categName == "" || categDescription == "") { 
-						custom_alert_dialog('Fill all required fields.');
+						custom_alert_dialog('Fill all required fields.');						
 						return; 
 					}
 
@@ -354,6 +358,7 @@
 					$('#optSave').attr("data-internalid", "");
 					$('#categName').val("");
 					$('#categDescription').val("");
+					$("#output").prop({src: "../DISPLAY_PICTURES/defaultCategIcon.png"});
 				});
 			</script>
 	</body>

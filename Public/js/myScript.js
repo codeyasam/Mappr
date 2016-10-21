@@ -78,4 +78,5 @@ $(function() {
     $('#facebookLogin').on('click', function() {
         fb_login();
     });    
+
 });

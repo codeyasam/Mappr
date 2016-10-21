@@ -18,5 +18,18 @@
 			$actLog->processed_date = get_mysql_datetime(time());
 			$actLog->create();
 		}
+
+		public static function getRecords($limit, $offset, $user_id) {
+			global $database;
+			$limit = $database->escape_value($limit);
+			$offset = $database->escape_value($offset);
+			$user_id = $database->escape_value($user_id);
+
+			$sql  = "SELECT * FROM " . self::$table_name . " ";
+			$sql .= "WHERE user_id = " . $user_id . " ";
+			$sql .= "LIMIT " . $offset . ", ". $limit;
+			$temp = self::find_by_sql($sql);
+			return count($temp) <= 0 ? false : $temp;
+		}
 	}
 ?>

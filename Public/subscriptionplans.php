@@ -2,6 +2,8 @@
 <?php  
 	$user = $session->is_logged_in() ? User::find_by_id($session->user_id) : false;
 	$filtered_plans = Plan::find_by_duration($_GET['type']);
+	//PlanDuration::find_by_duration_name();
+	$currentPlanDuration = PlanDuration::find_by_id($_GET['type']);
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +21,7 @@
 	<div class="banner"></div>
 	<div class="container center clearfix">
 		<div class="panel panel-warning drop-shadow">
-			<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-th-large"></span>Choose a plan</h1></div>
+			<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-th-large"></span> [<?php echo htmlentities(strtoupper($currentPlanDuration->description)); ?>] Choose type</h1></div>
 			<div class="panel-body">
 			<?php foreach($filtered_plans as $key => $each_plan): ?>
 				<div class="subscription-plans">
@@ -56,7 +58,7 @@
 								data-description="Widget"
 								data-image="/img/documentation/checkout/marketplace.png"
 								data-email="<?php echo $user->email; ?>"
-								data-currency="jpy"
+								data-currency="usd"
 								data-locale="auto">
 								</script>
 							</div>

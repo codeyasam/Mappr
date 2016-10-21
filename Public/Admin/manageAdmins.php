@@ -43,9 +43,31 @@
 <?php  
 	if (isset($_POST['deleteAdmin'])) {
 		$user_to_delete = User::find_by_id($_GET['id']);
-		User::delete_by_id($_GET['id']);
-		$session->message("deleted");
-		MapprActLog::recordActivityLog("Deleted admin " . $user_to_delete->full_name(), $user->id);
+		if ($user_to_delete->user_type == "ADMIN") {
+			User::delete_by_id($_GET['id']);
+			$session->message("deleted");
+			MapprActLog::recordActivityLog("Deleted admin " . $user_to_delete->full_name(), $user->id);			
+		}
+	}
+?>
+
+<?php  
+	if (isset($_POST['blockAdmin'])) {
+		$user_to_block = User::find_by_id($_GET['id']);
+		if ($user_to_block->user_type == "ADMIN") {
+			$user_to_block->account_status = "BLOCKED";
+			$user_to_block->update();
+		}
+	}
+?>
+
+<?php  
+	if (isset($_POST['unblockAdmin'])) {
+		$user_to_unblock = User::find_by_id($_GET['id']);
+		if ($user_to_unblock->user_type == "ADMIN") {
+			$user_to_unblock->account_status = "ACTIVE";
+			$user_to_unblock->update();			
+		}
 	}
 ?>
 
@@ -71,7 +93,7 @@
 		<div class="container page-wrap">
 			<div class="panel panel-warning">
 				<div class="panel-heading">
-					<h1 class="heading-label">Manage Admins</h1>
+					<h1 class="heading-label"><span class="glyphicon glyphicon-cog"></span> Manage Admins</h1>
 				</div>
 				<div class="panel-body">
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -82,30 +104,37 @@
 					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 				</div>
 				<div class="clearfix">
-					<table id="adminContainer" class="table table-hover data" style="float: right; width: 65%;">
+					<table id="adminContainer" class="table table-hover data" style="float: right; width: 70%;">
 						<tr>
 							<th>#</th>
+							<th>Username</th>
+							<th>E-mail Address</th>
 							<th>Name</th>
 							<th>Display Picture</th>
-							<th colspan="2">Options</th>
+							<th>Status</th>
+							<th colspan="3">Options</th>
 						</tr>
 
 						<?php foreach ($all_admins as $key => $eachAdmin): ?>
 							<tr>
 								<td><?php echo htmlentities($eachAdmin->id); ?></td>
+								<td><?php echo htmlentities($eachAdmin->username); ?></td>
+								<td><?php echo htmlentities($eachAdmin->email); ?></td>
 								<td><?php echo htmlentities($eachAdmin->full_name()); ?></td>
 								<td class="text-center">
 									<div class="round-image drop-shadow" style="margin-left: -60px;display:inline-block; text-align:center; width: 35px; height: 35px; overflow: hidden;">
 										<img id="output" style="width: 40px; margin-left: -3px;" class="category-icon" src="<?php echo htmlentities($eachAdmin->display_picture); ?>"/>
 									</div>
 								</td>
-								<td><a href="adminsActivityLog.php?id=<?php echo $eachAdmin->id; ?>"><span class="glyphicon glyphicon-list"></span> View Activity Log</a></td>
-								<td><a data-internalid="manageAdmins.php?id=<?php echo htmlentities($eachAdmin->id); ?>" class="text-danger optDelete" href=""><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+								<td><?php echo htmlentities($eachAdmin->account_status); ?></td>
+								<td class="text-center"><a href="adminsActivityLog.php?id=<?php echo $eachAdmin->id; ?>"><span class="glyphicon glyphicon-list"></span><br>Activity&nbsp;Log</a></td>
+								<td class="text-center"><a data-internalid="manageAdmins.php?id=<?php echo htmlentities($eachAdmin->id); ?>" class="text-danger optDelete" href=""><span class="glyphicon glyphicon-remove"></span><br>Delete</a></td>
+								<td class="text-center"><?php if ($eachAdmin->account_status == "ACTIVE") { ?><a data-internalid="manageAdmins.php?id=<?php echo htmlentities($eachAdmin->id); ?>" class="text-warning optBlock" href=""><span class="glyphicon glyphicon-ban-circle"></span><br>Block</a> <?php } else { ?><a data-internalid="manageAdmins.php?id=<?php echo htmlentities($eachAdmin->id); ?>" class="text-warning optUnblock" href=""><span class="glyphicon glyphicon-ok-circle"></span><br>Unblock</a><?php } ?></td>
 							</tr>
 						<?php endforeach; ?>
 					</table>
 
-					<div style="float: left; width: 30%; margin: 20px;">
+					<div style="float: left; width: 25%; margin: 20px;">
 						<form action="manageAdmins.php" method="POST" enctype="multipart/form-data">
 							<div class="form-group text-center" >
 								<div class="round-image drop-shadow" style="margin-left: -60px;display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">
@@ -192,8 +221,26 @@
 
 			$('.optDelete').on('click', function() {
 				$('#dialogDelete > form').attr("action", $(this).attr('data-internalid'));
+				$('#dialogDelete > p').text("Are you sure you want to delete this admin?");
+				$('#confirmBtn').attr("name", "deleteAdmin");
 				$('#dialogDelete').dialog('open');
 				return false;
+			});
+
+			$('.optBlock').on('click', function() {
+				$('#dialogDelete > form').attr("action", $(this).attr('data-internalid'));
+				$('#dialogDelete > p').text("Are you sure you want to block this admin?");
+				$('#confirmBtn').attr("name", "blockAdmin");
+				$('#dialogDelete').dialog('open');
+				return false;
+			});
+
+			$('.optUnblock').on('click', function() {
+				$('#dialogDelete > form').attr("action", $(this).attr('data-internalid'));
+				$('#dialogDelete > p').text("Are you sure you want to unblock this admin?");
+				$('#confirmBtn').attr("name", "unblockAdmin");
+				$('#dialogDelete').dialog('open');
+				return false;				
 			});
 
 			var loadFile = function(event) {

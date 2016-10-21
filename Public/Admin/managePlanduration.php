@@ -31,7 +31,7 @@
 					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 				</div>
-				<div class="manage" id="formContainer" style="float: left; width: 30%">
+				<div class="manage" id="formContainer" style="float: left; width: 28%%">
 					<!-- <div class="form-group">
 						<label>Duration Name</label>
 					</div> -->

@@ -10,10 +10,14 @@ body {
 }
 
 footer {
-	font-size: .8em;
+	font-size: .9em;
 	padding: 20px;
 	background: #202020;
 	color: #ccc;
+}
+
+ul.no-bullets {
+	list-style: none;
 }
 
 .panel {
@@ -32,7 +36,10 @@ h1 {
 h1.heading-label {
 	font-family: Impact;
 	/*border-left: 10px solid #555;*/
+}
 
+.form-group label {
+	font-size: 1.2em;
 }
 
 .page-wrap {
@@ -124,6 +131,7 @@ h1.heading-label {
 
 .round-image {
 	border-radius: 50%;
+	/*border: 1px solid #*/
 }
 
 .round-image>img {
@@ -176,9 +184,12 @@ h1.heading-label {
 
 .manage {
 	/*overflow-y: auto;*/
+	/*min-width: 400px;*/
 	height: 700px;
 	padding: 20px;
 	background-color: #fff;
+	border-right: 1px solid #ccc;
+	margin-right: 10px;
 }
 
 #map {
@@ -249,7 +260,7 @@ textarea {
 
 
 #output { 
-	border: none;
+	background-color: #fff;
 }
 
 .thumbnail {
@@ -269,4 +280,17 @@ textarea {
 
 #map {
 	height: 700px;
+}
+
+.form-control {
+	font-size: 1.3em;
+}
+
+tr.highlight {
+	background-color: #ffec64;
+	color: #000;
+}
+
+.pagination a.selected {
+	background-color: #ccc;
 }

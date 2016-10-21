@@ -6,7 +6,7 @@
 		protected static $table_name = "END_USER_TB";
 		protected static $db_fields = array('id', 'email', 'username', 'password', 'first_name',
 											'last_name', 'contact', 'hometown', 'display_picture', 
-											'user_type', 'stripe_id', 'reset_code');
+											'user_type', 'stripe_id', 'reset_code', 'account_status', 'login_attempt');
 
 		public $id;
 		public $email;
@@ -20,6 +20,8 @@
 		public $user_type = "USER";
 		public $stripe_id;
 		public $reset_code;
+		public $account_status = "ACTIVE";
+		public $login_attempt;
 
 		public function full_name() {
 			if (isset($this->first_name) && isset($this->last_name)) {

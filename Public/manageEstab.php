@@ -45,8 +45,8 @@
 	<div class="banner"></div>
 	<div class="container center">	
 
-		<div class="panel panel-warning">
-			<div class="panel-heading"><h1 class="heading-label">Manage Establishments</h1></div>
+		<div class="panel panel-warning drop-shadow">
+			<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-glass"></span> Manage Establishments</h1></div>
 			<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -58,7 +58,7 @@
 				<tr>
 					<th style="width: 100px;">NAME</th>
 					<th style="width: 600px;">DESCRIPTION</th>
-					<th>OPTION</th>
+					<th colspan="2">OPTION</th>
 				</tr>
 			<?php 
 			foreach($subsPlanEstab as $key => $eachSubsPlanEstab): ?>
@@ -71,7 +71,9 @@
 							<a href="manageBranch.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>"><span class="glyphicon glyphicon-cog"></span> Manage Branches</a><br>
 							<a href="editEstabDetails.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>">
 							<span class="glyphicon glyphicon-pencil"></span> Edit Establishment Details</a>
-							<input type="hidden" name="deleteEstab" value="true"/><br>
+							<input type="hidden" name="deleteEstab" value="true"/>
+					</td>
+					<td>
 							<input class="btn btn-danger deleteEstabBtn" type="button" value="Delete Establishment" data-internalId="<?php echo $key; ?>"/>
 						</form>
 					</td>

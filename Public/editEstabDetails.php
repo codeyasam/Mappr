@@ -74,93 +74,117 @@
 				<?php include("../includes/navigation.php"); ?>
 			</div>
 		</header>
+		<div class="banner"></div>
 		<div class="container edit-establishment center clearfix">
-			<span style="margin-top:0;" />
-			<form id="mainForm" action="editEstabDetails.php?id=<?php echo urlencode($estabID); ?>&sbscrbdID=<?php echo urlencode($sbscrbdID); ?>" enctype="multipart/form-data" method="post"  runat="server">
-				<div class="manage" style="margin-top: 0;">
-					<a style="background:#323232; padding: 10px 15px; border-radius: 0 20px 20px 0;" href="manageEstab.php?sbscrbdID=<?php echo urlencode($sbscrbdID); ?>">Go back</a>
-					<div class="branch-dp"><img id="output" height="100px" width="100px" src="<?php echo htmlentities($estab->display_picture); ?>"/></div>
-					
-					<h5><i>Upload Display Photo</i></h5>
-					<input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
-					<h5><i>Name:</i></h5>
-					<input type="text" name="estabName" value="<?php echo htmlentities($estab->name); ?>" placeholder="Name" required="required"/>
-					<h5><i>Category:</i></h5>
-					<select name="estabCategory" >
-					<?php foreach($all_category as $key => $eachCateg): ?>
-						<?php $isSelected = ($eachCateg->id === $estab->category_id) ? "selected" : ""; ?>
-						<option value="<?php echo $eachCateg->id; ?>"<?php echo $isSelected; ?>><?php echo htmlentities($eachCateg->name); ?></option>
-					<?php endforeach; ?>
-					</select>
-					<h5><i>Description:</i></h5>
-					<textarea name="description" placeholder="description"><?php echo htmlentities($estab->description); ?></textarea>
-					<h5><i>Tags:</i></h5>
-					<input type="text" name="tags" value="<?php echo htmlentities($estab->tags); ?>" placeholder="tags"/>
-					<h5><i>Add photos to gallery:</i></h5>
-					<input id="files" name="gallery[]" type="file" multiple="multiple"/>
-					<input type="submit" name="submit" value="SAVE"/>
+			<div class="panel panel-warning drop-shadow">
+				<div class="panel-heading">
+					<h1 class="heading-label"><span class="glyphicon glyphicon-pencil"></span> Edit Establishment Details</h1>
 				</div>
-				<div class="main-window">
-					<h3>PHOTO GALLERY</h3>
-					<div>
-						<output class="li-align" id="result"></output>
-					</div>
-					
-					
-					<?php foreach ($photos as $key => $photo): ?>
-						<div class="thumbnail" style="text-align:left;">
-							<input type="checkbox" name="selected[<?php echo $key; ?>]" value="<?php echo $photo->id; ?>" style="position: absolute;"/>
-							<img src="<?php echo $photo->gallery_pic; ?>" class=""/>
+				<div class="panel-body">
+					<form id="mainForm" action="editEstabDetails.php?id=<?php echo urlencode($estabID); ?>&sbscrbdID=<?php echo urlencode($sbscrbdID); ?>" enctype="multipart/form-data" method="post"  runat="server">
+						<div class="form-group text-center" style="padding: 10px;">
+							<div class="branch-dp round-image drop-shadow" style="display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">
+								<img id="output" src="<?php echo htmlentities($estab->display_picture); ?>"/>
+							</div>
 						</div>
-					<?php endforeach; ?>
-					<div>
-						<input type="submit" name="deletePics" value="DELETE SELECTED PHOTOS" style="float:right;"/>
-						<p style="clear:both;"></p>
-					</div>									
-				</div>	
-			</form>	
+						<div class="form-group">
+							<label>Upload Logo</label>
+							<input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
+						</div>
+						<div class="form-group">
+							<label>Name</label>
+							<input type="text" class="form-control" name="estabName" value="<?php echo htmlentities($estab->name); ?>" placeholder="Name" required="required"/>
+						</div>
+						
+						<div class="form-group">
+							<label>Category</label>
+							<select class="form-control" name="estabCategory" >
+							<?php foreach($all_category as $key => $eachCateg): ?>
+								<?php $isSelected = ($eachCateg->id === $estab->category_id) ? "selected" : ""; ?>
+								<option value="<?php echo $eachCateg->id; ?>"<?php echo $isSelected; ?>><?php echo htmlentities($eachCateg->name); ?></option>
+							<?php endforeach; ?>
+							</select>
+						</div>
+						
+						<div class="form-group">
+							<label>Description</label>
+							<textarea name="description" class="form-control" placeholder="Say something about your establishment..."><?php echo htmlentities($estab->description); ?></textarea>
+						</div>
+						
+						<div class="form-group">
+							<label>Tags</label>
+							<input type="text" class="form-control" name="tags" value="<?php echo htmlentities($estab->tags); ?>" placeholder="tags"/>
+						</div>						
+						<hr>
+						<div class="form-group main-window clearfix">
+							<label><h4>Photo Gallery</h4></label>
+							<br>					
+							<?php foreach ($photos as $key => $photo): ?>
+								<div class="thumbnail" style="text-align:left;">
+									<input type="checkbox" name="selected[<?php echo $key; ?>]" value="<?php echo $photo->id; ?>" style="position: absolute;"/>
+									<img src="<?php echo $photo->gallery_pic; ?>" class=""/>
+								</div>
+							<?php endforeach; ?>
+							<output class="li-align" id="result">
+								<?php if(count($photos) <= 0) { ?>
+									<i><h4><span class="glyphicon glyphicon-picture"></span> No photos yet.</h4></i>
+								<?php } ?>
+							</output>
+						</div>
+						<div class="form-group">
+							<label>Add photos to gallery</label>
+							<input id="files" name="gallery[]" type="file" multiple="multiple"/>
+						</div>		
+						
 
-			<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
-			<script type="text/javascript" src="js/jquery-ui.min.js"></script>	
-			<script type="text/javascript" src="js/myScript.js"></script>
-			<script type="text/javascript">
-				var loadFile = function(event) {
-				   	var output = document.getElementById('output');
-				   	output.src = URL.createObjectURL(event.target.files[0]);
-				   	$('#urlContent').attr('value', "");
-				};		
-				
-			    if(window.File && window.FileList && window.FileReader)
-			    {
-			        var filesInput = document.getElementById("files");
-			        filesInput.addEventListener("change", function(event){
-			            var files = event.target.files; //FileList object
-			            var output = document.getElementById("result");
-			            for(var i = 0; i< files.length; i++)
-			            {
-			                var file = files[i];
-			                //Only pics
-			                if(!file.type.match('image'))
-			                    continue;
-			                var picReader = new FileReader();
-			                picReader.addEventListener("load",function(event){
-			                    var picFile = event.target;
-			                    var div = document.createElement("div");
-			                    div.className += div.className + 'thumbnail';
-			                    div.innerHTML = "<img src='" + picFile.result + "'" +
-			                    "title='" + picFile.name + "'/>";
-			                    output.insertBefore(div,null);
-			                });
-			                //Read the image
-			                picReader.readAsDataURL(file);
-			            }
-			        });
-			    }					
-			</script>	
+						<div class="form-group">
+							<input type="submit" name="deletePics" class="btn btn-danger" value="Delete Selected"/>
+							<input type="submit" class="btn btn-primary" name="submit" value="Save"/>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
-		<footer class="container center">
-			<?php include '../includes/footer.php'; ?>
-		</footer>
+		<?php include '../includes/footer.php'; ?>
+
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.min.js"></script>	
+		<script type="text/javascript" src="js/myScript.js"></script>
+		<script type="text/javascript">
+			var loadFile = function(event) {
+			   	var output = document.getElementById('output');
+			   	output.src = URL.createObjectURL(event.target.files[0]);
+			   	$('#urlContent').attr('value', "");
+			};		
+			
+		    if(window.File && window.FileList && window.FileReader)
+		    {
+		        var filesInput = document.getElementById("files");
+		        filesInput.addEventListener("change", function(event){
+		            var files = event.target.files; //FileList object
+		            var output = document.getElementById("result");
+		            output.innerHTML = "";
+		            for(var i = 0; i< files.length; i++)
+		            {
+		                var file = files[i];
+		                //Only pics
+		                if(!file.type.match('image'))
+		                    continue;
+		                var picReader = new FileReader();
+		                picReader.addEventListener("load",function(event){
+		                    var picFile = event.target;
+		                    var div = document.createElement("div");
+		                    div.className += div.className + 'thumbnail';
+		                    div.innerHTML = "<img src='" + picFile.result + "'" +
+		                    "title='" + picFile.name + "'/>";
+		                    output.insertBefore(div,null);
+		                });
+		                //Read the image
+		                picReader.readAsDataURL(file);
+		            }
+		        });
+		    }					
+		</script>	
 				
 	</body>
 </html>

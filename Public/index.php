@@ -15,7 +15,7 @@
 		<div style="background: #fff;" class="container page-wrap">
 			<div class="row homepage">
 			<?php if($session->is_logged_in()) { ?>
-				
+				ibuyguyg
 			<?php } else { ?>
 					
 					<div class="col col-md-12">

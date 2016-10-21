@@ -97,9 +97,8 @@
 					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-
 					<form id="mainForm" action="addEstab.php?id=<?php echo urlencode($_GET['id']); ?>" enctype="multipart/form-data" method="post"  runat="server">
-						<div class="manage" style="margin-top: 0;">
+						<!-- <div class="manage" style="margin-top: 0;"> -->
 
 							<div class="form-group text-center" style="padding: 10px;">
 								<div class="branch-dp round-image drop-shadow" style="display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">
@@ -134,25 +133,31 @@
 								<input type="text" class="form-control" name="tags" value="" placeholder="tags"/>
 							</div>
 							
+							<hr>
+							<div class="form-group main-window clearfix">
+								<label><h4>Photo Gallery</h4></label>
+								<output class="li-align" id="result">
+
+									<i><h4><span class="glyphicon glyphicon-picture"></span> No photos yet.</h4></i>
+									
+								</output>
+							</div>
+							
 							<div class="form-group">
 								<label>Add photos to gallery</label>
 								<input id="files" name="gallery[]" type="file" multiple="multiple"/>
 							</div>		
-							
-							<hr>
-							<div class="form-group main-window clearfix">
-								<label><h4>Photo Gallery</h4></label>
-								<output class="li-align" id="result" />
-							</div>
 
 							<div class="form-group">
 								<input type="submit" class="btn btn-primary" name="submit" value="Save"/>
 							</div>
-						</div>
+						<!-- </div> -->
 					</form>
 				</div>
 
 			</div>
+		</div>	
+		<?php include '../includes/footer.php'; ?>
 			<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 			<script type="text/javascript" src="js/jquery-ui.min.js"></script>	
 			<script type="text/javascript" src="js/myScript.js"></script>
@@ -169,6 +174,7 @@
 			        filesInput.addEventListener("change", function(event){
 			            var files = event.target.files; //FileList object
 			            var output = document.getElementById("result");
+			            output.innerHTML = "";
 			            for(var i = 0; i< files.length; i++)
 			            {
 			                var file = files[i];
@@ -191,7 +197,5 @@
 			        });
 			    }					
 			</script>	
-		</div>	
-		<?php include '../includes/footer.php'; ?>
 	</body>
 </html>

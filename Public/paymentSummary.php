@@ -30,7 +30,7 @@
 	<div class="banner"></div>
 	<div class="container center">
 		<div class="panel panel-warning">
-			<div class="panel-heading"><h1 class="heading-label">Transactions</h1></div>
+			<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-check"></span> Transactions</h1></div>
 			<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo

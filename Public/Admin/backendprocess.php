@@ -37,11 +37,11 @@
 		
 		if ($has_affected_rows) {
 			$output .= ', "deletedCateg":"true"';	
+			MapprActLog::recordActivityLog("Deleted '" . $category_to_delete->name . "' category", $user->id);
 		} else {
 			$output .= ', "deletedCateg":"false"';
 		}
-		
-		MapprActLog::recordActivityLog("deleted " . $category_to_delete->name . " category", $user->id);		
+				
 
 	} else if (isset($_GET['editCateg'])) {
 		$selected_category = EstabCategory::find_by_id($_GET['categoryID']);
@@ -100,7 +100,7 @@
 		$output .= createJSONEntity("PlanDurations", $objArr);		
 		$output .= ', "saveChangesPD":"true"';
 
-		MapprActLog::recordActivityLog("Updated " . $selected_planDuration->duration_name . " duration", $user->id);
+		MapprActLog::recordActivityLog("Updated '" . $selected_planDuration->duration_name . "' duration", $user->id);
 
 	} else if (isset($_GET['getPlans'])) { //For plan management
 		$objArr = Plan::find_all();
@@ -140,7 +140,7 @@
 			$output .= createJSONEntity("Plans", $objArr);	
 			$output .= ', "createdPlan":"true"';
 
-			MapprActLog::recordActivityLog("Created " . $new_plan->plan_name . " plan", $user->id);
+			MapprActLog::recordActivityLog("Created '" . $new_plan->plan_name . "' plan", $user->id);
 		} catch (Exception $e) {
 			Plan::delete_by_id($new_plan->id);
 			$output .= '"createError":"true"';
@@ -165,7 +165,7 @@
 				$output .= '"hasPlanDeleteError":"true"';
 			}			
 
-			MapprActLog::recordActivityLog("deleted " . $plan_to_delete->plan_name . " plan", $user->id);
+			MapprActLog::recordActivityLog("Deleted '" . $plan_to_delete->plan_name . "' plan", $user->id);
 
 		} catch (Exception $e) {
 			
@@ -209,7 +209,7 @@
 		$output .= createJSONEntity("Plans", $objArr);	
 		$output .= ', "planUpdated":"true"';	
 
-		MapprActLog::recordActivityLog("updated " . $selected_plan->plan_name . " plan", $user->id);
+		MapprActLog::recordActivityLog("Updated '" . $selected_plan->plan_name . "' plan", $user->id);
 
 	}
 

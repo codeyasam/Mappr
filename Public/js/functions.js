@@ -22,7 +22,7 @@ function processPOSTRequest(suppliedURL, sendData) {
 
 function tableJSON(tableID, jsonObjRoot, hasOptDelete=true) {
 	$(tableID).html("");
-	$(tableID).attr("border", 1);
+	// $(tableID).attr("border", 1);
 	var newTr = "";
 	for (var key in jsonObjRoot) {
 		if (jsonObjRoot.hasOwnProperty(key)) {
@@ -34,9 +34,9 @@ function tableJSON(tableID, jsonObjRoot, hasOptDelete=true) {
 					//console.log(jsonObjRoot[key][eachField]);
 				}
 			}
-			newTr += '<td><a class="optEdit" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>';
+			newTr += '<td class="text-center"><a class="optEdit" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-pencil"></span><br>Edit</a></td>';
 			if (hasOptDelete)
-				newTr += '<td><a class="optDelete text-danger" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-remove"></span> Delete</a></td>';
+				newTr += '<td class="text-center"><a class="optDelete text-danger" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-remove"></span><br>Delete</a></td>';
 			newTr += "</tr>";
 		}
 	}

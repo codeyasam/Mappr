@@ -72,6 +72,7 @@
 										<label>Coordinates:</label> [ <span id="lngPOS">Lng: </span>&nbsp;&nbsp;
 										<span id="latPOS">Lat: </span> ]
 									</div>
+									<hr>
 									<div class="form-group">
 										<label>Branch Address</label>
 										<input class="form-control" id="branchAddr" type="text"/>
@@ -79,6 +80,7 @@
 									<div class="form-group clearfix">
 										<input class="pull-right btn btn-primary" id="optEditSave" type="submit" value="Edit"/>
 									</div>
+									<hr>
 									<div class="form-group">
 										<label>Branch Details or Description</label>
 										<input class="form-control" id="branchDescription" type="text"/>
@@ -86,20 +88,21 @@
 									<div class="form-group clearfix">
 										<input class="pull-right btn btn-primary" id="bdOptEditSave" type="submit" value="Edit" />
 									</div>
+									<hr>
 									<div class="form-group">
 										<label>Contact Number</label>
 										<input class="form-control" id="branchContact" type="text"/>
 									</div>
 									<div class="form-group clearfix">
 										<input class="pull-right btn btn-primary" id="bcOptEditSave" type="submit" value="Edit" />
-									</div>						
+									</div>			
+									<hr>			
 									<div class="form-group">
 										<label>Business Hours</label>
 										<ul id="branchHours">
 											
 										</ul>
 									</div>
-
 									<div id="hoursContainer" style="width: 700px; display: none;">								
 									</div>
 									<input type="submit" class="btn btn-primary" id="setBusinessHours" value="Set Business Hours"/>
@@ -162,6 +165,19 @@
 			lng = 120.827130;
 		*/
 
+		function initIcon(img_url, mWidth, mHeight) {
+			var mIcon = {
+				scaledSize: new google.maps.Size(mWidth, mHeight),
+			    origin: new google.maps.Point(0,0), // origin
+			    anchor: new google.maps.Point(10, 20), // anchor
+			    url : img_url				
+			}
+			return mIcon;
+		}
+
+		var selectedIcon = initIcon("images/icon_selected_marker.png", 25, 25);;
+		var defaultIcon = initIcon("images/icon_unselected_marker.png", 25, 25);
+
 		//MAP CONFIGURATION
 		var mapOptions = {
 		    //center: new google.maps.LatLng(37.7831,-122.4039),
@@ -185,7 +201,8 @@
 		var markerOptions = {
 			map: map,
 			draggable: true,
-			animation: google.maps.Animation.DROP
+			animation: google.maps.Animation.DROP,
+			icon: defaultIcon
 		};	
 			//Autocomplete
 		var acOptions = {
@@ -482,6 +499,11 @@
 
                 google.maps.event.addListener(marker, "drag", function(e) {
                 	setUIInfos(marker);
+                });		
+                
+                google.maps.event.addListener(marker, "dblclick", function(e) {
+					map.setZoom(15);
+					map.setCenter(marker.getPosition());
                 });			            	
 
 				google.maps.event.addListener(marker, 'dragend', function(e) {
@@ -512,9 +534,16 @@
 			processRequest("backendprocess.php?branchSelected=true&estabID="+estabID
 				+"&branchID="+marker.id);
 			setDownloadableQR(marker.id, "QRCodeBranchID" + marker.id);	
-			// marker.icon = ""
-			map.setZoom(15);
-			map.setCenter(marker.getPosition());		
+			changeMarkerIcon(marker, markers);
+			// map.setZoom(15);
+			// map.setCenter(marker.getPosition());		
+		}
+
+		function changeMarkerIcon(marker, markers) {
+			for (var i = 0; i < markers.length; i++) {
+				markers[i].setIcon(defaultIcon);
+			}
+			marker.setIcon(selectedIcon);
 		}
 
 		function setDownloadableQR(contents, filename) {
@@ -540,7 +569,6 @@
 
 		$('#addBranchBtn').on('click', function() {
 			unSelectAllActionBtn();
-			// $(this).css("background", "url('images/actionbtn_add_selected.png') top left no-repeat");
 			toAdd = true;
 			toDelete = false;
 			onlyDrag = false;
@@ -550,7 +578,6 @@
 
 		$('#delBranchBtn').on('click', function() {
 			unSelectAllActionBtn();
-			// $(this).css("background", "url('images/actionbtn_delete_selected.png') top left no-repeat");
 			toDelete = true;
 			toAdd = false;
 			$(this).prop({disabled: true});
@@ -558,26 +585,13 @@
 
 		$('#dragBranchBtn').on('click', function() {
 			unSelectAllActionBtn();
-			// $(this).css("background", "url('images/actionbtn_drag_selected.png') top left no-repeat");
 			toDelete = false;
 			onlyDrag = true;
 			toAdd = false;
 			$(this).prop({disabled: true});
 		});
 
-		$('#selectBranchBtn').on('click', function() {
-			unSelectAllActionBtn();
-			$(this).css("background", "url('images/actionbtn_select_selected.png') top left no-repeat");
-			onlySelect = true;
-			toDelete = false;
-			toAdd = false;
-		});
-
 		function unSelectAllActionBtn() {
-			// $('#addBranchBtn').css("background","url('images/actionbtn_add.png') top left no-repeat");
-			// $('#delBranchBtn').css("background","url('images/actionbtn_delete.png') top left no-repeat");
-			// $('#dragBranchBtn').css("background","url('images/actionbtn_drag.png') top left no-repeat");
-			// $('#selectBranchBtn').css("background","url('images/actionbtn_select.png') top left no-repeat");
 			$('#addBranchBtn').prop({disabled: false});
 			$('#delBranchBtn').prop({disabled: false});
 			$('#dragBranchBtn').prop({disabled: false});

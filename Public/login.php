@@ -8,10 +8,31 @@
 		$user = User::authenticate($emUsername, $password);
 		
 		if ($user) {
-			$session->login($user);
-			User::page_redirect($user->id);
+			if ($user->account_status == "ACTIVE") {
+				$session->login($user);
+				User::page_redirect($user->id);
+			} else {
+				$prompt_to_user = "Account is currently blocked, contact the super admin.";	
+			}
+		} else {
+			$prompt_to_user = "Wrong username or password";
+			$found_user = new User();			
+			if (User::hasExisting($emUsername, "email")) {
+ 				$found_users = User::find_all(array('key'=>'email', 'value'=>$emUsername, 'isNumeric'=>false));
+			} else if (User::hasExisting($emUsername, "username")) {
+				$found_users = User::find_all(array('key'=>'username', 'value'=>$emUsername, 'isNumeric'=>false));
+			}
+			$found_user = !empty($found_users) ? array_shift($found_users) : false;
+
+			if ($found_user && $found_user->user_type == "ADMIN" && $found_user->account_status == "ACTIVE") {
+				$found_user->login_attempt += 1;
+				if ($found_user->login_attempt >= 3) {
+					$found_user->account_status = "BLOCKED";
+				}
+				$found_user->update();
+			}
 		}
-		$prompt_to_user = "wrong username or password";
+		
 	}
 ?>
 
@@ -54,9 +75,12 @@
 					<div class="offset-title">Establishment Locator</div>
 
 					<form action="login.php" method="post">
-						<div class="form-group alert-danger" role="alert">
-							<b><?php echo $prompt_to_user; ?></b>
-						</div>
+
+						<?php if (!empty($prompt_to_user)): ?>
+							<div class="alert alert-danger text-center" role="alert">
+							  <strong>Error!</strong> <?php echo strtoupper(substr($prompt_to_user, 0, 1)) . substr($prompt_to_user, 1); ?>.
+							</div>							
+						<?php endif ?>
 						<!-- <div class="form-group">
 				  			<label><h4><span class="glyphicon glyphicon-bookmark"></span> Login to continue</h4></label>
 				  		</div>	 -->
