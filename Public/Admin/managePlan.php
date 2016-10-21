@@ -33,7 +33,7 @@
 				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
 
 
-				<div class="manage" style="float: left; width: 20%;">
+				<div class="manage" style="float: left; width: 25%;">
 					<form>
 						<div class="form-group">
 							<label>Interval</label>
@@ -59,11 +59,11 @@
 							<input class="form-control" id="plan_name" type="text" name="plan_name" />
 						</div>
 						<div class="form-group">
-							<label>No. of Establishment</label>
+							<label>No. of Establishments</label>
 							<input id="estab_no" class="form-control" type="number" min="1" value="1" name="estab_no" />
 						</div>
 						<div class="form-group">
-							<label>No. of Branches</label>
+							<label>No. of Branches Per Establishment</label>
 							<input id="branch_no" class="form-control" type="number" min="1" value="1" name="branch_no" />
 						</div>
 						<div class="form-group">
@@ -80,7 +80,7 @@
 						</div>
 					</form>
 				</div>
-				<table id="planContainer" class="data table table-hover drop-shadow" style="float:left; width: 78%;">
+				<table id="planContainer" class="data table table-hover drop-shadow" style="float:left; width: 73%;">
 				</table>
 			</div>
 		</div>

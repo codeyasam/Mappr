@@ -23,5 +23,11 @@
 
 			return $total;
  		}		
+
+ 		public static function get_estab_total_branch($estabID) {
+ 			$estabBranches = EstabBranch::find_all(array('key' => 'estab_id', 'value' => $estabID, 'isNumeric' => true));
+
+ 			return count($estabBranches);
+ 		}
 	}
 ?>

@@ -75,7 +75,7 @@
 							<th colspan="2">OPTIONS</th>
 						</tr>
 					<?php foreach($categories as $key => $eachCategory): ?>
-						<tr>
+						<tr class="text-center">
 							<td><?php echo htmlentities($eachCategory->id); ?></td>
 							<td><?php echo htmlentities($eachCategory->name); ?></td>
 							<td><img class="category-icon" src="<?php echo "../" . htmlentities($eachCategory->display_picture); ?>"></td>
@@ -115,7 +115,7 @@
 					var newTr = "";
 					for (var key in jsonObjRoot) {
 						if (jsonObjRoot.hasOwnProperty(key)) {
-							newTr += "<tr>";
+							newTr += "<tr class='text-center'>";
 							//console.log(jsonObjRoot[key].id);
 							for (var eachField in jsonObjRoot[key]) {
 								if (jsonObjRoot[key].hasOwnProperty(eachField)) {
@@ -289,7 +289,7 @@
 
 				$(document).on('click', '.optEdit', function() {
 					$(".highlight").removeClass("highlight");
-					$(this).parent().parent().prop({class: "highlight"});
+					$(this).parent().parent().addClass("highlight");
 				   	var output = document.getElementById('output');
 				   	output.src = "";
 					$('#optAdd').hide();
@@ -311,6 +311,7 @@
 					$('#categName').val("");
 					$('#categDescription').val("");
 					$("#output").prop({src: "../DISPLAY_PICTURES/defaultCategIcon.png"});
+					$("#pic").val("");
 				});
 
 				$('#optSave').on('click', function(e) {
@@ -359,6 +360,7 @@
 					$('#categName').val("");
 					$('#categDescription').val("");
 					$("#output").prop({src: "../DISPLAY_PICTURES/defaultCategIcon.png"});
+					$("#pic").val("");
 				});
 			</script>
 	</body>

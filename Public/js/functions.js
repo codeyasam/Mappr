@@ -26,7 +26,7 @@ function tableJSON(tableID, jsonObjRoot, hasOptDelete=true) {
 	var newTr = "";
 	for (var key in jsonObjRoot) {
 		if (jsonObjRoot.hasOwnProperty(key)) {
-			newTr += "<tr>";
+			newTr += "<tr class='text-center'>";
 			//console.log(jsonObjRoot[key].id);
 			for (var eachField in jsonObjRoot[key]) {
 				if (jsonObjRoot[key].hasOwnProperty(eachField)) {

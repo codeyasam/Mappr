@@ -116,13 +116,13 @@
 						</tr>
 
 						<?php foreach ($all_admins as $key => $eachAdmin): ?>
-							<tr>
+							<tr class='text-center'>
 								<td><?php echo htmlentities($eachAdmin->id); ?></td>
 								<td><?php echo htmlentities($eachAdmin->username); ?></td>
 								<td><?php echo htmlentities($eachAdmin->email); ?></td>
 								<td><?php echo htmlentities($eachAdmin->full_name()); ?></td>
-								<td class="text-center">
-									<div class="round-image drop-shadow" style="margin-left: -60px;display:inline-block; text-align:center; width: 35px; height: 35px; overflow: hidden;">
+								<td>
+									<div class="round-image drop-shadow" style="margin-left: 0;display:inline-block; text-align:center; width: 35px; height: 35px; overflow: hidden;">
 										<img id="output" style="width: 40px; margin-left: -3px;" class="category-icon" src="<?php echo htmlentities($eachAdmin->display_picture); ?>"/>
 									</div>
 								</td>
@@ -134,7 +134,7 @@
 						<?php endforeach; ?>
 					</table>
 
-					<div style="float: left; width: 25%; margin: 20px;">
+					<div class="manage" style="float: left; width: 29%;">
 						<form action="manageAdmins.php" method="POST" enctype="multipart/form-data">
 							<div class="form-group text-center" >
 								<div class="round-image drop-shadow" style="margin-left: -60px;display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">

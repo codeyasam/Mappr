@@ -102,7 +102,7 @@
 
 							<div class="form-group text-center" style="padding: 10px;">
 								<div class="branch-dp round-image drop-shadow" style="display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">
-									<img id="output" src="DISPLAY_PICTURES/defaultavatar.png"/>
+									<img id="output" src="DISPLAY_PICTURES/defaultEstabIcon.png"/>
 								</div>
 							</div>
 							<div class="form-group">

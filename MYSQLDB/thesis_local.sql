@@ -244,4 +244,4 @@ INSERT INTO CATEGORY_TB (name, featured_category, display_picture, description) 
 -- VALUES ("bautistamaryjo143@gmail.com", "jojo", "7510d498f23f5815d3376ea7bad64e29", "Maryjo", "Yasa", "09069081822", "Malolos, Bulacan", "DISPLAY_PICTURES/defaultavatar.png", "ADMIN", "ACTIVE");
 
 INSERT INTO END_USER_TB (email, username, password, first_name, last_name, contact, hometown, display_picture , user_type, account_status)
-VALUES ("codeyasam@gmail.com", "root", "63a9f0ea7bb98050796b649e85481845", "Emmanuel", "Yasa", "09069081822", "Malolos, Bulacan", "http://www.codeyasam.com/capstone/Public/DISPLAY_PICTURES/defaultavatar.png", "SUPERADMIN", "ACTIVE");
+VALUES ("codeyasam@gmail.com", "root", "63a9f0ea7bb98050796b649e85481845", "Emmanuel", "Yasa", "09069081822", "Malolos, Bulacan", "localhost/thesis/Public/DISPLAY_PICTURES/defaultavatar.png", "SUPERADMIN", "ACTIVE");
