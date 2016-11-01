@@ -48,8 +48,8 @@
 					</tr>	
 				<?php for ($i = 0; $i < count($transactions['data']); $i++) { ?>
 					<?php $each_transac = $transactions['data'][$i]; ?>
-					<?php $total_amount = $each_transac->total / 100; ?>
-					<?php $subtotal = $each_transac->subtotal / 100; ?>
+					<?php $total_amount = $each_transac->total; ?>
+					<?php $subtotal = $each_transac->subtotal; ?>
 					<?php  
 						$discount = "none";
 						if (!empty($each_transac->discount)) {
@@ -57,7 +57,7 @@
 							if (!empty($coupon->percent_off)) {
 								$discount = $coupon->percent_off . "%";
 							} else {
-								$discount = $coupon->amount_off / 100 . " " . $coupon->currency;
+								$discount = $coupon->amount_off . " " . $coupon->currency;
 							}
 						}
 			  		?>

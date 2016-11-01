@@ -18,16 +18,52 @@
 			$actLog->processed_date = get_mysql_datetime(time());
 			$actLog->create();
 		}
+		
+		public static function getUserRecords($user_id, $from_date = false, $to_date = false, $mDescription = false) {
+			global $database;
+			$user_id = $database->escape_value($user_id);
+			
+			$from_date = $database->escape_value($from_date);
+			$to_date = $database->escape_value($to_date);
+			$mDescription = $database->escape_value($mDescription);
 
-		public static function getRecords($limit, $offset, $user_id) {
+			$sql  = "SELECT * FROM " . self::$table_name . " ";
+			$sql .= "WHERE user_id = " . $user_id . " ";
+			if ($from_date) {
+				$sql .= "AND processed_date BETWEEN '" . $from_date. "' AND '". $to_date . "'";
+			}
+			
+			if ($mDescription && !empty($mDescription)) {
+				$sql .= " AND description LIKE '%" . $mDescription . "%'";
+			}
+			
+			$temp = self::find_by_sql($sql);
+			return count($temp) <= 0 ? false : $temp;					
+		}
+
+		public static function getRecords($limit, $offset, $user_id, $from_date = false, $to_date = false, $mDescription = false) {
 			global $database;
 			$limit = $database->escape_value($limit);
 			$offset = $database->escape_value($offset);
 			$user_id = $database->escape_value($user_id);
+			
+			$from_date = $database->escape_value($from_date);
+			$to_date = $database->escape_value($to_date);
+			$mDescription = $database->escape_value($mDescription);
 
 			$sql  = "SELECT * FROM " . self::$table_name . " ";
 			$sql .= "WHERE user_id = " . $user_id . " ";
-			$sql .= "LIMIT " . $offset . ", ". $limit;
+			if ($from_date) {
+				$sql .= "AND processed_date BETWEEN '" . $from_date. "' AND '". $to_date . "'";
+			}
+			
+			if ($mDescription && !empty($mDescription)) {
+				$sql .= " AND description LIKE '%" . $mDescription . "%'";
+			}
+			
+			$sql .= "ORDER BY id DESC ";
+			$sql .= "LIMIT " . $offset . ", ". $limit . " ";
+			
 			$temp = self::find_by_sql($sql);
 			return count($temp) <= 0 ? false : $temp;
 		}

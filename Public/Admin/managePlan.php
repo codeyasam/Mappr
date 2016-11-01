@@ -139,7 +139,7 @@
 							else 
 								$('#visibility').prop('checked', false);
 
-							if ($('#planDuration option:selected').text() == "custom") {
+							if ($('#planDuration option:selected').val() == 5) {
 								$('#customPlan').show();
 								$('#customPlanDuration').val(jsonObj.custom_interval);
 								$('#intervalCount').val(jsonObj.interval_count);
@@ -180,7 +180,7 @@
 					var customDuration = "";			
 					// console.log(durationID);
 					// console.log(visibility);
-					if ($('#planDuration option:selected').text() == "custom") {
+					if ($('#planDuration option:selected').val() == 5) {
 						//console.log("yeah yeah");
 						if ($('#intervalCount').val().trim() == "") {  
 							custom_alert_dialog("Fill all required fields");
@@ -303,6 +303,14 @@
 					$('#branch_no').val("");
 					$('#cost').val("");
 					$('#visibility').prop('checked', false);
+					
+					//enable fields
+					$('#estab_no').prop('disabled', false);
+					$('#branch_no').prop('disabled', false);
+					$('#cost').prop('disabled', false);
+					$('#planDuration').prop('disabled', false);			
+					$('#customPlanDuration').prop('disabled', false);
+					$('#intervalCount').prop('disabled', false);					
 				});									
 			</script>
 	</body>

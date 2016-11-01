@@ -111,7 +111,7 @@
 		$new_plan->plan_interval = trim($_POST['durationID']);
 		$new_plan->estab_no = trim($_POST['estab_no']);
 		$new_plan->branch_no = trim($_POST['branch_no']);
-		$new_plan->cost = trim($_POST['cost']);
+		$new_plan->cost = (int)trim($_POST['cost']);
 		$new_plan->visibility = trim($_POST['visibility']);
 		//$new_plan->create();
 

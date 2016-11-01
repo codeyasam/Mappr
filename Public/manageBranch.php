@@ -48,6 +48,10 @@
 								<div class="form-group">
 									<input class="form-control" type="text" id="autocomplete">
 								</div>
+								<div class="form-group clearfix">
+									<input class="pull-right btn btn-primary" id="plotAtAddress" type="button" value="PLOT BRANCH AT THIS ADDRESS" onclick="this.blur();" />
+								</div>		
+														
 								<div class="form-group">
 									<select id="branchesDropdown" class="form-control" style="display: none;">
 										<option value="-1" hidden><i class="glyphicon glyphicon-plus">a</i>Select a branch</option>
@@ -78,7 +82,7 @@
 										<input class="form-control" id="branchAddr" type="text"/>
 									</div>
 									<div class="form-group clearfix">
-										<input class="pull-right btn btn-primary" id="optEditSave" type="submit" value="Edit"/>
+										<input class="pull-right btn btn-primary" id="optEditSave" type="button" value="Edit"/>
 									</div>
 									<hr>
 									<div class="form-group">
@@ -86,7 +90,7 @@
 										<input class="form-control" id="branchDescription" type="text"/>
 									</div>
 									<div class="form-group clearfix">
-										<input class="pull-right btn btn-primary" id="bdOptEditSave" type="submit" value="Edit" />
+										<input class="pull-right btn btn-primary" id="bdOptEditSave" type="button" value="Edit" />
 									</div>
 									<hr>
 									<div class="form-group">
@@ -94,7 +98,7 @@
 										<input class="form-control" id="branchContact" type="text"/>
 									</div>
 									<div class="form-group clearfix">
-										<input class="pull-right btn btn-primary" id="bcOptEditSave" type="submit" value="Edit" />
+										<input class="pull-right btn btn-primary" id="bcOptEditSave" type="button" value="Edit" />
 									</div>			
 									<hr>			
 									<div class="form-group">
@@ -105,7 +109,7 @@
 									</div>
 									<div id="hoursContainer" style="width: 700px; display: none;">								
 									</div>
-									<input type="submit" class="btn btn-primary" id="setBusinessHours" value="Set Business Hours"/>
+									<input type="button" class="btn btn-primary" id="setBusinessHours" value="Set Business Hours"/>
 									<hr>
 									<div class="form-group">
 										<label>Photo Gallery</label>
@@ -175,8 +179,11 @@
 			return mIcon;
 		}
 
-		var selectedIcon = initIcon("images/icon_selected_marker.png", 25, 25);;
+		var selectedIcon = initIcon("images/icon_selected_marker.png", 25, 25);
 		var defaultIcon = initIcon("images/icon_unselected_marker.png", 25, 25);
+		var indicationIcon = initIcon("images/logo_bw.png", 25, 25);
+		var indicationMarker = false; //new google.maps.Marker(markerOptions);
+		//indicationMarker.setIcon(indicationIcon);
 
 		//MAP CONFIGURATION
 		var mapOptions = {
@@ -218,8 +225,10 @@
 			if (place.geometry.viewport) {
 		 		map.fitBounds(place.geometry.viewport);
 			} else {
+				console.log("poop: " + place);
 				map.setCenter(place.geometry.location);
-		    	map.setZoom(15);
+		    		map.setZoom(15);
+		    		indicatePlaceBySearch(place.geometry.location.lat(), place.geometry.location.lng());
 			}
 
 			infoWindow.setContent('<div><strong>' + place.name + '</strong><br>');		
@@ -274,11 +283,13 @@
 					manageDivInfos(jsonObj.hasBranches);
 					$('#branchesDropdown').show();
 					var option = '<option selected value="' + marker.id + '">' + marker.address + '</option>';
-					$('#branchesDropdown').append(option);											
+					$('#branchesDropdown').append(option);	
+					selectMarker(marker, markers);										
 				} else if (jsonObj.deleteBranch) {
 					selectedIndex = false;
 					populateBranchesDropdown();
-					manageDivInfos(jsonObj.hasBranches);							
+					manageDivInfos(jsonObj.hasBranches);	
+					changeMarkersDefault(markers);						
 				} else if (jsonObj.limitReached) {
 					//alert('Plotted maximum number of branches');
 					custom_alert_dialog('Plotted maximum number of branches');
@@ -491,6 +502,7 @@
        //              		console.log("to add is true");
        //              	}
        //              	console.log("toAdd: " + toAdd);
+       			//For Selecting the branch on click to the marker
                     	$('#branchesDropdown').val(marker.id);
                     	selectMarker(marker, markers);
                     }
@@ -513,6 +525,16 @@
 					//setUIInfos(marker);
 				});							            	
             })(marker);					
+		}
+		
+		function indicationMarkerCallBack(mIndication) {
+			(function(mIndication) {
+				google.maps.event.addListener(mIndication, "click", function(e) {
+					if (toDelete == false && onlyDrag == false && onlySelect == false) {
+						getReverseGeocodingData(e, "create");
+					}
+				});
+			})(mIndication);
 		}
 
 		function deleteMarker(marker, markers) {				
@@ -540,10 +562,17 @@
 		}
 
 		function changeMarkerIcon(marker, markers) {
+			//for (var i = 0; i < markers.length; i++) {
+			//	markers[i].setIcon(defaultIcon);
+			//}
+			changeMarkersDefault(markers);
+			marker.setIcon(selectedIcon);
+		}
+		
+		function changeMarkersDefault(markers) {
 			for (var i = 0; i < markers.length; i++) {
 				markers[i].setIcon(defaultIcon);
-			}
-			marker.setIcon(selectedIcon);
+			}			
 		}
 
 		function setDownloadableQR(contents, filename) {
@@ -659,6 +688,50 @@
 		    });
 
 		}	
+		
+		var plotAtAddressPosition = false;
+		function indicatePlaceBySearch(searchLat, searchLng) {
+			var latlng = new google.maps.LatLng(searchLat, searchLng);
+			markerOptions.position = latlng;
+
+			if (!indicationMarker) {
+				indicationMarker = new google.maps.Marker(markerOptions);
+				indicationMarker.setAnimation(null);
+				indicationMarker.setDraggable(false);
+				indicationMarker.setIcon(indicationIcon);
+				indicationMarker.setMap(map);
+				indicationMarkerCallBack(indicationMarker);
+			} else {
+				indicationMarker.setPosition(latlng);
+			}
+			plotAtAddressPosition = latlng;
+		}
+		
+		$('#plotAtAddress').on("click", function(e) {
+			//e.preventDefault();
+			if (!plotAtAddressPosition) {
+				custom_alert_dialog("Enter a valid address.");
+			} else {
+				var geocoder = new google.maps.Geocoder();
+				geocoder.geocode({ 'latLng': plotAtAddressPosition }, function (results, status) {
+				if (status !== google.maps.GeocoderStatus.OK) {
+				    //alert(status);
+					custom_alert_dialog('Something went wrong. Check your internet connection and then refresh');
+				}
+				// This is checking to see if the Geoeode Status is OK before proceeding
+				if (status == google.maps.GeocoderStatus.OK) {
+				    var address = (results[0].formatted_address);
+				    var estabID = document.getElementById('estabID').value;
+					            				
+     			    	    processPOSTRequest("backendprocess.php", 
+			    		"createBranch=true&addr="+address+"&lat="+plotAtAddressPosition.lat()+
+			    		"&lng="+plotAtAddressPosition.lng()+"&estabID="+estabID+"&sbscrbdID="+sbscrbdID);           			            
+				    
+				
+				}
+				});				
+			}
+		});
 		
 		//add marker / create branch 
 		google.maps.event.addListener(map,'click',function(e){

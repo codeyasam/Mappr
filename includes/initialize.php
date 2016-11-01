@@ -1,15 +1,15 @@
+<?php ob_start(); ?>
 <?php 
-	
 	//absolute path definition
 	defined("DS") ? null : define("DS", DIRECTORY_SEPARATOR);
 
-	defined("SITE_ROOT") ? null : define("SITE_ROOT", DS. "var" . DS . "www" . DS . "html" . DS . "thesis");
+	defined("SITE_ROOT") ? null : define("SITE_ROOT", DS. "home1" . DS . "chulien" . DS . "codeyasam.com" . DS . "capstone");
 
 	defined("LIB_PATH") ? null : define("LIB_PATH", SITE_ROOT . DS . "includes");
 
 	// defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://192.168.42.36/thesis/");
 	
-	defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://localhost/thesis/");
+	defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://www.codeyasam.com/capstone/");
 
 	defined("MAPPR_PUBLIC_URL") ? null : define("MAPPR_PUBLIC_URL", TEMPORARY_ROOT_HOSTNAME . "Public/");
 
@@ -51,4 +51,5 @@
 	require_once(LIB_PATH . DS . "vendor/autoload.php");
 	\Stripe\Stripe::setApiKey("sk_test_5lqGe81cTwC39ryIuby7KNu2");
 	
+	date_default_timezone_set('Asia/Manila');
 ?>
