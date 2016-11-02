@@ -139,7 +139,9 @@
 	<script type="text/javascript" src="js/jquery_timeentry/jquery.timeentry.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/functions.js"></script>
-	<script type="text/javascript" src="js/jquery.qrcode.min.js"></script>
+<!-- 	<script type="text/javascript" src="js/jquery.qrcode.min.js"></script> -->
+	<script type="text/javascript" src="js/jquery.qrcode.js"></script>
+	<script type="text/javascript" src="js/qrcode.js"></script>	
 
 	<script type="text/javascript">
 		$('#branchAddr').prop('disabled', true);
@@ -581,6 +583,7 @@
 			$('#qrCodeContainer').html("");
 			$('#qrCodeContainer').qrcode({width: 125, height: 125, text:contents});
 			var qrContainer = document.getElementById("qrCodeContainer").firstChild;
+			var qrContainer.append('<img src="image/logo_bw.png" />');
 			$('#downloadQrCode').attr("href", qrContainer.toDataURL());	
 			$('#downloadQrCode').attr("download", filename);				
 		} 
