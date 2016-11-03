@@ -8,98 +8,108 @@
 		<title></title> 
 		<?php include '../includes/styles.php'; ?>
 	</head>
-	<body>
+	<body style="background: url('images/banner_fade.png') no-repeat center top;">
 		<header class="center">
 			<?php include("../includes/navigation.php"); ?>
 		</header>
-		<?php if($session->is_logged_in()) { ?>
-			<div class="banner"></div>
-			<div style="background: #fff;" class="container page-wrap">
-				<div class="row">
-					<div class="col col-sm-12 text-center">
-						<h1 style="font-size: 10em; margin-top: 20px;" class="glyphicon glyphicon-map-marker"></h1>
-						<h1 class="heading-label">Coin One</h1>
-						<h3 style="width: 100%; background: #333; color: #fff; padding: 20px;"><span class="glyphicon glyphicon-pushpin"></span> 3 Easy Steps</h3>
-					</div>
+
+		<div class="container">
+			<header style="height: inherit;padding: 0 0 100px 150px; margin-top: -10px;" >
+				<img style="display: inline-block; margin-top: -100px; width: 200px; " src="images/coin_one_logo_large.png">
+				<div class="text-uppercase" style="display: inline-block; margin-top: 100px;">
+					<h2 style="font-family: 'Arial Narrow'; letter-spacing: 5px;">Business Locator</h2>
+					<h1 class="heading-label" style="font-size: 5.5em; padding: 0;">Coin One</h1>
+					<?php if ($session->is_logged_in()) { ?>
+						<a href="subscription.php"><input type="button" name="signup" style="font-size: 1.1em; letter-spacing: 1px; padding: 10px;" value="Purchase a plan" class="heading-label btn btn-primary drop-shadow" /></a>
+					<?php } else { ?>
+					<a href="registeruser.php"><input type="button" name="signup" style="font-size: 1.1em; letter-spacing: 1px; padding: 10px;" value="Register your business" class="heading-label btn btn-primary drop-shadow" /></a>
+					<a href="login.php"><input type="button" name="signup" style="font-size: 1.1em; letter-spacing: 1px; padding: 10px;" value="Log in to your account" class="heading-label btn btn-success drop-shadow" /></a>
+					<?php } ?>
 				</div>
-				<div class="row text-center">
-					<div class="col col-sm-4" style="padding: 15px;">
+			</header>
+			<div style="background-color: #fff;">
+				<div class="pull-center plans-container">
+					<div class="plans-display drop-shadow">
+						<h1 class="plan-title text-center"><span class="heading-label">Weekly</span>&nbsp;Plans</h1>
+						<br>
+						<p class="plan-description">Description Here...</p>
+						<p class="plan-starting-price">Starting at <span class="price heading-label heading-yellow" style="">&yen;&nbsp;3,000 </span></p>
+						<?php if ($session->is_logged_in()) { ?>
+						<a href="subscriptionplans.php?type=2"><input type="button" name="signup-now" class="btn btn-primary heading-label drop-shadow" value="Choose From Weekly Plans"></a>						
+						<?php } else { ?>
+						<a href="registeruser.php"><input type="button" name="signup-now" class="btn btn-primary heading-label drop-shadow" value="Sign Up NOW to avail this plan."></a>
+						<?php } ?>
+					</div>
+					<div class="plans-display larger drop-shadow">
+						<h1 class="plan-title text-center"><span class="heading-label">Monthly</span>&nbsp;Plans</h1>
+						<br>
+						<p class="plan-description">Description Here...</p>
+						<p class="plan-starting-price">Starting at <span class="price heading-label heading-yellow" style="font-size: 1.1em;">&yen;&nbsp;10,000 </span></p>
 						
-						<h1 style="font-size: 5em;"><span class="glyphicon glyphicon-shopping-cart"></span> </h1>
-						<h1 class="heading-label">Step 1</h1>
-						<p></p>
+						<?php if ($session->is_logged_in()) { ?>
+						<a href="subscriptionplans.php?type=3"><input type="button" name="signup-now" class="btn btn-primary heading-label drop-shadow" value="Choose From Monthly Plans"></a>						
+						<?php } else { ?>
+						<a href="registeruser.php"><input type="button" name="signup-now" class="btn btn-primary heading-label drop-shadow" value="Sign Up NOW to avail this plan."></a>
+						<?php } ?>
 					</div>
-					<div class="col col-sm-4" style="padding: 15px;">
-						
-						<h1 style="font-size: 5em;"><span class="glyphicon glyphicon-info-sign"></span> </h1>
-						<h1 class="heading-label">Step 2</h1>
-						<p></p>
-					</div>
-					<div class="col col-sm-4" style="padding: 15px;">
-						
-						<h1 style="font-size: 5em;"><span class="glyphicon glyphicon-map-marker"></span> </h1>
-						<h1 class="heading-label">Step 3</h1>
-						<p></p>
-					</div>
-				</div>
-			</div>
-		<?php } else { ?>
-			<div style="background: url('images/banner_bg.png') no-repeat center center; height: 500px; width: 100%;"></div>
-			<div style="background: #fff; padding: 0;" class="container page-wrap">
-				<div class="row">
-					<div class="col col-sm-12 text-center">
-						<h1 style="font-size: 10em;" class="glyphicon glyphicon-map-marker"></h1>
-						<h1>Coin One</h1>
-						<p style="padding: 50px 200px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+					<div class="plans-display drop-shadow">
+						<h1 class="plan-title text-center"><span class="heading-label">Annual</span>&nbsp;Plans</h1>
+						<br>
+						<p class="plan-description">Description Here...</p>
+						<p class="plan-starting-price">Starting at <span class="price heading-label heading-yellow" style="">&yen;&nbsp;110,000</span></p>
+
+						<?php if ($session->is_logged_in()) { ?>
+						<a href="subscriptionplans.php?type=4"><input type="button" name="signup-now" class="btn btn-primary heading-label drop-shadow" value="Choose From Annual Plans"></a>						
+						<?php } else { ?>
+						<a href="registeruser.php"><input type="button" name="signup-now" class="btn btn-primary heading-label drop-shadow" value="Sign Up NOW to avail this plan."></a>
+						<?php } ?>
 					</div>
 				</div>
-				<hr style="width:95%;">
-				<div style="height: 300px; overflow: hidden; position: relative;">
-					<img src="images/bg.jpg" style="width: 100%; bottom: 0; position: absolute;">
-					<div class="pull-center" style="background: rgba(100,3,3,.5); color: #fff; height: 100px; width: 100%; position: absolute; top: 50%; padding: 10px 50px;">
-						<blockquote style="font-size: 2em; font-style: italic; border: 0;" class="text-center">
-							"The application was great, it raised my sales up to 150%"
-							<br>
-							<span class="pull-right">- Aljon Cruz</span>
-						</blockquote>
-					</div>
-					<div style="opacity: .3;"><img src="images/quotes_2.png" style="position: absolute; left: 50px; top: 75px;"></div>
-				</div>
-				<hr style="width:95%;">
-				<div class="row">
-					<div class="col col-sm-4">
-						<div style="padding: 50px;" class="text-center">
-							<h1 style="font-size: 5em; color: #a20000;" class="glyphicon glyphicon-screenshot"></h1>
-							<h1>Accurate</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+				<div style="padding: 50px 20px;">
+					<h1 class="heading-label heading-yellow text-center" style="font-size: 4em;">The Best Features at the Best Price!</h1>
+					<div>
+						<img src="images/map_with_logo.png" style="padding: 40px; display: inline-block;">
+						<?php if ($session->is_logged_in()) { ?>
+						<div class="photo-details" style="padding: 20px; display: inline-block;">
+							<h2 style="padding: 5px;" class="heading-label heading-yellow">Purchase a plan now!</h2>
+							<h5 style="padding: 5px;" >Choose subscription plans suitable for your business.</h5>
+							<a href="subscription.php"><input style="letter-spacing: 2px; font-size: 1.5em" type="button" name="signup-now" class="btn btn-primary heading-label drop-shadow" value="Purchase a plan"></a>
 						</div>
-					</div>
-					<div class="col col-sm-4">
-						<div style="padding: 50px;" class="text-center">
-							<h1 style="font-size: 5em; color: #61adff;" class="glyphicon glyphicon-thumbs-up"></h1>
-							<h1>Efficient</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+						<?php } else { ?>
+						<div class="photo-details" style="padding: 20px; display: inline-block;">
+							<h2 style="padding: 5px;" class="heading-label heading-yellow">Start by signing up with COIN ONE today!</h2>
+							<h5 style="padding: 5px;" >Signing up lets you choose subscription plans suitable for your business.</h5>
+							<a href="registeruser.php"><input style="letter-spacing: 2px; font-size: 1.5em" type="button" name="signup-now" class="btn btn-primary heading-label drop-shadow" value="Sign up now"></a>
 						</div>
+						<?php } ?>
 					</div>
-					<div class="col col-sm-4">
-						<div style="padding: 50px;" class="text-center">
-							<h1 style="font-size: 5em; color: #d8bc2e;" class="glyphicon glyphicon-yen"></h1>
-							<h1>Affordable</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+					<div class="text-right">
+						<div class="photo-details" style="padding: 20px; display: inline-block;">
+							<h2 style="padding: 5px;" class="heading-label heading-yellow">Using our mobile application, you can be located.</h2>
+							<h5 style="padding: 5px;" >Download our mobile application on our website. It will be available soon on Google Playstore.</h5>
+							<a href="download.php"><input style="letter-spacing: 2px; font-size: 1.5em" type="button" name="signup-now" class="btn btn-warning heading-label drop-shadow" value="Download our mobile application"></a>
 						</div>
+						<img src="images/android_with_logo.png" style="padding: 30px; display: inline-block;">
 					</div>
 					<hr>
+					<h1 class="heading-label heading-yellow text-center" style="font-size: 4em;">Who're subscribed to Coin One?</h1>
+					<h3 class="heading-label text-center">Establishments that trusted us</h3>
+					<div>
+						<ul class="estab-sample">
+							<li><img src="images/estab1.jpg"></li>
+							<li><img src="images/estab2.jpg"></li>
+							<li><img src="images/estab3.png"></li>
+							<li><img src="images/estab4.jpg"></li>
+						</ul>
+					</div>
+					<br>
+					<h3 class="heading-label text-center">Subscribe now and let others see your business. 
+					<br>
+					<br>
+					<input style="letter-spacing: 2px; font-size: .7em" type="button" name="signup-now" class="btn btn-warning heading-label drop-shadow" value="Start Here"></h3>
 				</div>
 			</div>
-		<?php } ?>
+		</div>
 		<?php include '../includes/footer.php'; ?>
 	</body>
 </html>

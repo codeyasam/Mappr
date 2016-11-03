@@ -1,35 +1,44 @@
-	<?php require_once("../includes/initialize.php"); ?>
+<?php require_once("../includes/initialize.php"); ?>
 <?php $session->is_logged_in() ? redirect_to("index.php") : null; ?>
 <?php 
 	$prompt_to_user = "";
 	if (isset($_POST['submit'])) {
 		$emUsername = $_POST['emUsername'];
 		$password = $_POST['password'];
-		$user = User::authenticate($emUsername, $password);
-		
-		if ($user) {
-			if ($user->account_status == "ACTIVE") {
-				$session->login($user);
-				User::page_redirect($user->id);
-			} else {
-				$prompt_to_user = "Account is currently blocked, contact the super admin.";	
-			}
+		$user = User::isEmUsernameExist($emUsername);
+		if ($user->account_status == "BLOCKED") {
+			$prompt_to_user = "Account is currently blocked, <a href='mailto:coinone777@yahoo.com?Subject=Blocked%20User' target='_top'>contact</a> the super admin";	
+			$user = null;			
 		} else {
-			$prompt_to_user = "Wrong username or password";
-			$found_user = new User();			
-			if (User::hasExisting($emUsername, "email")) {
- 				$found_users = User::find_all(array('key'=>'email', 'value'=>$emUsername, 'isNumeric'=>false));
-			} else if (User::hasExisting($emUsername, "username")) {
-				$found_users = User::find_all(array('key'=>'username', 'value'=>$emUsername, 'isNumeric'=>false));
-			}
-			$found_user = !empty($found_users) ? array_shift($found_users) : false;
-
-			if ($found_user && $found_user->user_type == "ADMIN" && $found_user->account_status == "ACTIVE") {
-				$found_user->login_attempt += 1;
-				if ($found_user->login_attempt >= 3) {
-					$found_user->account_status = "BLOCKED";
+			$user = User::authenticate($emUsername, $password);
+			
+			if ($user) {
+				if ($user->account_status == "ACTIVE") {
+					$user->login_attempt = 0;
+					$user->update();
+					$session->login($user);
+					User::page_redirect($user->id);
+				} else {
+					$prompt_to_user = "Account is currently blocked, contact the super admin.";	
+					$user = null;
 				}
-				$found_user->update();
+			} else {
+				$prompt_to_user = "Wrong username or password";
+				$found_user = new User();			
+				if (User::hasExisting($emUsername, "email")) {
+	 				$found_users = User::find_all(array('key'=>'email', 'value'=>$emUsername, 'isNumeric'=>false));
+				} else if (User::hasExisting($emUsername, "username")) {
+					$found_users = User::find_all(array('key'=>'username', 'value'=>$emUsername, 'isNumeric'=>false));
+				}
+				$found_user = !empty($found_users) ? array_shift($found_users) : false;
+	
+				if ($found_user && $found_user->user_type == "ADMIN" && $found_user->account_status == "ACTIVE") {
+					$found_user->login_attempt += 1;
+					if ($found_user->login_attempt >= 3) {
+						$found_user->account_status = "BLOCKED";
+					}
+					$found_user->update();
+				}
 			}
 		}
 		

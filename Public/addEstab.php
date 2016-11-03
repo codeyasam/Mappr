@@ -32,22 +32,26 @@
 			echo "<pre>";
 				print_r($_FILES['gallery']);
 			echo "</pre>";
+			//die("don't panic, I'm just debugging the site.");
 			// var_dump($_FILES['gallery']);
 			// $gallery_array = reArrayFiles($_FILES['gallery']);
 			$gallery_array = reArrayFiles($_FILES['gallery']);
 			echo "<pre>";
 				print_r($gallery_array);
 			echo "</pre>";		
-			$fixedName = "GALLERY/estabGallery";
-			foreach ($gallery_array as $key => $gallery) {
-				$uniqueness = count(EstabGallery::find_all());
-				$unique_path = $fixedName . $uniqueness;
-				$estabGallery = new EstabGallery();
-				$estabGallery->estab_id = $new_estab->id;
-				$estabGallery->gallery_pic = $unique_path;		
-				$estabGallery->create();
-
-				move_uploaded_file($gallery['tmp_name'], $unique_path);
+			
+			if($_FILES['gallery']['error'][0] == 0){
+				$fixedName = "GALLERY/estabGallery";
+				foreach ($gallery_array as $key => $gallery) {
+					$uniqueness = count(EstabGallery::find_all()) + 1;
+					$unique_path = $fixedName . $uniqueness;
+					$estabGallery = new EstabGallery();
+					$estabGallery->estab_id = $new_estab->id;
+					$estabGallery->gallery_pic = $unique_path;		
+					$estabGallery->create();
+	
+					move_uploaded_file($gallery['tmp_name'], $unique_path);
+				}
 			}
 
 			//DONT FORGET TO ADD THE RECORD TO THE SUBSPLAN_ESTAB_TB			
@@ -56,7 +60,7 @@
 			$subsPlanEstab->estab_id = $new_estab->id;
 			$subsPlanEstab->create();
 
-			MapprActLog::recordActivityLog("Added an Establishment", $user->id);
+			MapprActLog::recordActivityLog("Added an Establishment: " . $new_estab->name . " [EstablishmentID - " . $new_estab->id . "]", $user->id);
 
 			redirect_to("manageEstab.php?sbscrbdID=".$_GET['id']);
 		}
@@ -83,7 +87,7 @@
 		</header>
 		<div class="banner"></div>
 		<div class="container edit-establishment center clearfix">	
-			<div class="panel panel-warning">
+			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h1 class="heading-label">
 						<span class="glyphicon glyphicon-plus"></span> Add Establishment

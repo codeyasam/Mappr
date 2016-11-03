@@ -37,7 +37,8 @@
 					$user->display_picture = MAPPR_PUBLIC_URL . "DISPLAY_PICTURES/profile_pic".$user->id;
 					//echo "poop";
 				} else {
-					$new_admin->display_picture = MAPPR_PUBLIC_URL . $new_admin->display_picture;
+					//$new_admin->display_picture = MAPPR_PUBLIC_URL . $new_admin->display_picture;
+					$user->display_picture = MAPPR_PUBLIC_URL . $user->display_picture;
 				}
 				
 				$user->update();	
@@ -141,7 +142,7 @@
 									</td>
 									<td>
 										<!-- <label>Hometown:</label> -->
-										<input id="hometown" class="form-control" placeholder="" type="text" name="hometown" value=""/>
+										<input id="hometown" class="form-control" placeholder="" type="text" name="hometown" placeholder="Hometown" value=""/>
 									</td>
 								</tr>
 								<tr>

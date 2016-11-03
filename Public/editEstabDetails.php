@@ -7,22 +7,46 @@
 	$estabID = $currentSubsPlanEstab->estab_id;
 	$user_subscriptions = SubsPlan::get_owner_subscriptions($user->id);
 	$subscriptionIDs = array_map(function($obj) { return $obj->id;}, $user_subscriptions);
+	//print_r($subscriptionIDs);
+	//echo $sbscrbdID;
+	//die("beforeindex");
+	//die($estabID);
 	in_array($sbscrbdID, $subscriptionIDs) ? null : redirect_to("index.php");
 
 	$estab = Establishment::find_by_id($estabID);
+	//die($estab->owner_id . " " . $user->id);
 	$estab->owner_id == $user->id ? null : redirect_to("index.php");
+	
 	$all_category = EstabCategory::find_all();
 	$photos = EstabGallery::find_all(array("key" => "estab_id", "value" => $estab->id, "isNumeric" => true));
 	//print_r($photos);
 ?>
 <?php 
 	if (isset($_POST['submit'])) {
-	
+		
+		//For record keeping - activity logs
+		if ($estab->name != trim($_POST['estabName'])) {
+			MapprActLog::recordActivityLog("Updated an Establishment: " . $estab->name . "[EstablishmentID - " . $estabID . "] name from " . $estab->name . " to " . trim($_POST['estabName']), $user->id);
+		} 
+		
+		if ($estab->category_id != trim($_POST['estabCategory'])) {
+			$old_categ = EstabCategory::find_by_id($estab->category_id);
+			$selected_categ = EstabCategory::find_by_id(trim($_POST['estabCategory']));
+			MapprActLog::recordActivityLog("Updated an Establishment: " . $estab->name . "[EstablishmentID - " . $estabID . "] category from " . $old_categ->name . " to " . $selected_categ->name, $user->id);
+		}
+		
+		if ($estab->description != trim($_POST['description'])) {
+			MapprActLog::recordActivityLog("Updated an Establishment: " . $estab->name . "[EstablishmentID - " . $estabID . "] description from " . $estab->description . " to " . trim($_POST['description']), $user->id);
+		}
+		
+		//end of record keeping - activity logs
+			
+		
 		$estab->name = isset($_POST['estabName']) ? trim($_POST['estabName']) : "";
 		$estab->category_id = isset($_POST['estabCategory']) ? trim($_POST['estabCategory']) : "";
 		$estab->description = isset($_POST['description']) ? trim($_POST['description']) : "";
 		$estab->tags = isset($_POST['tags']) ? trim($_POST['tags']) : "";
-		if ($_FILES['img_upload']) {
+		if (file_exists($_FILES['img_upload']['tmp_name'])) {
 			move_uploaded_file($_FILES['img_upload']['tmp_name'], "DISPLAY_PICTURES/estab_display_pic". $estab->id);
 			$estab->display_picture = "DISPLAY_PICTURES/estab_display_pic" . $estab->id;						
 		}				
@@ -32,7 +56,7 @@
 			$gallery_array = reArrayFiles($_FILES['gallery']);		
 			$fixedName = "GALLERY/estabGallery";
 			foreach ($gallery_array as $key => $gallery) {
-				$uniqueness = count(EstabGallery::find_all());
+				$uniqueness = count(EstabGallery::find_all()) + 1;
 				$unique_path = $fixedName . $uniqueness;
 				$estabGallery = new EstabGallery();
 				$estabGallery->estab_id = $estab->id;
@@ -42,8 +66,6 @@
 				move_uploaded_file($gallery['tmp_name'], $unique_path);
 			}
 		}
-
-		MapprActLog::recordActivityLog("Updated an Establishment", $user->id);
 
 		redirect_to("manageEstab.php?sbscrbdID=".urlencode($sbscrbdID));		
 	}
@@ -57,7 +79,7 @@
 				unlink(SITE_ROOT . DS . "Public" . DS . $photo->gallery_pic);
 			}
 		}
-		redirect_to("editEstabDetails.php?id=".urlencode($estabID)."&sbscrbdID=".urlencode($sbscrbdID));
+		redirect_to("editEstabDetails.php?id=".urlencode($_GET['id'])."&sbscrbdID=".urlencode($sbscrbdID));
 	}
 ?>
 <!DOCTYPE html>
@@ -81,7 +103,7 @@
 					<h1 class="heading-label"><span class="glyphicon glyphicon-pencil"></span> Edit Establishment Details</h1>
 				</div>
 				<div class="panel-body">
-					<form id="mainForm" action="editEstabDetails.php?id=<?php echo urlencode($estabID); ?>&sbscrbdID=<?php echo urlencode($sbscrbdID); ?>" enctype="multipart/form-data" method="post"  runat="server">
+					<form id="mainForm" action="editEstabDetails.php?id=<?php echo urlencode($_GET['id']); ?>&sbscrbdID=<?php echo urlencode($sbscrbdID); ?>" enctype="multipart/form-data" method="post"  runat="server">
 						<div class="form-group text-center" style="padding: 10px;">
 							<div class="branch-dp round-image drop-shadow" style="display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">
 								<img id="output" src="<?php echo htmlentities($estab->display_picture); ?>"/>

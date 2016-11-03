@@ -11,6 +11,7 @@
 	//print_r($_POST);
 	//print_r($_GET);
 	if (isset($_POST['deleteEstab'])) {
+		
 		//echo $_GET['id'] . " : " . $_GET['sbscrbdID'];
 
 		//echo "bat di gumagana";
@@ -30,12 +31,16 @@
 			BranchReview::delete_by_branch_id($branch->id);
 			MapprBookmark::delete_by_branch_id($branch->id);			
 		}
-
+		
+		//reference for activity log
+		$estab_to_delete = Establishment::find_by_id($currentSubsPlanEstab->estab_id);
+		//end of reference
+		
 		EstabBranch::delete_all(array('key'=>'estab_id', 'value'=>$currentSubsPlanEstab->estab_id, 'isNumeric'=>true));
 		EstabGallery::delete_all(array('key'=>'estab_id', 'value'=>$currentSubsPlanEstab->estab_id, 'isNumeric'=>true));
 		Establishment::delete_by_id($currentSubsPlanEstab->estab_id);
 
-		MapprActLog::recordActivityLog("Deleted an Establishment", $user->id);	
+		MapprActLog::recordActivityLog("Deleted an Establishment: " . $estab_to_delete->name . " [EstablishmentID - " . $estab_to_delete->id . "]", $user->id);	
 
 		redirect_to("manageEstab.php?sbscrbdID=" . $sbscrbdID);		
 	}

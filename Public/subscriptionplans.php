@@ -34,13 +34,13 @@
 
 					</div>
 					<div class="form-group">
-						<h3>JPY <?php echo number_format($each_plan->cost, 2, ".", ","); ?></h3>
+						<h3>JPY <?php echo (int)number_format($each_plan->cost, 2, ".", ","); ?></h3>
 					</div>
 					<div class="form-group">
-						<label>No of Business:</label> <?php echo $each_plan->estab_no; ?>
+						<label>No. of Business:</label> <?php echo $each_plan->estab_no; ?>
 					</div>
 					<div class="form-group">
-						<label>Total Branches of all Business:</label> <?php echo $each_plan->branch_no; ?>
+						<label>No. of Branches Per Business:</label> <?php echo $each_plan->branch_no; ?>
 					</div>
 					<?php if ($user) { ?>
 						<form action="processpayment.php" method="POST">
@@ -55,11 +55,11 @@
 								src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 								data-key="pk_test_YJhO1yO3EP02pBLccVMVNXm2"
 								data-amount="<?php echo (int)number_format($each_plan->cost, 2, '.', ''); ?>"
-								data-name="Demo Site"
-								data-description="Widget"
-								data-image="/img/documentation/checkout/marketplace.png"
+								data-name="Coin One"
+								data-description="Subscription"
+								data-image="images/coin_one_logo_large.png"
 								data-email="<?php echo $user->email; ?>"
-								data-currency="usd"
+								data-currency="jpy"
 								data-locale="auto">
 								</script>
 							</div>

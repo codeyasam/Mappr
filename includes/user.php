@@ -45,6 +45,19 @@
 
 			$result_array = self::find_by_sql($sql);
 			return !empty($result_array) ? array_shift($result_array) : false;
+		}
+		
+		public static function isEmUsernameExist($username="") {
+			global $database;
+			
+			$username = $database->escape_value($username);
+
+			$sql  = "SELECT * FROM " . self::$table_name . " ";
+			$sql .= "WHERE (BINARY username = '{$username}' OR BINARY email = '{$username}') ";			
+			$sql .= "LIMIT 1 ";
+			
+			$result_array = self::find_by_sql($sql);
+			return !empty($result_array) ? array_shift($result_array) : false;			
 		}	
 
 		//For both username and email 

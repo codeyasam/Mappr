@@ -1,5 +1,4 @@
-<div class="container page-wrap">
-  <nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -27,17 +26,18 @@
             <?php } else { ?>
 
               <?php if(strtolower($user->user_type) == "admin" || strtolower($user->user_type) == "superadmin") { ?>
-              <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span> Control Panel <span class="caret"></span></a>
-                      <ul class="dropdown-menu">   
-                        <?php if(strtolower($user->user_type) == "superadmin") { ?>
-                        <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>Admin/manageAdmins.php"><span class="glyphicon glyphicon-cog"></span> Super Admin Panel</a></li>
-                        <?php } ?>
-                        <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>Admin/manageCategory.php"><span class="glyphicon glyphicon-cutlery"></span> Manage Establishment Category</a></li>
-                        <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>Admin/managePlan.php"><span class="glyphicon glyphicon-list-alt"></span> Manage Plans</a></li>
-                        <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>Admin/managePlanduration.php"><span class="glyphicon glyphicon-hourglass"></span> Manage Plan Duration</a></li>
-                      </ul>
-                    </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span> Control Panel <span class="caret"></span></a>
+                    <ul class="dropdown-menu">   
+                      <?php if(strtolower($user->user_type) == "superadmin") { ?>
+                      <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>Admin/manageAdmins.php"><span class="glyphicon glyphicon-cog"></span> Manage Admins</a></li>
+                      <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>Admin/manageOwners.php"><span class="glyphicon glyphicon-user"></span> Manage Owners</a></li>
+                      <?php } ?>
+                      <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>Admin/manageCategory.php"><span class="glyphicon glyphicon-cutlery"></span> Manage Establishment Category</a></li>
+                      <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>Admin/managePlan.php"><span class="glyphicon glyphicon-list-alt"></span> Manage Plans</a></li>
+                      <li><a href="<?php echo MAPPR_PUBLIC_URL; ?>Admin/managePlanduration.php"><span class="glyphicon glyphicon-hourglass"></span> Manage Plan Duration</a></li>
+                    </ul>
+                  </li>
               <?php } else { ?>
 
               <?php } ?>
@@ -65,4 +65,3 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
     </div><!-- /.container-fluid -->
   </nav>
-</div>

@@ -17,7 +17,7 @@
 		//$plotableBranch = $currentPlan->branch_no - $noUsedBranch;
 		//		
 		$totalBranches = SubsPlanEstab::get_estab_total_branch($_POST['estabID']);
-		if ($totalBranches <= $currentPlan->branch_no && in_array($_POST['sbscrbdID'], $userPlanIDs)) {
+		if ($totalBranches < $currentPlan->branch_no && in_array($_POST['sbscrbdID'], $userPlanIDs)) {
 
 
 			$branch = new EstabBranch();
@@ -38,8 +38,9 @@
 			$output .= '"description":' . '"' . $branch->description . '",';
 			$output .= '"contact_number":' . '"' . $branch->contact_number . '",';
 			branchSelected($branch->id, true);
-
-			MapprActLog::recordActivityLog("Plotted a branch", $user->id);
+			
+			$estab_reference = Establishment::find_by_id($branch->estab_id);
+			MapprActLog::recordActivityLog("Plotted a branch of " . $estab_reference->name . " at " . $branch->address . " [branchID - " . $branch->id . "]", $user->id);
 		} else {
 			$output .= '"limitReached":true';
 		}
@@ -48,6 +49,9 @@
 		
 	} else if (isset($_POST['updateBranch'])) {
 		$branch = EstabBranch::find_by_id($_POST['branchID']);
+		$temp_address = $branch->address; 
+		$temp_lat = $branch->lat;
+		$temp_lng = $branch->lng;
 		$branch->address = $_POST['addr'];
 		$branch->lat = $_POST['lat'];
 		$branch->lng = $_POST['lng'];
@@ -58,8 +62,8 @@
 		$output .= '"address":' . '"' . $branch->address . '",';	
 
 		branchSelected($_POST['branchID'], true);	
-
-		MapprActLog::recordActivityLog("Updated a branch", $user->id);	
+		$estab_reference = Establishment::find_by_id($branch->estab_id);
+		MapprActLog::recordActivityLog("Updated a branch of " . $estab_reference->name . " [branchID - " . $branch->id . "] coordinates from position[" . $temp_lat . "," . $temp_lng . "] to position[" . $branch->lat . "," . $branch->lng . "]", $user->id);	
 
 	} else if (isset($_POST['deleteBranch'])) {
 		$branchID = $database->escape_value($_POST['branchID']);
@@ -76,8 +80,9 @@
 		EstabBranch::delete_by_id($branchID);
 		$branches = EstabBranch::find_all(array('key'=>'estab_id','value'=>$branch->estab_id,'isNumeric'=>true));
 		$output .= '"hasBranches":' . count($branches) . "";	
-
-		MapprActLog::recordActivityLog("Deleted a branch", $user->id);			
+		
+		$estab_reference = Establishment::find_by_id($branch->estab_id);
+		MapprActLog::recordActivityLog("Deleted a branch of " . $estab_reference->name . " [branchID - " . $branch->id . "]", $user->id);			
 
 	} else if (isset($_GET['retrieveBranches'])) {
 		$estabID = $database->escape_value($_GET['estabID']);
@@ -89,30 +94,33 @@
 		$output .= '"hasBranches":' . count($branches);		
 	} else if (isset($_POST['saveBranchAddr'])) {
 		$branch = EstabBranch::find_by_id($_POST['branchID']);
+		$temp_address = $branch->address;
 		$branch->address = trim($_POST['address']);
 		$branch->update();
 
 		$output .= '"updatedAddr":' . '"' . $branch->address . '"';
-
-		MapprActLog::recordActivityLog("Updated branch address", $user->id);
+		$estab_reference = Establishment::find_by_id($branch->estab_id);
+		MapprActLog::recordActivityLog("Updated branch address of " . $estab_reference->name . " [branchID - " . $branch->id . "] from " . $temp_address . " to " . $branch->address, $user->id);
 
 	} else if (isset($_POST['saveBranchDescription'])) {
 		$branch = EstabBranch::find_by_id($_POST['branchID']);
+		$temp_description = $branch->description;
 		$branch->description = trim($_POST['description']);
 		$branch->update();
 
 		$output .= '"updatedDescription":' . '"' . $branch->description . '"';
-
-		MapprActLog::recordActivityLog("Updated branch description", $user->id);
+		$estab_reference = Establishment::find_by_id($branch->estab_id);
+		MapprActLog::recordActivityLog("Updated branch description of " . $estab_reference->name . " [branchID - " . $branch->id . "] from " . $temp_description . " to " . $branch->description, $user->id);
 
 	} else if (isset($_POST['saveBranchContact'])) {
 		$branch = EstabBranch::find_by_id($_POST['branchID']);
+		$temp_contact = $branch->contact_number;
 		$branch->contact_number = trim($_POST['contact']);
 		$branch->update();
 
 		$output .= '"updatedContact":' . '"' . $branch->contact_number . '"';
-
-		MapprActLog::recordActivityLog("Update branch contact number", $user->id);
+		$estab_reference = Establishment::find_by_id($branch->estab_id);
+		MapprActLog::recordActivityLog("Updated branch contact number of " . $estab_reference->name . " [branchID - " . $branch->id . "] from " . $temp_contact . " to " . $branch->contact_number, $user->id);
 
 	} else if (isset($_POST['addPhoto'])) {
 		$newPhoto = new BranchGallery();
@@ -122,16 +130,20 @@
 
 		$output .= '"photoAddedID":' . $newPhoto->id . ',';
 		branchSelected($_POST['branchID'], true);
-
-		MapprActLog::recordActivityLog("Added a photo to a branch gallery", $user->id);
+		$branch = EstabBranch::find_by_id($_POST['branchID']);
+		$estab_reference = Establishment::find_by_id($branch->estab_id);
+		MapprActLog::recordActivityLog("Added a photo to a branch gallery of " . $estab_reference->name . " [branchID - " . $branch->id . "]", $user->id);
 
 	} else if (isset($_POST['removePhoto'])) {
+		$bGal_ref = BranchGallery::find_by_id($_POST['galleryID']);
 		BranchGallery::delete_by_id($_POST['galleryID']);
 
-		MapprActLog::recordActivityLog("Removed a photo from a branch gallery", $user->id);
+		$branch = EstabBranch::find_by_id($bGal_ref->branch_id);
+		$estab_reference = Establishment::find_by_id($branch->estab_id);
+		MapprActLog::recordActivityLog("Removed a photo from a branch gallery of " . $estab_reference->name . " [branchID - " . $branch->id . "]", $user->id);
 	} else if (isset($_POST['setBusinessHours'])) {
 		$jsonHours = json_decode($_POST['jsonHours']);
-
+		$branch = null;
 		foreach ($jsonHours as $key => $jsonHour) {
 			//var_dump($jsonHour->branch_id);
 			$branchHour = new BranchHours();
@@ -146,14 +158,17 @@
 				$day_no = $database->escape_value($branchHour->day_no);
 				$whereClause = "WHERE branch_id = " . $branch_id . " AND day_no = " . $day_no;
 				$branchHour->customUpdate($whereClause);
+				$branch = EstabBranch::find_by_id($branch_id);
 			} else {
 				$branchHour->create();	
+				$branch = EstabBranch::find_by_id($branchHour->branch_id);
 			} 
 		}
 		
 		$output .= '"updatedBranchHours": ' . $_POST['jsonHours'];
 
-		MapprActLog::recordActivityLog("Configured Business Hours", $user->id);
+		$estab_reference = Establishment::find_by_id($branch->estab_id);
+		MapprActLog::recordActivityLog("Configured Branch Business Hours of " . $estab_reference->name . " [branchID - " . $branch->id . "] at " . $branch->address, $user->id);
 	} 
 	// else if (isset($_GET['getBranchHours'])) { 
 	// 	$branch_id = $database->escape_value($_GET['branch_id']);

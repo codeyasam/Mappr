@@ -1,6 +1,6 @@
 window.fbAsyncInit = function() {
     FB.init({
-        appId : '206751786372173',
+        appId : '206748579705827',
         xfbml : true,
         version : 'v2.5'
     });
@@ -54,12 +54,12 @@ function fb_login() {
             access_token = response.authResponse.accessToken;
             user_id = response.authResponse.userID;
 
-            FB.api('/me', {fields: 'first_name, last_name, email, hometown, picture'}, function(response) {
+            FB.api('/me', {fields: 'first_name, last_name, email, picture'}, function(response) {
                 console.log(JSON.stringify(response));
                 $('#fName').val(response.first_name); 
                 $('#lName').val(response.last_name);
                 $('#userEmail').val(response.email);
-                $('#hometown').val(response.hometown.name);
+                //$('#hometown').val(response.hometown.name);
                 $('#output').attr('src', "//graph.facebook.com/" + response.id + "/picture?type=large");
                 $('#urlContent').attr('value', "//graph.facebook.com/" + response.id + "/picture?type=large");
                 //checks if email already exists
@@ -70,7 +70,7 @@ function fb_login() {
             //user hits cancel button
             console.log('User cancelled login or did not fully authorize');
         }
-    }, {scope: 'public_profile, email, user_hometown'});
+    }, {scope: 'public_profile, email'});
 
 }
 

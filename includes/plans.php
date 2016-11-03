@@ -67,7 +67,7 @@
 						$fValueArr[] = '"' . $eachField . '":"' . $obj->description . '"';	
 					}
 				} else if ($eachField == "cost") {
-					$fValueArr[] = '"' . $eachField . '":"' . number_format($this->$eachField, 2, ".", ",") . '"';
+					$fValueArr[] = '"' . $eachField . '":"' . (int)number_format($this->$eachField, 2, ".", ",") . '"';
 				} else {
 					$fValueArr[] = '"' . $eachField . '":"' . $this->$eachField . '"';		
 				}
@@ -78,7 +78,7 @@
 		}
 
 		public function toString() {
-			return $this->estab_no . " ESTABLISHMENTS, TOTAL OF " . $this->branch_no . " BRANCHES";
+			return $this->estab_no . " ESTABLISHMENTS, " . $this->branch_no . " BRANCHES PER BUSINESS";
 		}
 
 	}

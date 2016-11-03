@@ -25,13 +25,7 @@
 		<div class="container center clearfix">
 			<div class="panel panel-default clearfix drop-shadow">
 				<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-list-alt"></span> Manage Plans</h1></div>
-				<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-
+				<div class="panel-body"></div>
 
 				<div class="manage" style="float: left; width: 25%;">
 					<form>
@@ -44,8 +38,8 @@
 							</select>					
 						</div>
 						<div class="form-group" id="customPlan">
-							<input id="intervalCount" type="number" min="1" value="1" />
-							<select id="customPlanDuration">
+							<input class="form-control" style="width: 49%;display: inline-block" id="intervalCount" type="number" min="1" value="1" />
+							<select class="form-control"  style="text-transform: capitalize; width: 49%;display: inline-block" id="customPlanDuration">
 								<?php $not_included = array('year', 'other'); ?>
 								<?php foreach($planDurations as $key => $eachDuration): ?>
 									<?php if (!in_array($eachDuration->duration_name, $not_included)) { ?>
@@ -139,7 +133,7 @@
 							else 
 								$('#visibility').prop('checked', false);
 
-							if ($('#planDuration option:selected').text() == "custom") {
+							if ($('#planDuration option:selected').val() == 5) {
 								$('#customPlan').show();
 								$('#customPlanDuration').val(jsonObj.custom_interval);
 								$('#intervalCount').val(jsonObj.interval_count);
@@ -180,7 +174,7 @@
 					var customDuration = "";			
 					// console.log(durationID);
 					// console.log(visibility);
-					if ($('#planDuration option:selected').text() == "custom") {
+					if ($('#planDuration option:selected').val() == 5) {
 						//console.log("yeah yeah");
 						if ($('#intervalCount').val().trim() == "") {  
 							custom_alert_dialog("Fill all required fields");
@@ -303,6 +297,14 @@
 					$('#branch_no').val("");
 					$('#cost').val("");
 					$('#visibility').prop('checked', false);
+					
+					//enable fields
+					$('#estab_no').prop('disabled', false);
+					$('#branch_no').prop('disabled', false);
+					$('#cost').prop('disabled', false);
+					$('#planDuration').prop('disabled', false);			
+					$('#customPlanDuration').prop('disabled', false);
+					$('#intervalCount').prop('disabled', false);					
 				});									
 			</script>
 	</body>

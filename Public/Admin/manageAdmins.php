@@ -57,6 +57,7 @@
 		if ($user_to_block->user_type == "ADMIN") {
 			$user_to_block->account_status = "BLOCKED";
 			$user_to_block->update();
+			MapprActLog::recordActivityLog("Blocked admin " . $user_to_block->full_name(), $user->id);
 		}
 	}
 ?>
@@ -66,7 +67,9 @@
 		$user_to_unblock = User::find_by_id($_GET['id']);
 		if ($user_to_unblock->user_type == "ADMIN") {
 			$user_to_unblock->account_status = "ACTIVE";
-			$user_to_unblock->update();			
+			$user_to_unblock->login_attempt = 0;
+			$user_to_unblock->update();	
+			MapprActLog::recordActivityLog("Unblocked admin " . $user_to_unblock->full_name(), $user->id);		
 		}
 	}
 ?>
@@ -96,12 +99,6 @@
 					<h1 class="heading-label"><span class="glyphicon glyphicon-cog"></span> Manage Admins</h1>
 				</div>
 				<div class="panel-body">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 				</div>
 				<div class="clearfix">
 					<table id="adminContainer" class="table table-hover data" style="float: right; width: 70%;">
@@ -112,7 +109,8 @@
 							<th>Name</th>
 							<th>Display Picture</th>
 							<th>Status</th>
-							<th colspan="3">Options</th>
+							<!-- <th colspan="3">Options</th> -->
+							<th colspan="2">Options</th>
 						</tr>
 
 						<?php foreach ($all_admins as $key => $eachAdmin): ?>
@@ -123,12 +121,12 @@
 								<td><?php echo htmlentities($eachAdmin->full_name()); ?></td>
 								<td>
 									<div class="round-image drop-shadow" style="margin-left: 0;display:inline-block; text-align:center; width: 35px; height: 35px; overflow: hidden;">
-										<img id="output" style="width: 40px; margin-left: -3px;" class="category-icon" src="<?php echo htmlentities($eachAdmin->display_picture); ?>"/>
+										<img style="width: 40px; margin-left: -3px;" class="category-icon" src="<?php echo htmlentities($eachAdmin->display_picture); ?>"/>
 									</div>
 								</td>
 								<td><?php echo htmlentities($eachAdmin->account_status); ?></td>
-								<td class="text-center"><a href="adminsActivityLog.php?id=<?php echo $eachAdmin->id; ?>"><span class="glyphicon glyphicon-list"></span><br>Activity&nbsp;Log</a></td>
-								<td class="text-center"><a data-internalid="manageAdmins.php?id=<?php echo htmlentities($eachAdmin->id); ?>" class="text-danger optDelete" href=""><span class="glyphicon glyphicon-remove"></span><br>Delete</a></td>
+								<td class="text-center"><a class="text-primary" href="adminsActivityLog.php?id=<?php echo $eachAdmin->id; ?>"><span class="glyphicon glyphicon-list"></span><br>Activity&nbsp;Log</a></td>
+								<!-- <td class="text-center"><a data-internalid="manageAdmins.php?id=<?php echo htmlentities($eachAdmin->id); ?>" class="text-danger optDelete" href=""><span class="glyphicon glyphicon-remove"></span><br>Delete</a></td> -->
 								<td class="text-center"><?php if ($eachAdmin->account_status == "ACTIVE") { ?><a data-internalid="manageAdmins.php?id=<?php echo htmlentities($eachAdmin->id); ?>" class="text-warning optBlock" href=""><span class="glyphicon glyphicon-ban-circle"></span><br>Block</a> <?php } else { ?><a data-internalid="manageAdmins.php?id=<?php echo htmlentities($eachAdmin->id); ?>" class="text-warning optUnblock" href=""><span class="glyphicon glyphicon-ok-circle"></span><br>Unblock</a><?php } ?></td>
 							</tr>
 						<?php endforeach; ?>
