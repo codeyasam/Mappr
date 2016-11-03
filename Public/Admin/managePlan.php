@@ -23,7 +23,7 @@
 		</header>
 		<div class="banner"></div>
 		<div class="container center clearfix">
-			<div class="panel panel-warning clearfix drop-shadow">
+			<div class="panel panel-default clearfix drop-shadow">
 				<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-list-alt"></span> Manage Plans</h1></div>
 				<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,

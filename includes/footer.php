@@ -1,5 +1,5 @@
 	<footer class="clearfix">
-		<p class="pull-left">&copy; Mappr <?php echo date("Y"); ?></p>
+		<p class="pull-left">&copy; Coin One <?php echo date("Y"); ?></p>
 		<ul class="no-bullets pull-right">
 			<!-- <li><label>Quicklinks</label></li> -->
 			<li class="pull-left" style="margin: 0 5px 5px 5px;"><a class="text-warning" href="privacy.php">Privacy</a></li>

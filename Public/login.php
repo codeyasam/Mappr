@@ -68,9 +68,9 @@
 		<div class="container page-wrap" style="background: none;">
 			<div class="row homepage">
 				<div class="login drop-shadow">
-					<div class="text-center" style="position: absolute; top: -270px; left: 0; background: none;"><img src="images/coin_one_logo.png" style="width: 50%;"></div>
 					<div class="text-center login-heading">
-						<h1 style="font-size: 4em;">Coin One</h1>
+						<img src="images/coin_one_logo_large.png" class="pull-center" style="width: 50%; margin: -150px auto 0;">
+						<h1 class="heading-label" style="font-size: 4em;">Coin One</h1>
 					</div>
 					<div class="offset-title">Establishment Locator</div>
 
@@ -98,7 +98,7 @@
 					  			<br>
 					  			<a id="forgotPass" href="">Forgot password?</a>
 				  			</div>
-				  			<div class="col col-md-5"><input class="form-control btn btn-primary" type="submit" name="submit" value="Login"/></div>
+				  			<div class="col col-md-5"><input style="width:100%" class="btn btn-primary" type="submit" name="submit" value="Login"/></div>
 				  		</div>
 					</form>
 				</div>

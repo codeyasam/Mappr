@@ -91,7 +91,7 @@
 		</header>
 		<div class="banner"></div>
 		<div class="container page-wrap">
-			<div class="panel panel-warning">
+			<div class="panel panel-default drop-shadow">
 				<div class="panel-heading">
 					<h1 class="heading-label"><span class="glyphicon glyphicon-cog"></span> Manage Admins</h1>
 				</div>

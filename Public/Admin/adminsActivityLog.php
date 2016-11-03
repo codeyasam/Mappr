@@ -7,7 +7,7 @@
 	if (isset($_GET['id'])) {
 		$selected_user = User::find_by_id($_GET['id']);
 		if ($selected_user->user_type != "ADMIN") redirect_to('manageAdmins.php');
-		$all_user_activities = array_reverse(MapprActLog::find_all(array('key'=>'user_id', 'value'=>$selected_user->id, 'isNumeric'=>true)));
+		$all_user_activities =  array_reverse(MapprActLog::find_all(array('key'=>'user_id', 'value'=>$selected_user->id, 'isNumeric'=>true)));
 	} else {
 		redirect_to('manageAdmins.php');
 	}

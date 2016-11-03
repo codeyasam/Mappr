@@ -39,7 +39,7 @@
 	</header>
 	<div class="banner"></div>
 	<div class="container center">
-		<div class="panel panel-warning drop-shadow">
+		<div class="panel panel-default drop-shadow">
 			<div class="panel-heading"><h1 class="heading-label">
 				<span class="glyphicon glyphicon-tags"></span> &nbsp;My Subscription</h1>
 			</div>

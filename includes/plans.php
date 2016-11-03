@@ -7,6 +7,14 @@
 		protected static $table_name = "PLAN_TB";
 		protected static $db_fields = array("id", "plan_name", "plan_interval", "estab_no", "branch_no", "cost", "visibility", "custom_interval", "interval_count");
 
+		public static $plan_names = array(
+			'day' => "daily",
+			'week' => "weekly",
+			'month' => "monthly",
+			'year' => "yearly",
+			'other' => "other plans",
+		);
+
 		public $id;
 		//public $name;
 		public $plan_interval;

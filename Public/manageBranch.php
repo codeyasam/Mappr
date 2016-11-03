@@ -40,7 +40,7 @@
 						</div>
 					</div>
 
-					<div class="panel panel-info">
+					<div class="panel panel-default">
 						
 						<div class="panel-heading"><h1 class="heading-label text-center"><?php echo htmlentities($currentEstab->name); ?></h1></div>
 						<div class="panel-body" style="overflow-y: auto; max-height: 450px; margin-top: 20px;">					
@@ -54,9 +54,10 @@
 									</select>
 								</div>
 								<div class="form-group pull-right">
-									<button title="Drag Tool" class="btn btn-info" id="dragBranchBtn" type="button"><span class="glyphicon glyphicon-move"></span></button>
+									<button title="Drag Tool" class="btn btn-success" id="dragBranchBtn" type="button"><span class="glyphicon glyphicon-move"></span></button>
 									<button title="Add Tool" class="btn btn-primary" id="addBranchBtn" type="button" disabled="true"><span class="glyphicon glyphicon-plus"></span></button>
 									<button title="Delete Tool" class="btn btn-danger" id="delBranchBtn" type="button"><span class="glyphicon glyphicon-minus"></span></button>
+									<!-- <button class="btn btn-info" type="button" title="Double click the marker (using the add or move tool) or use the dropdown to zoom to that location. " disabled><span class="glyphicon glyphicon-info-sign"></span></button> -->
 								</div>
 								<!-- HIDDEN -->
 								<input id="estabID" type="hidden" name="estabID" value="<?php echo urlencode($estabID); ?>"/>
@@ -175,8 +176,8 @@
 			return mIcon;
 		}
 
-		var selectedIcon = initIcon("images/icon_selected_marker.png", 25, 25);;
-		var defaultIcon = initIcon("images/icon_unselected_marker.png", 25, 25);
+		var selectedIcon = initIcon("images/pin_green.png", 35, 35);;
+		var defaultIcon = initIcon("images/pin_yellow.png", 35, 35);
 
 		//MAP CONFIGURATION
 		var mapOptions = {

@@ -36,48 +36,76 @@
 		</header>
 		<div class="banner"></div>
 		<div class="container center">
-			<div class="panel panel-primary drop-shadow">
+			<div class="panel panel-default drop-shadow">
 				<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-pencil"></span> Edit Profile</h1></div>
-				<div class="solo-form panel-body">
+				<div class="solo-form panel-body pull-center">
 					<form action="accountsettings.php" method="POST" enctype="multipart/form-data">
-						<div class="form-group text-center" style="padding: 10px;">
-							<div class="round-image text-center drop-shadow" style="display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">
-								<img id="output" style="height: 150px; margin-left: -10%;" src="<?php echo htmlentities($user->display_picture); ?>"/>
-							</div>
-						</div>
-						<div class="form-group">
-							<label>Display Photo:</label>
-							<input type="file" class="" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
-						</div>
-						<div class="form-group">
-							<label>First Name:</label>
-							<input id="fName" class="form-control" type="text" name="first_name" value="<?php echo cym_decode_unicode($user->first_name); ?>" required="required"/>
-						</div>
-						<div class="form-group">
-							<label>Last Name:</label>
-							<input id="lName" class="form-control" type="text" name="last_name" value="<?php echo cym_decode_unicode($user->last_name); ?>" required="required">
-						</div>
-						<div class="form-group">
-							<label>E-mail Address:</label> <?php echo htmlentities($user->email); ?>
-						</div>
-						<div class="form-group">
-							<label>Username:</label> <?php echo htmlentities($user->username); ?>
-						</div>
-						<hr>
-						<h3 style="font-variant: small-caps;"><b><span class="glyphicon glyphicon-equalizer"></span> Optional</b></h3>
-						<div class="form-group">
-							<label>Contact No.:</label>
-							<input type="text" class="form-control" name="contact" value="<?php echo htmlentities($user->contact); ?>"/>
-						</div>
-						<div class="form-group">
-							<label>Hometown:</label>
-							<input id="hometown" class="form-control" type="text" name="hometown" value="<?php echo htmlentities($user->hometown); ?>"/>
-						</div>
-						<div class="form-group text-center">
-							<input class="form-control btn btn-primary" style="display: inline-block; width:48%;" id="submit" type="submit" name="submit" value="Save Changes">
-							<input class="form-control btn btn-info" style="display: inline-block; width:48%;" type="submit" id="changePass" value="Change Password"/>
-						</div>
-					</form>		
+						<table style="width:100%;max-width: 700px;">
+							<tr>
+								<td class="text-center" colspan="100%">
+									<div class="round-image text-center drop-shadow" style="display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">
+										<img id="output" style="height: 150px; margin-left: -10%;" src="<?php echo htmlentities($user->display_picture); ?>"/>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>Display Photo</label>
+									<input type="file" class="" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
+								</td>
+							</tr>
+							<tr><td colspan="100%"><hr></td></tr>
+							<tr>
+								<td colspan="100%">
+									<h3 style="font-variant: small-caps;"><b><span class="glyphicon glyphicon-log-in"></span> Account Details</b></h3>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="100%">
+									<label>E-mail Address:</label> <?php echo htmlentities($user->email); ?>
+									<br>
+									<label>Username:</label> <?php echo htmlentities($user->username); ?>
+								</td>
+							</tr>
+							<tr><td colspan="100%"><hr></td></tr>
+							<tr>
+								<td colspan="100%">
+									<h3 style="font-variant: small-caps;"><b><span class="glyphicon glyphicon-user"></span> Personal Information</b></h3>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input id="fName" placeholder="First Name" class="form-control" type="text" name="first_name" value="<?php echo cym_decode_unicode($user->first_name); ?>" required="required"/>
+								</td>
+								<td>
+									<input id="lName" placeholder="Last Name" class="form-control" type="text" name="last_name" value="<?php echo cym_decode_unicode($user->last_name); ?>" required="required">
+								</td>
+							</tr>
+							<tr><td colspan="100%"><hr></td></tr>
+							<tr>
+								<td colspan="100%">
+									<h3 style="font-variant: small-caps;"><b><span class="glyphicon glyphicon-equalizer"></span> Optional</b></h3>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="text" placeholder="Contact No." class="form-control" name="contact" value="<?php echo htmlentities($user->contact); ?>"/>
+								</td>
+								<td>
+									<input id="hometown" placeholder="Hometown" class="form-control" type="text" name="hometown" value="<?php echo htmlentities($user->hometown); ?>"/>
+								</td>
+							</tr>
+
+							<tr>
+								<td>
+									<input class="btn btn-primary" style="display: inline-block; width: 100%;" id="submit" type="submit" name="submit" value="Save Changes">
+								</td>
+								<td>
+									<input class="btn btn-info" style="display: inline-block; width: 100%;" type="submit" id="changePass" value="Change Password"/>
+								</td>
+							</tr>
+						</table>
+					</form>
 				</div>
 			</div>
 			<div id="changePassDialog" style="display: none;" title="CHANGE PASSWORD">
@@ -87,8 +115,7 @@
 						<td><input id="oldPass" type="password" name=""/></td>
 					</tr>
 					<tr style="display: none;">
-						<td></td>
-						<td id="noticeOld"></td>
+						<td colspan="100%" id="noticeOld"></td>
 					</tr>
 					<tr>
 						<td>New Password: </td>
@@ -99,8 +126,7 @@
 						<td><input id="confPass" type="password" name=""/></td>	
 					</tr>
 					<tr>
-						<td></td>
-						<td id="noticeConf"></td>
+						<td colspan="100%" id="noticeConf"></td>
 					</tr>
 				</table>
 			</div>
@@ -148,7 +174,7 @@
 					    	$(this).dialog("close");
 					    },  
 					  }, {
-					  	text: "SAVE",
+					  	text: "Save",
 					  	"id": "changePassBtn",
 					  	click: action_performed,
 					  }],

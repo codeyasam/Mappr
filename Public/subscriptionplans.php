@@ -20,9 +20,10 @@
 	</header>
 	<div class="banner"></div>
 	<div class="container center clearfix">
-		<div class="panel panel-warning drop-shadow">
-			<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-th-large"></span> [<?php echo htmlentities(strtoupper($currentPlanDuration->description)); ?>] Choose type</h1></div>
+		<div class="panel panel-default drop-shadow">
+			<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-th-large"></span> <span style="text-transform: capitalize;">[ <?php echo Plan::$plan_names[htmlentities($currentPlanDuration->duration_name)]; ?> Plans ]</span></h1></div>
 			<div class="panel-body">
+				<h1 class="heading-label">Choose type:</h1>
 			<?php foreach($filtered_plans as $key => $each_plan): ?>
 				<div class="subscription-plans">
 					<div class="form-group">

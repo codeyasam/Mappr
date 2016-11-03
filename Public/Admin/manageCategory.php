@@ -80,7 +80,7 @@
 							<td><?php echo htmlentities($eachCategory->name); ?></td>
 							<td><img class="category-icon" src="<?php echo "../" . htmlentities($eachCategory->display_picture); ?>"></td>
 							<td><?php echo htmlentities($eachCategory->description); ?></td>
-							<td><a class="optEdit" href=""><span class="glyphicon glyphicon-pencil"></span><br>Edit</a></td>
+							<td><a class="optEdit text-primary" href=""><span class="glyphicon glyphicon-pencil"></span><br>Edit</a></td>
 							<td><a class="optDelete text-danger" href=""><span class="glyphicon glyphicon-remove"></span><br>Delete</a></td>
 						</tr>
 					<?php endforeach; ?>
@@ -126,7 +126,7 @@
 									//console.log(jsonObjRoot[key][eachField]);
 								}
 							}
-							newTr += '<td class="text-center"><a class="optEdit" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-pencil"></span><br>Edit</a></td>';
+							newTr += '<td class="text-center"><a class="optEdit text-primary" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-pencil"></span><br>Edit</a></td>';
 							if (hasOptDelete)
 								newTr += '<td class="text-center"><a class="optDelete text-danger" data-internalid="' + jsonObjRoot[key].id + '" href=""><span class="glyphicon glyphicon-remove"></span><br>Delete</a></td>';
 							newTr += "</tr>";

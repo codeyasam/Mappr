@@ -64,74 +64,107 @@
 		</header>
 		<div class="banner"></div>
 		<div class="container center">
-			<div class="panel panel-primary drop-shadow">
-				<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-tag"></span> Register</h1></div>
-				<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-
-				<div class="solo-form">
-					<form action="registeruser.php" method="POST" enctype="multipart/form-data">
-						<div class="form-group text-center" style="padding: 10px;">
-							<div class="round-image drop-shadow" style="display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">
-								<img id="output" src="DISPLAY_PICTURES/defaultavatar.png"/>
-							</div>
-						</div>
-						<div class="form-group">
-							<label>Display Photo:</label>
-							<input type="file" name="img_upload" accept="image/*" onchange="loadFile(event)"/>
-						</div>
-						<div class="form-group">
-							<label>First Name:</label>
-							<input id="fName" class="form-control" type="text" name="first_name" value="" required="required"/>
-						</div>
-						<div class="form-group">
-							<label>Last Name:</label>
-							<input id="lName" class="form-control" type="text" name="last_name" value="" required="required">
-						</div>
-						<div class="form-group">
-							<label>E-mail Address:</label>
-							<input id="userEmail" class="form-control" type="email" name="email" value="" required=""><span id="emailNotice"></span>
-						</div>
-						<div class="form-group text-right">
-							<a id="facebookLogin" href="#"><img style="border-radius: 2px;" src="images/fb.jpg"></a>
-						</div>
-						<div class="form-group">
-							<label>Username:</label>
-							<input id="username" class="form-control" type="text" name="username" value="" required="required"/><span id="usernameNotice"></span></p>
-						</div>
-						<div class="form-group">
-							<label>Password:</label>
-							<input id="password" class="form-control" type="password" name="password" value="" required="required"/>
-						</div>
-						<div class="form-group">
-							<label>Confirm Password:</label>
-							<input id="confPass" class="form-control" type="password" name="confPass" value="" required="required"/><span id="passNotice"></span>
-						</div>
-						<hr>
-						<div class="form-group">							
-							<h3 style="font-variant: small-caps;"><b><span class="glyphicon glyphicon-equalizer"></span> Optional</b></h3>
-						</div>
-						<div class="form-group">
-							<label>Contact No.:</label>
-							<input type="text" class="form-control" name="contact" value=""/>
-						</div>
-						<div class="form-group">
-							<label>Hometown:</label>
-							<input id="hometown" class="form-control" type="text" name="hometown" value=""/>
-						</div>
-						<div class="form-group text-center">
-							By signing up, you have agreed to our <a href="terms.php">Terms and Conditions</a>.
-						</div>
-						<input id="urlContent" type="hidden" name="urlContent" value=""/>
-						<div class="form-group">
-							<input class="form-control btn btn-primary" id="submit" type="submit" name="submit" value="Sign Up">
-						</div>
-					</form>			
+			<div class="panel panel-default drop-shadow">
+				<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-tag"></span> Sign Up for Coin One</h1></div>
+				<div class="panel-body">
+					<div class="solo-form">
+						<form action="registeruser.php" method="POST" enctype="multipart/form-data">
+							<table style="width:100%;max-width: 800px;">
+								<tr>
+									<td colspan="100%" class="text-center">
+										<div class="round-image drop-shadow" style="display:inline-block; text-align:center; width: 125px; height: 125px; overflow: hidden;">
+											<img id="output" src="DISPLAY_PICTURES/defaultavatar.png"/>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="100%">
+										<label>Display Photo</label>
+										<input type="file" name="img_upload" accept="placeholder="Display Photo" image/*" onchange="loadFile(event)"/>
+									</td>
+								</tr>
+								<tr><td colspan="100%"><hr></td></tr>
+								<tr>
+									<td colspan="100%">
+										<h3 style="font-variant: small-caps;"><b><span class="glyphicon glyphicon-log-in"></span> Account Details</b></h3>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<!-- <label>Username:</label> -->
+										<input id="username" class="form-control" placeholder="Username" type="text" name="username" value="" required="required"/><span id="usernameNotice"></span>
+									</td>
+									<td>
+										<!-- <label>E-mail Address:</label> -->
+										<input id="userEmail" class="form-control" placeholder="E-mail Address" type="email" name="email" value="" required=""><span id="emailNotice"></span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<!-- <label>Password:</label> -->
+										<input id="password" class="form-control" placeholder="Password" type="password" name="password" value="" required="required"/>
+									</td>
+									<td>
+										<!-- <label>Confirm Password:</label> -->
+										<input id="confPass" class="form-control" placeholder="Confirm Password" type="password" name="confPass" value="" required="required"/><span id="passNotice"></span>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="100%">
+										<a id="facebookLogin" class="pull-right" href="#"><img style="border-radius: 2px;" src="images/fb.jpg"></a>
+									</td>
+								</tr>
+								<tr><td colspan="100%"><hr></td></tr>
+								<tr>
+									<td colspan="100%">
+										<h3 style="font-variant: small-caps;"><b><span class="glyphicon glyphicon-user"></span> Personal Information</b></h3>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<!-- <label>First Name:</label> -->
+										<input id="fName" class="form-control" placeholder="First Name" type="text" name="first_name" value="" required="required"/>
+									</td>
+									<td>
+										<!-- <label>Last Name:</label> -->
+										<input id="lName" class="form-control" placeholder="Last Name" type="text" name="last_name" value="" required="required">
+									</td>
+								</tr>
+								<tr><td colspan="100%"><hr></td></tr>
+								<tr>
+									<td colspan="100%"><h3 style="font-variant: small-caps;"><b><span class="glyphicon glyphicon-equalizer"></span> Optional</b></h3></td>
+								</tr>
+								<tr>
+									<td>
+										<!-- <label>Contact No.:</label> -->
+										<input type="text" class="form-control" placeholder="Contact No." name="contact" value=""/>
+									</td>
+									<td>
+										<!-- <label>Hometown:</label> -->
+										<input id="hometown" class="form-control" placeholder="" type="text" name="hometown" value=""/>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-center" colspan="100%">
+										By signing up, you have agreed to our <a href="terms.php">Terms and Conditions</a>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="100%">
+										<input class="btn btn-primary" style="width: 100%;" id="submit" type="submit" name="submit" value="Sign Up">
+									</td>
+								</tr>
+								<tr>
+									<td class="text-center" colspan="100%">
+										<a href="login.php">Already have an account?</a>
+									</td>
+								</tr>
+								<input id="urlContent" type="hidden" name="urlContent" value=""/>
+							</table>
+						</form>
+					</div>
 				</div>
+
 			</div>
 		</div>
 		<?php include '../includes/footer.php'; ?>
