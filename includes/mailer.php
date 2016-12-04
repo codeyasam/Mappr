@@ -28,6 +28,24 @@
  			$result = $mail->Send();
  			return $result ? 'Sent' : 'Error'; 
  		} 
+ 		
+ 		public static function send_verification_code($userObj) {	
+ 			$email = new self();
+ 			$email->to_name = $userObj->full_name();
+ 			$email->to_email = $userObj->email;
+ 			$email->subj = "Verify your account.";
+ 			
+ 			$message = "Welcome to Coin One. Your first step is to verify your email. Click on the link below \n";
+ 			$message .= "http://www.codeyasam.com/capstone/Public/verifyuser.php?code=" . $userObj->verification_key;
+ 			$message .= " Have a nice day!";
+ 			
+  			$email->message = $message;
+ 			$email->message = wordwrap($email->message, 70);			
+ 			
+ 			$mail = $email->create_mail();
+ 			$result = $mail->Send();
+ 			return $result ? 'Sent' : 'Error'; 		
+ 		} 
 
  		public function create_mail() {
  			$mail = new PHPMailer();
@@ -47,5 +65,7 @@
  			$mail->Body = $this->message;
  			return $mail;
  		}
+ 		
+ 		
  	}
 ?>

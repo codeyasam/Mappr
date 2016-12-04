@@ -71,7 +71,7 @@
 									echo cym_decode_unicode("every " . $plan->interval_count . " " . $plan->custom_interval);
 								} else {
 									$planDuration = PlanDuration::find_by_id($plan->plan_interval);
-									echo cym_decode_unicode($planDuration->description);
+									echo cym_decode_unicode(ucfirst(Plan::$plan_names[$planDuration->duration_name]) . ". " . $planDuration->description);
 								}
 							?>
 							

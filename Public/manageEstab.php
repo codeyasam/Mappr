@@ -60,7 +60,7 @@
 			foreach($subsPlanEstab as $key => $eachSubsPlanEstab): ?>
 			<?php $eachEstab = Establishment::find_by_id($eachSubsPlanEstab->estab_id); ?>
 				<tr>
-					<td style="font-weight: bolder;"><?php echo cym_decode_unicode($eachEstab->name); ?></td>
+					<td style="font-weight: bolder;"><?php echo htmlentities($eachEstab->name); ?></td>
 					<td><?php echo cym_decode_unicode($eachEstab->description); ?></td>
 					<td>
 						<form action="deleteEstablishment.php?id=<?php echo urlencode($eachSubsPlanEstab->id); ?>" method="POST">

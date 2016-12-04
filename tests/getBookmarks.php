@@ -2,7 +2,7 @@
 <?php  
 	$user_id = $database->escape_value($_GET['user_id']);
 	$sql  = "SELECT b.id as 'branch_id', b.estab_id as 'estab_id', b.address, b.lat, b.lng, ";
-	$sql .= "e.category_id, e.name, e.display_picture ";
+	$sql .= "e.category_id, e.name, e.display_picture, e.description ";
 	$sql .= "FROM BRANCHES_TB b, ESTABLISHMENT_TB e, BOOKMARK_TB f ";
 	$sql .= "WHERE f.user_id = " . $user_id . " ";
 	$sql .= "AND f.branch_id = b.id ";

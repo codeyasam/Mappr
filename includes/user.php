@@ -6,7 +6,7 @@
 		protected static $table_name = "END_USER_TB";
 		protected static $db_fields = array('id', 'email', 'username', 'password', 'first_name',
 											'last_name', 'contact', 'hometown', 'display_picture', 
-											'user_type', 'stripe_id', 'reset_code', 'account_status', 'login_attempt');
+											'user_type', 'stripe_id', 'reset_code', 'account_status', 'login_attempt', 'verification_key');
 
 		public $id;
 		public $email;
@@ -22,6 +22,7 @@
 		public $reset_code;
 		public $account_status = "ACTIVE";
 		public $login_attempt;
+		public $verification_key;
 
 		public function full_name() {
 			if (isset($this->first_name) && isset($this->last_name)) {
@@ -92,10 +93,10 @@
 
 		public static function check_username_format($str) {
 			global $errors;
-			$pattern = '/[\p{L}]+/u';
+			$pattern = '/[0-9\p{L}^_]+/u';
 
 			$str = preg_replace($pattern, "", $str);
-			echo $str;
+			//echo $str;
 			$result = !empty($str) ? false : true; 
 			if (!$result) $errors[] = "invalid username format";
 			return $result;

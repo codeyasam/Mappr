@@ -10,6 +10,7 @@
 		User::check_username_format($_POST['username']);
 		User::check_existing($_POST['username'], "username", "has existing username");
 		User::check_existing($_POST['email'], "email", "has existing email address");
+		
 		if (empty($errors)) {
 			$user = new User;
 			$user->first_name = isset($_POST['first_name']) ? trim($_POST['first_name']) : "";
@@ -20,8 +21,10 @@
 			$user->contact = isset($_POST['contact']) ? trim($_POST['contact']) : "";
 			$user->hometown = isset($_POST['hometown']) ? trim($_POST['hometown']) : "";
 			$user->user_type = "OWNER";
-
+			//$user->verification_key = substr(md5(time()), 0, 10);
+			//
 			if ($user->create()) {
+				$user->verification_key = md5(time() . $user->id);
 				$content = isset($_POST['urlContent']) ? trim($_POST['urlContent']) : false;
 				if ($content) {
 					//$content = file_get_contents($content);
@@ -30,9 +33,9 @@
 					$user->display_picture = "https:" . $content; 	
 					//echo "here";
 				} else if (file_exists($_FILES['img_upload']['tmp_name']) && is_uploaded_file($_FILES['img_upload']['tmp_name'])) {
-					echo "<pre>";
-						print_r($_FILES['img_upload']);
-					echo "</pre>";
+					//echo "<pre>";
+					//	print_r($_FILES['img_upload']);
+					//echo "</pre>";
 					move_uploaded_file($_FILES['img_upload']['tmp_name'], "DISPLAY_PICTURES/profile_pic".$user->id);
 					$user->display_picture = MAPPR_PUBLIC_URL . "DISPLAY_PICTURES/profile_pic".$user->id;
 					//echo "poop";
@@ -42,9 +45,11 @@
 				}
 				
 				$user->update();	
+				Mailer::send_verification_code($user);
 				MapprActLog::recordActivityLog("Registered to One Coin", $user->id);	
-				$session->login($user);
-				redirect_to("subscription.php");
+				redirect_to("login.php?verificationNeeded=true");
+				//$session->login($user);
+				//redirect_to("subscription.php");
 			}
  
 		}	
@@ -103,13 +108,14 @@
 								<tr>
 									<td>
 										<!-- <label>Password:</label> -->
-										<input id="password" class="form-control" placeholder="Password" type="password" name="password" value="" required="required"/>
+										<input id="password" pattern=".{7,}" required title="7 characters minimum" class="form-control" placeholder="Password" type="password" name="password" value="" required="required"/>
 									</td>
 									<td>
 										<!-- <label>Confirm Password:</label> -->
-										<input id="confPass" class="form-control" placeholder="Confirm Password" type="password" name="confPass" value="" required="required"/><span id="passNotice"></span>
+										<input id="confPass" pattern=".{7,}" required title="7 characters minimum" class="form-control" placeholder="Confirm Password" type="password" name="confPass" value="" required="required"/>
 									</td>
 								</tr>
+								<tr><td colspan="100%"><span id="passNotice"></span></td></tr>
 								<tr>
 									<td colspan="100%">
 										<a id="facebookLogin" class="pull-right" href="#"><img style="border-radius: 2px;" src="images/fb.jpg"></a>
@@ -142,7 +148,7 @@
 									</td>
 									<td>
 										<!-- <label>Hometown:</label> -->
-										<input id="hometown" class="form-control" placeholder="" type="text" name="hometown" placeholder="Hometown" value=""/>
+										<input id="hometown" class="form-control" type="text" name="hometown" placeholder="Hometown" value=""/>
 									</td>
 								</tr>
 								<tr>

@@ -142,7 +142,14 @@
 						</tr>
 					<?php endif; ?>
 					<?php endif; ?>
-				</table>	
+				</table>
+				<div style="padding: 10px;">
+					<?php if (isset($_GET['fromDate']) && isset($_GET['toDate']) && isset($_GET['description'])) { ?>
+						<a href="activityLogReports.php?id=<?php echo $_GET['id']; ?>&fromDate=<?php echo $_GET['fromDate']; ?>&toDate=<?php echo $_GET['toDate']; ?>&description=<?php echo $_GET['description']; ?>"><span class="glyphicon glyphicon-share-alt"></span> Export Logs</a>
+					<?php } else { ?>
+						<a href="activityLogReports.php?id=<?php echo $_GET['id']; ?>"><span class="glyphicon glyphicon-share-alt"></span> Export Logs</a>
+					<?php } ?>
+				</div>					
 				<?php } else { ?>
 					<p>No result found</p>
 				<?php } ?>						

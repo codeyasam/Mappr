@@ -63,6 +63,12 @@
 				$estabGallery->gallery_pic = $unique_path;		
 				$estabGallery->create();
 
+				//quick fix for uniqueness
+				$unique_path = $fixedName . $estabGallery->id;
+				$estabGallery->gallery_pic = $unique_path;
+				$estabGallery->update();
+				//end of quick fix
+
 				move_uploaded_file($gallery['tmp_name'], $unique_path);
 			}
 		}
@@ -98,7 +104,7 @@
 		</header>
 		<div class="banner"></div>
 		<div class="container edit-establishment center clearfix">
-			<div class="panel panel-warning drop-shadow">
+			<div class="panel panel-default drop-shadow">
 				<div class="panel-heading">
 					<h1 class="heading-label"><span class="glyphicon glyphicon-pencil"></span> Edit Establishment Details</h1>
 				</div>

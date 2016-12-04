@@ -1,7 +1,7 @@
 <?php require_once("../includes/initialize.php"); ?>
 <?php  
 	$user = $session->is_logged_in() ? User::find_by_id($session->user_id) : false;
-	$filtered_plans = Plan::find_by_duration($_GET['type']);
+	$filtered_plans = Plan::find_by_duration($_GET['type'], true);
 	//PlanDuration::find_by_duration_name();
 	$currentPlanDuration = PlanDuration::find_by_id($_GET['type']);
 ?>
@@ -28,13 +28,15 @@
 				<div class="subscription-plans">
 					<div class="form-group">
 						<?php if ($each_plan->plan_interval == 5) { ?>
-							<label>Plan Name: </label> <?php echo htmlentities($each_plan->plan_name); ?>
-							<p>Description: <?php echo cym_decode_unicode("every " . $each_plan->interval_count . " " . $each_plan->custom_interval); ?></p>
+							<label><span style="font-size: 1.3em;"><?php echo htmlentities($each_plan->plan_name); ?></span> </label>
+							<p><?php echo ucwords(cym_decode_unicode("every " . $each_plan->interval_count . " " . $each_plan->custom_interval)); ?></p>
+						<?php } else { ?>
+							<label><span style="font-size: 1.3em;"><?php echo htmlentities($each_plan->plan_name); ?></span> </label>						
 						<?php } ?>
 
 					</div>
 					<div class="form-group">
-						<h3>JPY <?php echo (int)number_format($each_plan->cost, 2, ".", ","); ?></h3>
+						<h3>&yen; <?php echo number_format($each_plan->cost, 0, "", ","); ?></h3>
 					</div>
 					<div class="form-group">
 						<label>No. of Business:</label> <?php echo $each_plan->estab_no; ?>
@@ -47,8 +49,10 @@
 							<div class="form-group">
 								<label>Coupon Code:</label>
 								<input type=text size="6" style="width: 30%;display: inline-block;" class="coupon form-control" name="coupon_id" />
-								<input class="applyCoupon btn btn-primary" style="display: inline-block;" type="button" value="Apply">
-								<span style="font-weight: 700;" class="msg"></span>
+								<br>
+								<br>
+								<input class="applyCoupon btn btn-primary" style="display: inline-block;" type="button" value="Apply Coupon">
+								<span style="font-family: Impact; letter-spacing: 1px;" class="msg text-danger"></span>
 							</div>
 							<div class="right">
 								<script
@@ -93,7 +97,7 @@
 				      console.log(response);
 				    } else {
 				      //$(this).siblings('.msg').html("Invalid Code!");
-				      coupon_id_input.siblings('.msg').html('invalid code');
+				      coupon_id_input.siblings('.msg').html('Invalid Code');
 				      console.log(response);
 				    }
 				  }

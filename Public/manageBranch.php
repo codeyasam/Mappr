@@ -42,7 +42,7 @@
 
 					<div class="panel panel-default">
 						
-						<div class="panel-heading"><h1 class="heading-label text-center"><?php echo htmlentities($currentEstab->name); ?></h1></div>
+						<div class="panel-heading"><h1 class="heading-label text-center" style="margin-top:20px;"><?php echo htmlentities($currentEstab->name); ?></h1></div>
 						<div class="panel-body" style="overflow-y: auto; max-height: 450px; margin-top: 20px;">					
 							<form action="manageBranch.php?id=<?php echo urlencode($estabID); ?>" method="POST">
 								<div class="form-group">
@@ -182,8 +182,10 @@
 			return mIcon;
 		}
 
-		var selectedIcon = initIcon("images/pin_green.png", 35, 35);;
-		var defaultIcon = initIcon("images/pin_yellow.png", 35, 35);
+		//var selectedIcon = initIcon("images/pin_green.png", 35, 35);
+		//var defaultIcon = initIcon("images/pin_yellow.png", 35, 35);
+		var selectedIcon = initIcon("images/icon_selected_marker.png", 35, 35);
+		var defaultIcon = initIcon("images/icon_unselected_marker.png", 35, 35);		
 		var indicationIcon = initIcon("images/logo_bw.png", 25, 25);
 		var indicationMarker = false;
 
@@ -217,7 +219,8 @@
 		var acOptions = {
 			types: ['establishment']
 		};
-		var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'),acOptions);
+		//had commented acOPtions to enable every locations
+		var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'));
 		autocomplete.bindTo('bounds',map);
 		var infoWindow = new google.maps.InfoWindow();	
 			//zooom
@@ -456,10 +459,10 @@
 			for (var key in jsonObj.Gallery) {
 				if (jsonObj.Gallery.hasOwnProperty(key)) {
 					//console.log(key);
-					photoContainer += '<div class="thumbnail" style="text-align:left;">';
+					photoContainer += '<div class="thumbnail" style="text-align:left; position: relative;">';
 					if (jsonObj.BranchID) {
 						photoContainer += '<input data-internalid="' + jsonObj.Gallery[key].id + '"';
-						photoContainer += ' class="optPhoto" type="checkbox" style="position:absolute;z-index: 10;"';	
+						photoContainer += ' class="optPhoto" type="checkbox" style="position:absolute;z-index: 10; top: 5px; left: 5px;"';	
 						if (jsonObj.BranchGallery) {
 							jsonObj.BranchGallery.filter(function(item) {
 								if (item.gallery_id == jsonObj.Gallery[key].id) {

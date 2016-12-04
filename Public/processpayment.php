@@ -53,6 +53,11 @@
 	
 	$purchased_plan = Plan::find_by_id($subs_plan->plan_id);
 	MapprActLog::recordActivityLog("Purchased a subscription: " . $purchased_plan->toString() . " for: JPY " . (int)number_format($purchased_plan->cost, 2, ".", "") . " [PlanID - " . $subs_plan->plan_id . "]", $user->id);
+	
+	if ($user->user_type == "USER") {
+		$user->user_type = "OWNER";
+		$user->update();
+	}
 
 	redirect_to("mysubscription.php");
 	

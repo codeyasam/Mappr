@@ -8,7 +8,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="<?php echo MAPPR_PUBLIC_URL; ?>index.php">
+        <a class="navbar-brand heading-label" style="font-size: 1.5em; text-transform: uppercase;" href="<?php echo MAPPR_PUBLIC_URL; ?>index.php">
           <img style="display: inline;margin-top: -5px;" src="<?php echo MAPPR_PUBLIC_URL; ?>images/coin_one_logo_small.png" alt="brand">
       <!-- <span class="glyphicon glyphicon glyphicon-map-marker"></span> -->
       Coin One</a>
@@ -58,7 +58,7 @@
                 </ul>
               </li>    
             <?php } ?>
-            <li><a href="help.php"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
+            <!-- <li><a href="help.php"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li> -->
         </ul>
       </div><!-- /.navbar-collapse -->
 

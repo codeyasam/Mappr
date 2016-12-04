@@ -265,6 +265,11 @@
 						contentType: false,
 						processData: false					
 					});
+					
+					$('#categName').val("");
+					$('#categDescription').val("");
+					$("#output").prop({src: "../DISPLAY_PICTURES/defaultCategIcon.png"});
+					$("#pic").val("");
 				});
 
 				$(document).on('click', '.optDelete', function() {

@@ -16,7 +16,7 @@
 			<div class="clearfix subscription drop-shadow">
 				<img style="float:left; clear: both; padding: 10px;" src="<?php echo 'images/' . htmlentities($each_plan_duration->duration_name) . '.png'; ?>">			
 				<a href="subscriptionplans.php?type=<?php echo urlencode($each_plan_duration->id); ?>"><h3><?php echo Plan::$plan_names[htmlentities($each_plan_duration->duration_name)]; ?></h3></a>			
-				<p><?php echo htmlentities($each_plan_duration->description); ?> <a href="subscriptionplans.php?type=<?php echo urlencode($each_plan_duration->id); ?>">More details...</a>	</p>
+				<p><?php echo htmlentities($each_plan_duration->description); ?> <a href="subscriptionplans.php?type=<?php echo urlencode($each_plan_duration->id); ?>">More&nbsp;details...</a></p>
 
 			</div>
 		<!-- 	<div>

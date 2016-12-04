@@ -3,6 +3,7 @@
 	$user = $session->is_logged_in() ? User::find_by_id($session->user_id) : redirect_to('login.php');
 ?>
 <?php  
+	$prompt_to_user = "";
 	if (isset($_POST['submit'])) {
 		$user->first_name = trim($_POST['first_name']);
 		$user->last_name = trim($_POST['last_name']);		
@@ -16,7 +17,7 @@
 		$user->update();	
 
 		MapprActLog::recordActivityLog("Edited Profile", $user->id);
-
+		$prompt_to_user = "<span class='glyphicon glyphicon-ok-sign'></span> Changes been made";
 	}
 ?>
 
@@ -40,6 +41,12 @@
 				<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-pencil"></span> Edit Profile</h1></div>
 				<div class="solo-form panel-body pull-center">
 					<form action="accountsettings.php" method="POST" enctype="multipart/form-data">
+						<?php if (!empty($prompt_to_user)): ?>
+							<div class="alert alert-danger text-center" role="alert">
+							  <strong>NOTICE:</strong>&nbsp;&nbsp;<?php echo strtoupper(substr($prompt_to_user, 0, 1)) . substr($prompt_to_user, 1); ?>.
+							</div>							
+						<?php endif ?>
+
 						<table style="width:100%;max-width: 700px;">
 							<tr>
 								<td class="text-center" colspan="100%">
@@ -154,10 +161,12 @@
 
 					if (jsonObj.changePass) {
 						if (jsonObj.changePass == "true") {
-							alert("successfully changed the password.");
+							//alert("successfully changed the password.");
+							custom_alert_dialog("Successfully Changed the password");
 							$('#changePassDialog').dialog('close');
 						} else {	
-							alert("Invalid old password!");
+							//alert("Invalid old password!");
+							custom_alert_dialog("Invalid old password");
 						}
 					}					
 				}

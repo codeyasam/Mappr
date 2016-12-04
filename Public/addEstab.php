@@ -49,7 +49,13 @@
 					$estabGallery->estab_id = $new_estab->id;
 					$estabGallery->gallery_pic = $unique_path;		
 					$estabGallery->create();
-	
+					
+					//quick fix for uniqueness
+					$unique_path = $fixedName . $estabGallery->id;
+					$estabGallery->gallery_pic = $unique_path;
+					$estabGallery->update();
+					//end of quick fixs
+					
 					move_uploaded_file($gallery['tmp_name'], $unique_path);
 				}
 			}
@@ -94,12 +100,12 @@
 					</h1>
 				</div>
 				<div class="panel-body">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					<!-- Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					proident, sunt in culpa qui officia deserunt mollit anim id est laborum. -->
 
 					<form id="mainForm" action="addEstab.php?id=<?php echo urlencode($_GET['id']); ?>" enctype="multipart/form-data" method="post"  runat="server">
 						<!-- <div class="manage" style="margin-top: 0;"> -->

@@ -12,7 +12,7 @@
 			'week' => "weekly",
 			'month' => "monthly",
 			'year' => "yearly",
-			'other' => "other plans",
+			'other' => "other",
 		);
 
 		public $id;
@@ -39,12 +39,16 @@
 			return self::find_by_sql($sql); 
 		} 
 
-		public static function find_by_duration($plan_interval) {
+		public static function find_by_duration($plan_interval, $getVisibility=false) {
 			global $database;
 			$plan_interval = $database->escape_value($plan_interval);
 
 			$sql  = "SELECT * FROM " . self::$table_name . " ";
 			$sql .= "WHERE plan_interval = '" . $plan_interval . "'";
+
+			if ($getVisibility) {
+				$sql .= " AND visibility = 'VISIBLE'";
+			}
 
 			return self::find_by_sql($sql);
 		}
@@ -61,13 +65,13 @@
 					$obj = PlanDuration::find_by_id($this->$eachField);
 					if ($obj->duration_name == "other") {
 						//$durationObj = PlanDUration::find_by_id($this->custom_interval);
-						$promptInterval = "every " . $this->interval_count . " " . $this->custom_interval;
+						$promptInterval = ucwords("every " . $this->interval_count . " " . $this->custom_interval);
 						$fValueArr[] = '"' . $eachField . '":"' . $promptInterval . '"';
 					} else {
-						$fValueArr[] = '"' . $eachField . '":"' . $obj->description . '"';	
+						$fValueArr[] = '"' . $eachField . '":"' . ucwords(self::$plan_names[$obj->duration_name]) . '"';	
 					}
 				} else if ($eachField == "cost") {
-					$fValueArr[] = '"' . $eachField . '":"' . (int)number_format($this->$eachField, 2, ".", ",") . '"';
+					$fValueArr[] = '"' . $eachField . '":"&yen; ' . number_format($this->$eachField, 0, "", ",") . '"';
 				} else {
 					$fValueArr[] = '"' . $eachField . '":"' . $this->$eachField . '"';		
 				}

@@ -2,12 +2,20 @@
 <?php $session->is_logged_in() ? redirect_to("index.php") : null; ?>
 <?php 
 	$prompt_to_user = "";
+	if (isset($_GET['verificationNeeded'])) {
+		$prompt_to_user = "<span class='glyphicon glyphicon-ok-sign'></span> An email was sent to your email address by Coin One. Follow the steps to verify your account.";
+	} else if (isset($_GET['verfication'])) {
+		$prompt_to_user = "<span class='glyphicon glyphicon-ok-sign'></span> Account Verified. You may now enter your credentials to login.";
+	}
+	
 	if (isset($_POST['submit'])) {
 		$emUsername = $_POST['emUsername'];
 		$password = $_POST['password'];
 		$user = User::isEmUsernameExist($emUsername);
-		if ($user->account_status == "BLOCKED") {
-			$prompt_to_user = "Account is currently blocked, <a href='mailto:coinone777@yahoo.com?Subject=Blocked%20User' target='_top'>contact</a> the super admin";	
+		if (!empty($user->verification_key)) {
+			$prompt_to_user = "<span class='glyphicon glyphicon-exclamation-sign'></span> Unverified account. Please check your email for verification process.";
+		} else if ($user->account_status == "BLOCKED") {
+			$prompt_to_user = "<span class='glyphicon glyphicon-remove-sign'></span> Account is currently blocked, <a href='mailto:coinone777@yahoo.com?Subject=Blocked%20User' target='_top'>contact</a> the super admin";	
 			$user = null;			
 		} else {
 			$user = User::authenticate($emUsername, $password);
@@ -17,13 +25,14 @@
 					$user->login_attempt = 0;
 					$user->update();
 					$session->login($user);
-					User::page_redirect($user->id);
+					//User::page_redirect($user->id);
+					redirect_to("index.php");
 				} else {
-					$prompt_to_user = "Account is currently blocked, contact the super admin.";	
+					$prompt_to_user = "<span class='glyphicon glyphicon-exclamation-sign'></span> Account is currently blocked, contact the super admin.";	
 					$user = null;
 				}
 			} else {
-				$prompt_to_user = "Wrong username or password";
+				$prompt_to_user = "<span class='glyphicon glyphicon-remove-sign'></span> Wrong username or password";
 				$found_user = new User();			
 				if (User::hasExisting($emUsername, "email")) {
 	 				$found_users = User::find_all(array('key'=>'email', 'value'=>$emUsername, 'isNumeric'=>false));
@@ -87,7 +96,7 @@
 
 						<?php if (!empty($prompt_to_user)): ?>
 							<div class="alert alert-danger text-center" role="alert">
-							  <strong>Error!</strong> <?php echo strtoupper(substr($prompt_to_user, 0, 1)) . substr($prompt_to_user, 1); ?>.
+							  <strong>NOTICE:</strong>&nbsp;&nbsp;<?php echo strtoupper(substr($prompt_to_user, 0, 1)) . substr($prompt_to_user, 1); ?>.
 							</div>							
 						<?php endif ?>
 						<!-- <div class="form-group">
@@ -139,6 +148,11 @@
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="js/functions.js"></script>
 		<script type="text/javascript">
+
+			$('div.alert').on('click',function () {
+				$(this).slideUp(500);
+			});
+
 			$('#dialogEmail').dialog({
 				autoOpen: false,
 				modal: true

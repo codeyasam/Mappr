@@ -4,17 +4,17 @@
 	defined("DS") ? null : define("DS", DIRECTORY_SEPARATOR);
 
 
-	defined("SITE_ROOT") ? null : define("SITE_ROOT", DS. "var" . DS . "www" . DS . "html" . DS . "thesis");
+	//defined("SITE_ROOT") ? null : define("SITE_ROOT", DS. "var" . DS . "www" . DS . "html" . DS . "thesis");
 	//defined("SITE_ROOT") ? null : define("SITE_ROOT", "D:" . DS. "SITE" . DS . "thesis");
 // =======
-// 	defined("SITE_ROOT") ? null : define("SITE_ROOT", DS. "home1" . DS . "chulien" . DS . "codeyasam.com" . DS . "capstone");
+ 	defined("SITE_ROOT") ? null : define("SITE_ROOT", DS. "home1" . DS . "chulien" . DS . "codeyasam.com" . DS . "capstone");
 // >>>>>>> 9cd94834053e91bc505db5099ec1d99381d876f2
 
 	defined("LIB_PATH") ? null : define("LIB_PATH", SITE_ROOT . DS . "includes");
 
-	defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://localhost/thesis/");
+	//defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://localhost/thesis/");
 	
-	// defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://www.codeyasam.com/capstone/");
+        defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://www.codeyasam.com/capstone/");
 
 	defined("MAPPR_PUBLIC_URL") ? null : define("MAPPR_PUBLIC_URL", TEMPORARY_ROOT_HOSTNAME . "Public/");
 

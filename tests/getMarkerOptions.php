@@ -15,7 +15,7 @@
 			// $objArr = EstabBranch::find_all(array('key' => 'estab_id', 'value' => $branch->estab_id, 'isNumeric' => true));
 			// $estabObjArr = Establishment::find_all(array('key' => 'id', 'value' => $branch->estab_id, 'isNumeric' => true));
 			$sql  = "SELECT b.id as 'branch_id', b.estab_id as 'estab_id', b.address, b.lat, b.lng, ";
-			$sql .= "e.category_id, e.name, e.display_picture ";
+			$sql .= "e.category_id, e.name, e.display_picture, e.description ";
 			$sql .= "FROM BRANCHES_TB b, ESTABLISHMENT_TB e, SUBSCRIBED_PLAN sp, SUBSPLAN_ESTAB_TB se ";
 			$sql .= "WHERE b.estab_id = " . $branch->estab_id . " ";
 			$sql .= "AND b.estab_id = e.id ";
@@ -25,7 +25,7 @@
 			$category_id = $database->escape_value($_GET[CATEGORY_ID]);
 			
 			$sql  = "SELECT b.id as 'branch_id', b.estab_id as 'estab_id', b.address, b.lat, b.lng, ";
-			$sql .= "e.category_id, e.name, e.display_picture ";
+			$sql .= "e.category_id, e.name, e.display_picture, e.description ";
 			$sql .= "FROM BRANCHES_TB b, ESTABLISHMENT_TB e, CATEGORY_TB c, SUBSCRIBED_PLAN sp, SUBSPLAN_ESTAB_TB se ";
 			$sql .= "WHERE c.id = e.category_id ";
 			$sql .= "AND e.id = b.estab_id ";
@@ -38,7 +38,7 @@
 			$search_string = $database->escape_value($_GET[SEARCH_STRING]);
 			
 			$sql  = "SELECT b.id as 'branch_id', b.estab_id as 'estab_id', b.address, b.lat, b.lng, ";
-			$sql .= "e.category_id, e.name, e.display_picture ";
+			$sql .= "e.category_id, e.name, e.display_picture, e.description ";
 			$sql .= "FROM BRANCHES_TB b, ESTABLISHMENT_TB e, SUBSCRIBED_PLAN sp, SUBSPLAN_ESTAB_TB se ";
 			$sql .= "WHERE e.name LIKE " . "'%{$search_string}%' ";
 			$sql .= "AND b.estab_id = e.id ";

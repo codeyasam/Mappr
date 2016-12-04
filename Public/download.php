@@ -8,7 +8,7 @@
 		<title></title> 
 		<?php include '../includes/styles.php'; ?>
 	</head>
-	<body style="background: url('images/banner_fade.png') no-repeat center top;">
+	<body style="background: url('images/banner_fade.jpg') no-repeat center top;">
 		<header class="center">
 			<?php include("../includes/navigation.php"); ?>
 		</header>
@@ -18,15 +18,19 @@
 				<div style="display: inline-block; margin-top: 100px;">
 					<h5 style="padding: 0 10px;">Download the latest version of our mobile application.</h5>
 					<h1 class="heading-label" style="font-size: 3.5em; padding: 0 10px;"><span class="heading-yellow">Download </span>Coin One</h1>
-					<input type="button" name="signup" style="margin: 20px 0 0 0;font-size: 1.1em; letter-spacing: 1px; padding: 10px;" value="Download our mobile app" class="heading-label btn btn-warning drop-shadow" />
+					
+<form method="GET" action="downloads/coinone.apk">
+<input type="submit" name="signup" style="margin: 20px 0 0 0;font-size: 1.1em; letter-spacing: 1px; padding: 10px;" value="Download our mobile app" class="heading-label btn btn-warning drop-shadow" />
+</form>
+
 				</div>
 			</header>
-			<div style="background-color: #fff;" class="clearfix">
-				<div style="position: absolute; margin-top: -180px; margin-left: 100px; border-radius: 50%; z-index: -1;  width: 310px; height: 310px; background: #fff;">
+			<div style="background-color: #fff; border-top: 10px solid #DD9B00;" class="clearfix">
+				<div style="position: absolute; margin-top: -180px; margin-left: 100px; border-radius: 50%; z-index: 0;  width: 310px; height: 310px; background: #fff;">
 				</div>
-				<img style="margin: -145px -70px 50px 35px;" src="images/android_with_logo.png">
+				<img style="position: absolute;margin: -145px -70px 50px 35px;z-index: 1;" src="images/android_with_logo.png">
 				<h2 class="heading-label pull-right" style="margin: -15px 150px 50px 50px;">Soon on <img style="width: 200px;" src="images/playstore.png"></h2>
-				<div class="photo-details text-right pull-right" style="margin: -100px 100px 100px 100px; display: inline-block;">
+				<div class="photo-details text-right pull-right" style="margin: 50px 100px 100px 100px; display: inline-block;">
 				<?php if ($session->is_logged_in()) { ?>
 					<h2 style="padding: 5px;" class="heading-label heading-yellow">Purchase a plan today with COIN ONE!</h2>
 					<h5 style="padding: 5px;" >Choose subscription plans suitable for your business.</h5>
