@@ -75,7 +75,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-list"></span> <?php echo $access_level_prompt; ?> Activity Log</h1></div>
 				<div class="panel-body">
-				<h3>[<?php echo strtoupper(htmlentities($selected_user->full_name())); ?>]</h3>
+				<h3>[<?php echo strtoupper(cym_decode_unicode($selected_user->full_name())); ?>]</h3>
 				</div>	
 				<form action="adminsActivityLog.php" method="GET">
 					From: <input style="display: inline-block; width: inherit;" class="form-control" type="text" name="fromDate" id="fromDate" /> to <input style="display: inline-block; width: inherit;" class="form-control" name="toDate" type="text" id="toDate" /> 
@@ -92,7 +92,7 @@
 					<?php if (!empty($user_activities)): ?>
 					<?php foreach($user_activities as $key => $each_activity): ?>
 						<tr>
-							<td><?php echo htmlentities($each_activity->description); ?></td>
+							<td><?php echo cym_decode_unicode($each_activity->description); ?></td>
 							<td><?php echo htmlentities(format_date($each_activity->processed_date)); ?></td>
 						</tr>
 					<?php endforeach; ?>

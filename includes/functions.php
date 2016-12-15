@@ -261,8 +261,7 @@
 	}	
 
 	function cym_decode_unicode($str) {
-		   $pattern = "/[\"'<>]/";
-   		   return preg_replace($pattern, "", $str);		
+		return mb_convert_encoding($str, "HTML-ENTITIES", "UTF-8");		
 	}	
 
 	function time_txt_to_24hour($str_time, $period) {

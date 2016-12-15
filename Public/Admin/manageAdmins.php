@@ -116,9 +116,9 @@
 						<?php foreach ($all_admins as $key => $eachAdmin): ?>
 							<tr class='text-center'>
 								<td><?php echo htmlentities($eachAdmin->id); ?></td>
-								<td><?php echo htmlentities($eachAdmin->username); ?></td>
+								<td><?php echo cym_decode_unicode($eachAdmin->username); ?></td>
 								<td><?php echo htmlentities($eachAdmin->email); ?></td>
-								<td><?php echo htmlentities($eachAdmin->full_name()); ?></td>
+								<td><?php echo cym_decode_unicode($eachAdmin->full_name()); ?></td>
 								<td>
 									<div class="round-image drop-shadow" style="margin-left: 0;display:inline-block; text-align:center; width: 35px; height: 35px; overflow: hidden;">
 										<img style="width: 40px; margin-left: -3px;" class="category-icon" src="<?php echo htmlentities($eachAdmin->display_picture); ?>"/>

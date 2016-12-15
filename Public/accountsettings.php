@@ -71,7 +71,7 @@
 								<td colspan="100%">
 									<label>E-mail Address:</label> <?php echo htmlentities($user->email); ?>
 									<br>
-									<label>Username:</label> <?php echo htmlentities($user->username); ?>
+									<label>Username:</label> <?php echo cym_decode_unicode($user->username); ?>
 								</td>
 							</tr>
 							<tr><td colspan="100%"><hr></td></tr>
@@ -96,10 +96,10 @@
 							</tr>
 							<tr>
 								<td>
-									<input type="text" placeholder="Contact No." class="form-control" name="contact" value="<?php echo htmlentities($user->contact); ?>"/>
+									<input type="text" placeholder="Contact No." class="form-control" name="contact" value="<?php echo cym_decode_unicode($user->contact); ?>"/>
 								</td>
 								<td>
-									<input id="hometown" placeholder="Hometown" class="form-control" type="text" name="hometown" value="<?php echo htmlentities($user->hometown); ?>"/>
+									<input id="hometown" placeholder="Hometown" class="form-control" type="text" name="hometown" value="<?php echo cym_decode_unicode($user->hometown); ?>"/>
 								</td>
 							</tr>
 

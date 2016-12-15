@@ -17,7 +17,7 @@
 	//die($estab->owner_id . " " . $user->id);
 	$estab->owner_id == $user->id ? null : redirect_to("index.php");
 	
-	$all_category = EstabCategory::find_all();
+	$all_category = EstabCategory::getChildCategories();
 	$photos = EstabGallery::find_all(array("key" => "estab_id", "value" => $estab->id, "isNumeric" => true));
 	//print_r($photos);
 ?>
@@ -121,7 +121,7 @@
 						</div>
 						<div class="form-group">
 							<label>Name</label>
-							<input type="text" class="form-control" name="estabName" value="<?php echo htmlentities($estab->name); ?>" placeholder="Name" required="required"/>
+							<input type="text" class="form-control" name="estabName" value="<?php echo cym_decode_unicode($estab->name); ?>" placeholder="Name" required="required"/>
 						</div>
 						
 						<div class="form-group">
@@ -129,19 +129,19 @@
 							<select class="form-control" name="estabCategory" >
 							<?php foreach($all_category as $key => $eachCateg): ?>
 								<?php $isSelected = ($eachCateg->id === $estab->category_id) ? "selected" : ""; ?>
-								<option value="<?php echo $eachCateg->id; ?>"<?php echo $isSelected; ?>><?php echo htmlentities($eachCateg->name); ?></option>
+								<option value="<?php echo $eachCateg->id; ?>"<?php echo $isSelected; ?>><?php echo cym_decode_unicode($eachCateg->name); ?></option>
 							<?php endforeach; ?>
 							</select>
 						</div>
 						
 						<div class="form-group">
 							<label>Description</label>
-							<textarea name="description" class="form-control" placeholder="Say something about your establishment..."><?php echo htmlentities($estab->description); ?></textarea>
+							<textarea name="description" class="form-control" placeholder="Say something about your establishment..."><?php echo cym_decode_unicode($estab->description); ?></textarea>
 						</div>
 						
 						<div class="form-group">
 							<label>Tags</label>
-							<input type="text" class="form-control" name="tags" value="<?php echo htmlentities($estab->tags); ?>" placeholder="tags"/>
+							<input type="text" class="form-control" name="tags" value="<?php echo cym_decode_unicode($estab->tags); ?>" placeholder="tags"/>
 						</div>						
 						<hr>
 						<div class="form-group main-window clearfix">

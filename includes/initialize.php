@@ -3,18 +3,18 @@
 	//absolute path definition
 	defined("DS") ? null : define("DS", DIRECTORY_SEPARATOR);
 
-
+	defined("SITE_ROOT") ? null : define("SITE_ROOT", DS. "var" . DS . "www" . DS . "html" . DS . "capstone");
 	//defined("SITE_ROOT") ? null : define("SITE_ROOT", DS. "var" . DS . "www" . DS . "html" . DS . "thesis");
 	//defined("SITE_ROOT") ? null : define("SITE_ROOT", "D:" . DS. "SITE" . DS . "thesis");
 // =======
- 	defined("SITE_ROOT") ? null : define("SITE_ROOT", DS. "home1" . DS . "chulien" . DS . "codeyasam.com" . DS . "capstone");
+ 	//defined("SITE_ROOT") ? null : define("SITE_ROOT", DS. "home1" . DS . "chulien" . DS . "codeyasam.com" . DS . "capstone");
 // >>>>>>> 9cd94834053e91bc505db5099ec1d99381d876f2
 
 	defined("LIB_PATH") ? null : define("LIB_PATH", SITE_ROOT . DS . "includes");
 
-	//defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://localhost/thesis/");
+	defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://localhost/capstone/");
 	
-        defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://www.codeyasam.com/capstone/");
+    //    defined("TEMPORARY_ROOT_HOSTNAME") ? null : define("TEMPORARY_ROOT_HOSTNAME", "http://www.codeyasam.com/capstone/");
 
 	defined("MAPPR_PUBLIC_URL") ? null : define("MAPPR_PUBLIC_URL", TEMPORARY_ROOT_HOSTNAME . "Public/");
 
@@ -55,6 +55,9 @@
 	//load stripe
 	require_once(LIB_PATH . DS . "vendor/autoload.php");
 	\Stripe\Stripe::setApiKey("sk_test_5lqGe81cTwC39ryIuby7KNu2");
+
+	//load dummy module for testing purposes
+	require_once(LIB_PATH . DS . "dummy.php");
 	
 	date_default_timezone_set('Asia/Manila');
 ?>

@@ -83,7 +83,7 @@
 					
 					<?php foreach($user_activities as $key => $each_activity): ?>
 						<tr>
-							<td><?php echo htmlentities($each_activity->description); ?></td>
+							<td><?php echo cym_decode_unicode($each_activity->description); ?></td>
 							<td><?php echo htmlentities(format_date($each_activity->processed_date)); ?></td>
 						</tr>
 					<?php endforeach; ?>

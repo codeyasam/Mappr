@@ -33,7 +33,7 @@
 							<label>Interval</label>
 							<select id="planDuration" class="form-control" name="planDuration">
 							<?php foreach($planDurations as $key => $eachDuration): ?>
-								<option value="<?php echo $eachDuration->id; ?>"><?php /* echo strtoupper(substr($eachDuration->description, 0,1)) . substr($eachDuration->description, 1); */ ?><?php echo ucfirst(Plan::$plan_names[$eachDuration->duration_name]); ?></option>
+								<option value="<?php echo $eachDuration->id; ?>"><?php /* echo strtoupper(substr($eachDuration->description, 0,1)) . substr($eachDuration->description, 1); */ ?><?php echo cym_decode_unicode(ucfirst(Plan::$plan_names[$eachDuration->duration_name])); ?></option>
 							<?php endforeach; ?>	
 							</select>					
 						</div>

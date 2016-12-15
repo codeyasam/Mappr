@@ -159,5 +159,29 @@
 			return join(",",$fValueArr);
 		}
 
+		public static function find_all_associative($associative = array()) {
+			global $database;
+			//var_dump($associative);
+
+			$sql  = "SELECT * FROM " . static::$table_name . " ";
+			$sql .= "WHERE ";
+			$sqlArray = array();
+			foreach ($associative as $key => $value) {
+				$sqlArray[] = $key . " = '" . $database->escape_value($value) . "'";
+			}
+			$sql .= static::getConditions($associative);
+			return static::find_by_sql($sql);
+		}
+
+		public static function getConditions($associative) {
+			global $database;
+
+			$sqlArray = array();
+			foreach ($associative as $key => $value) {
+				$sqlArray[] = $key . " = '" . $database->escape_value($value) . "'";
+			}
+			return join(' AND ', $sqlArray);			
+		}		
+
 	}
 ?>

@@ -44,6 +44,20 @@
 							<input class="form-control" id="categName" style="max-width: 100%;" type="text" name="categName"/>
 						</div>
 						<div class="form-group">
+							<label>Parent Category</label>
+							
+							<select id="categParentDropDown" class="form-control">
+								<option value="-1"><i class="glyphicon glyphicon-plus"></i>Main Category</option>
+								<?php  
+									$parent_categories = EstabCategory::getParentCategories();
+									foreach ($parent_categories as $key => $eachCategory):
+								?>
+									<option value="<?php echo htmlentities($eachCategory->id); ?>"><?php echo cym_decode_unicode($eachCategory->name); ?></option>
+								<?php endforeach; ?>
+								
+							</select>							
+						</div>
+						<div class="form-group">
 							<label>Description</label>
 							<textarea id="categDescription" style="max-width: 100%;" class="form-control"></textarea>
 						</div>
@@ -63,6 +77,7 @@
 						<tr>
 							<th>ID</th>
 							<th>NAME</th>
+							<th>PARENT CATEGORY</th>
 							<th>FEATURED</th>
 							<th>ICON PATH</th>
 							<th>DESCRIPTION</th>
@@ -71,9 +86,19 @@
 					<?php foreach($categories as $key => $eachCategory): ?>
 						<tr class="text-center">
 							<td><?php echo htmlentities($eachCategory->id); ?></td>
-							<td><?php echo htmlentities($eachCategory->name); ?></td>
+							<td><?php echo cym_decode_unicode($eachCategory->name); ?></td>
+							<td>
+								<?php 
+									if (empty($eachCategory->parent_category_id)) {
+										echo htmlentities("PARENT CATEGORY");
+									} else {
+										$parent_category = EstabCategory::find_by_id($eachCategory->parent_category_id);
+										echo cym_decode_unicode($parent_category->name);
+									}
+								?>	
+							</td>
 							<td><img class="category-icon" src="<?php echo "../" . htmlentities($eachCategory->display_picture); ?>"></td>
-							<td><?php echo htmlentities($eachCategory->description); ?></td>
+							<td><?php echo cym_decode_unicode($eachCategory->description); ?></td>
 							<td><a class="optEdit text-primary" href=""><span class="glyphicon glyphicon-pencil"></span><br>Edit</a></td>
 							<td><a class="optDelete text-danger" href=""><span class="glyphicon glyphicon-remove"></span><br>Delete</a></td>
 						</tr>
@@ -147,7 +172,7 @@
 					var jsonObj = JSON.parse(response);
 					if (jsonObj.Categories) {
 						var tblRows = "<tr>";
-						tblRows += "<th>#</th><th>Name</th><th>Featured</th>";
+						tblRows += "<th>#</th><th>Name</th><th>Parent Category</th><th>Featured</th>";
 						tblRows += '<th>Icon</th><th>Description</th>';
 						tblRows += '<th colspan="2">Options</th></tr>';
 						tblRows += tableJSON("#categoryContainer", jsonObj.Categories);
@@ -179,7 +204,7 @@
 						var jsonObj = JSON.parse(objReq.responseText);
 						if (jsonObj.Categories) {
 							var tblRows = "<tr>";
-							tblRows += "<th>#</th><th>Name</th><th>Featured</th>";
+							tblRows += "<th>#</th><th>Name</th><th>Parent Category</th><th>Featured</th>";
 							tblRows += '<th>Icon</th><th>Description</th>';
 							tblRows += '<th colspan="2">Options</th></tr>';
 							tblRows += tableJSON("#categoryContainer", jsonObj.Categories);
@@ -196,10 +221,11 @@
 							$('#categName').val(jsonObj.name);
 							$('#categDescription').val(jsonObj.description);
 							$('#output').attr('src', '../' + jsonObj.display_picture + "?dummy=" + n);
+							$('#categParentDropDown').val(jsonObj.parent_category_id);
 							if (jsonObj.featured_category == "FEATURED") 
 								$('#featured_category').prop('checked', true);
 							else 
-								$('#featured_category').prop('checked', false);						
+								$('#featured_category').prop('checked', false);							
 						}
 					}
 				}			
@@ -234,6 +260,8 @@
 					var categName = $('#categName').val().trim();
 					var categDescription = $('#categDescription').val().trim();
 					var featured_category = $('#featured_category').is(":checked") ? "FEATURED" : "NOT FEATURED";
+					var categParentId = $('#categParentDropDown').val();
+					console.log(categParentId);
 
 					if (categName == "" || categDescription == "") { 
 						custom_alert_dialog("Fill up required fields.");
@@ -253,6 +281,7 @@
 					formData.append('categName', categName);
 					formData.append('categDescription', categDescription);
 					formData.append('featured_category', featured_category);
+					formData.append('categParentId', categParentId);
 
 					$.ajax({
 						url: 'backendprocess.php',
@@ -319,7 +348,8 @@
 					var categName = $('#categName').val().trim();
 					var categDescription = $('#categDescription').val().trim();
 					var featured_category = $('#featured_category').is(":checked") ? "FEATURED" : "NOT FEATURED";
-					
+					var categParentId = $('#categParentDropDown').val();
+					console.log(categParentId);
 					if (categName == "" || categDescription == "") { 
 						custom_alert_dialog('Fill all required fields.');						
 						return; 
@@ -338,6 +368,7 @@
 					formData.append('categName', categName);
 					formData.append('categDescription', categDescription);
 					formData.append('featured_category', featured_category);
+					formData.append('categParentId', categParentId);
 
 					$.ajax({
 						url: 'backendprocess.php',
@@ -361,6 +392,10 @@
 					$("#output").prop({src: "../DISPLAY_PICTURES/defaultCategIcon.png"});
 					$("#pic").val("");
 				});
+
+				// $('#categParentDropDown').on('change', function() {
+				// 	console.log($('#categParentDropDown').val());
+				// });
 			</script>
 	</body>
 </html>

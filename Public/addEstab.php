@@ -9,7 +9,7 @@
 	*/
 	$subsPlan = SubsPlan::find_by_id($_GET['id']);
 	$subsPlan ? null : redirect_to("index.php");
-	$all_category = EstabCategory::find_all();
+	$all_category = EstabCategory::getChildCategories();
 	if (isset($_POST['submit'])) {
 		$new_estab = new Establishment();
 		$new_estab->owner_id = $user->id;
@@ -128,7 +128,7 @@
 								<label>Category</label>
 								<select class="form-control" name="estabCategory" >
 								<?php foreach($all_category as $key => $eachCateg): ?>
-									<option value="<?php echo $eachCateg->id; ?>"><?php echo htmlentities($eachCateg->name); ?></option>
+									<option value="<?php echo $eachCateg->id; ?>"><?php echo cym_decode_unicode($eachCateg->name); ?></option>
 								<?php endforeach; ?>
 								</select>
 							</div>

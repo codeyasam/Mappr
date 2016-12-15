@@ -21,17 +21,17 @@
 	<div class="banner"></div>
 	<div class="container center clearfix">
 		<div class="panel panel-default drop-shadow">
-			<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-th-large"></span> <span style="text-transform: capitalize;">[ <?php echo Plan::$plan_names[htmlentities($currentPlanDuration->duration_name)]; ?> Plans ]</span></h1></div>
+			<div class="panel-heading"><h1 class="heading-label"><span class="glyphicon glyphicon-th-large"></span> <span style="text-transform: capitalize;">[ <?php echo cym_decode_unicode(Plan::$plan_names[htmlentities($currentPlanDuration->duration_name)]); ?> Plans ]</span></h1></div>
 			<div class="panel-body">
 				<h1 class="heading-label">Choose type:</h1>
 			<?php foreach($filtered_plans as $key => $each_plan): ?>
 				<div class="subscription-plans">
 					<div class="form-group">
 						<?php if ($each_plan->plan_interval == 5) { ?>
-							<label><span style="font-size: 1.3em;"><?php echo htmlentities($each_plan->plan_name); ?></span> </label>
+							<label><span style="font-size: 1.3em;"><?php echo cym_decode_unicode($each_plan->plan_name); ?></span> </label>
 							<p><?php echo ucwords(cym_decode_unicode("every " . $each_plan->interval_count . " " . $each_plan->custom_interval)); ?></p>
 						<?php } else { ?>
-							<label><span style="font-size: 1.3em;"><?php echo htmlentities($each_plan->plan_name); ?></span> </label>						
+							<label><span style="font-size: 1.3em;"><?php echo cym_decode_unicode($each_plan->plan_name); ?></span> </label>						
 						<?php } ?>
 
 					</div>

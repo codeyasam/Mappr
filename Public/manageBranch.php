@@ -42,7 +42,7 @@
 
 					<div class="panel panel-default">
 						
-						<div class="panel-heading"><h1 class="heading-label text-center" style="margin-top:20px;"><?php echo htmlentities($currentEstab->name); ?></h1></div>
+						<div class="panel-heading"><h1 class="heading-label text-center" style="margin-top:20px;"><?php echo cym_decode_unicode($currentEstab->name); ?></h1></div>
 						<div class="panel-body" style="overflow-y: auto; max-height: 450px; margin-top: 20px;">					
 							<form action="manageBranch.php?id=<?php echo urlencode($estabID); ?>" method="POST">
 								<div class="form-group">
